@@ -3,21 +3,9 @@ tags:
   - 140A
   - ch1
 ---
-# Definition
-A **field** is a set $F$ together with two operations, $(+)$ and $(\cdot)$. That is,
-$$
-\begin{aligned}
-+ &: F \times F \to F && (a, b) \mapsto a + b \\
-\cdot &: F \times F \to F && (a,b) \mapsto a \cdot b \\
-\end{aligned}
-$$
-These operations satisfy
-- Addition axioms
-- Multiplication axioms
-- Distribution axioms
+# Definition (Field)
 
-# Ordered Field
-An **ordered field** is a a pair $(F, <)$ where $F$ is a field and $<$ is an ordering such that $F$ becomes an [[Ordered Sets|Ordered Set]] and the following hold:
+An **ordered field** is a a pair $(F, <)$ where $F$ is a field and $<$ is an ordering such that $F$ becomes an [Ordered Set](Ordered%20Sets.md) and the following hold:
 1. $(\forall a,b,c \in F)(a < b \implies a + c < b + c)$
 2. $(\forall a,b \in F)(a,b >0 \implies ab > 0)$ 
 #### Example:

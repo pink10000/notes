@@ -11,7 +11,7 @@ $$
 \sum_{n=0}^{\infty} c_{n}(x - a)^{n} 
 \quad\quad\quad x \in \R, c_{n}\in \C
 $$
-By the [[Power Series#Radius of Convergence]], we define
+By the [[ch3-sequences-series/Power Series#Radius of Convergence]], we define
 $$
 \alpha := \limsup_{n \to \infty} \sqrt[n]{|c_{n}|} 
 \quad\quad\quad
@@ -36,21 +36,21 @@ f(x) = \sum_{n = 0}^{\infty} c_{n}x^{n}
 $$
 The following statements are equivalent:
 1. It converges in $(a - R, a + R)$  for $|x| < R$, and define 
-2. for any small $\vepsi > 0$, the power series [[Series#Definition (Absolute Convergence)|converges absolutely]] and [[Pointwise and Uniform Convergence|uniformly]] in $[a - R + \vepsi, a + R - \vepsi]$. 
-3. The function $f$ is then [[Continuity|continuous]] and [[Derivative|differentiable]] in $(-R, R)$ and 
+2. for any small $\vepsi > 0$, the power series [[ch3-sequences-series/Series#Definition (Absolute Convergence)|converges absolutely]] and [[ch7-sequences-functions/Pointwise and Uniform Convergence|uniformly]] in $[a - R + \vepsi, a + R - \vepsi]$. 
+3. The function $f$ is then [[ch4-continuity/Continuity|continuous]] and [[ch5-differentiation/Derivative|differentiable]] in $(-R, R)$ and 
 $$
 f'(x) = \sum_{n = 0}^{\infty} nc_{n}x^{n - 1} 
 \quad\quad\quad
 |x| < R
 $$
 Proof: 
-Part $(1)$ is proven by the [[Series#Proposition (Root Test)|root test]].
+Part $(1)$ is proven by the [[ch3-sequences-series/Series#Proposition (Root Test)|root test]].
 
 Part $(2)$ is proven by the fact that $\forall x \in [a - R + \vepsi, a + R - \vepsi]$, 
 $$
 |c_{n}(x - a)^{n}| \leq |c_{n}(R - \vepsi)|
 $$
-and so $\sum |c_{n}(R - \vepsi)|$ converges by the [[Series#Lemma (Comparison Test)]]. By the [[Pointwise and Uniform Convergence#Criterion 3 (Comparison Test)]], the convergence is uniform. 
+and so $\sum |c_{n}(R - \vepsi)|$ converges by the [[ch3-sequences-series/Series#Lemma (Comparison Test)]]. By the [[ch7-sequences-functions/Pointwise and Uniform Convergence#Criterion 3 (Comparison Test)]], the convergence is uniform. 
 
 Part $(3)$:
 WTS $f'(x)$ exists $\forall x \in (a - R, a + R)$. Let $\vepsi > 0$ such that $x \in [x - R + \vepsi, x + R - \vepsi]$. Then $f$ converges uniformly on $[a - R + \vepsi, a + R - \vepsi]$ by part $(2)$. 
@@ -64,13 +64,13 @@ $$
 [-R + \vepsi, R - \vepsi] 
 \quad\quad\quad \forall \vepsi > 0
 $$
-Then by [[Uniform Convergence and Differentiation#Theorem (Term-by-Term Differentiation)]], to the series, we get 
+Then by [[ch7-sequences-functions/Uniform Convergence and Differentiation#Theorem (Term-by-Term Differentiation)]], to the series, we get 
 $$
 f'(x) = \sum_{n = 0}^{\infty} n c_{n}(x - a)^{n - 1}
 $$
 
 # Corollary (Infinite Differentiablility)
-A power series is **infinitely differentiable** in $(a - R, a + R)$ and $f^{(n)}$ can be calculated by term-wise differentiation. See [[Uniform Convergence and Differentiation#Theorem (Term-by-Term Differentiation)]]. 
+A power series is **infinitely differentiable** in $(a - R, a + R)$ and $f^{(n)}$ can be calculated by term-wise differentiation. See [Term-by-Term Differentiation](../ch7-sequences-functions/Uniform%20Convergence%20and%20Differentiation.md#theorem-term-by-term-differentiation). 
 
 Furthermore, 
 $$

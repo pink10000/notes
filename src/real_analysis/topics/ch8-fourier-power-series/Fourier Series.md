@@ -4,7 +4,7 @@ tags:
   - ch8
 ---
 # Definition (Fourier Partial Sum)
-Recall from [[Trigonometric Functions#Example 2]] that we have an orthonormal list on $[-\pi, \pi]$. Let
+Recall from [Example 2](Trigonometric%20Functions.md#example-2) that we have an orthonormal list on $[-\pi, \pi]$. Let
 $$
 f(x) = \sum_{k= -N}^{N} e^{ikx}  
 $$
@@ -19,7 +19,7 @@ $$
 &= 2\pi c_{m}
 \end{aligned}
 $$
-To remove the summation, recognize that when $k \neq m$, we have an [[Trigonometric Functions#Definition (Orthonormal)|orthonormal]] basis, and so the integral becomes $0$, and when $k = m$, then the integral is $1$. Thus, we only keep $c_{m}$. 
+To remove the summation, recognize that when $k \neq m$, we have an [orthonormal](Trigonometric%20Functions.md#definition-orthonormal) basis, and so the integral becomes $0$, and when $k = m$, then the integral is $1$. Thus, we only keep $c_{m}$. 
 
 Thus, 
 $$
@@ -43,7 +43,7 @@ $$
 exists. 
 
 # Theorem (Fourier Partial Sums are Best Approximate)
-These sums are *best* approximations. Let $N \geq 0, f : [-\pi, \pi] \to \C$ be [[Riemann-Stieltjes Integral|integrable]] and let 
+These sums are *best* approximations. Let $N \geq 0, f : [-\pi, \pi] \to \C$ be [integrable](../ch6-integration/Riemann-Stieltjes%20Integral.md) and let 
 $$
 S_{n} \cdot f(x) = \sum_{k=-N}^{N }c_{k}e^{ikx} 
 $$
@@ -51,7 +51,7 @@ be the Fourier Partial Sum and let
 $$
 t_{N}(x) = \sum_{k=-N}^{N } d_{k} e^{ikx}
 $$
-where $t_N$ is some arbitrary [[Trigonometric Functions#Definition (Trigonometric Polynomial)|trigonometric polynomial]] of degree $N$ for $d_{k} \in \C$. Then 
+where $t_N$ is some arbitrary [trigonometric polynomial](Trigonometric%20Functions.md#definition-trigonometric-polynomial) of degree $N$ for $d_{k} \in \C$. Then 
 $$
 \int_{-\pi}^{\pi} |f - S_{N} \cdot f|^{2} dx 
 \leq
@@ -91,7 +91,7 @@ $$
 and thus the proof is done. 
 
 # Riemann-Lesbeque Lemma
-Let $f : [-\pi, \pi] \to \C$ be [[Riemann-Stieltjes Integral|integrable]] with its associated Fourier Series:
+Let $f : [-\pi, \pi] \to \C$ be [integrable](../ch6-integration/Riemann-Stieltjes%20Integral.md) with its associated Fourier Series:
 $$
 \sum_{n \in \Z} c_{n} e^{inx} 
 \quad\quad\quad
@@ -108,7 +108,7 @@ this implies that
 $$
 0 \leq 2\pi \sum_{k=-N}^{N} c_{k}\ovl{c_{k}} \leq \int_{-\pi}^{\pi} |f|^{2} dx
 $$
-by expanding $|S_{N}f|$ and showing that it is bounded above. By the [[Series#Lemma (Convergence, Boundness)]] we get that RHS converges, such that 
+by expanding $|S_{N}f|$ and showing that it is bounded above. By the [Convergence, Boundness](../ch3-sequences-series/Series.md#lemma-convergence-boundness) we get that RHS converges, such that 
 $$
 \sum_{k=-\infty}^{\infty} |c_{k}|^{2}
 $$
@@ -134,7 +134,7 @@ $$
 \lim_{N \to \infty} S_{N}(x_{0}) 
 = \lim_{N \to \infty} \sum_{k=-N}^{N} c_{k}e^{ikx_{0}} = f(x)
 $$
-if $f$ is [[Continuity|continuous]] at $x_{0}$, then the Fourier Sum is [[Pointwise and Uniform Convergence#Definition (Pointwise Convergence)|pointwise convergent]] on $x_{0}$.
+if $f$ is [continuous](../ch4-continuity/Continuity.md) at $x_{0}$, then the Fourier Sum is [pointwise convergent](../ch7-sequences-functions/Pointwise%20and%20Uniform%20Convergence.md#definition-pointwise-convergence) on $x_{0}$.
 
 # Lemma (Upgrade Fourier Sum)
 Since 

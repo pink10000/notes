@@ -3,25 +3,23 @@ tags:
   - 140B
   - ch6
 ---
-# Definition (Riemann Integrals)
-Let $[a,b]$ be a given integral. By a **partition** $P$ of $[a,b]$ we mean a finite set of points $x_{0}, \dots, x_{n}$ where 
+# Riemann Integrals
+## Definition (Partition)
+Let $[a,b]$ be an interval. A **partition** $P$ of the closed interval $[a,b]$ is a finite, ordered subset
 $$
-a = x_{0}\leq x_{1}\leq \cdots \leq x_{n-1} \leq x_{n}= b
+P = \{x_{0}, x_{1}, \ldots, x_{n}\}
 $$
-We write
+where $a = x_{0} < x_{1} < \ldots < x_{n} = b$
+
+## Definition (Riemann Integrals)
+Given a bounded function $f$ on $[a,b]$ and partition $P$ of $[a,b]$, put
 $$
-\Delta x_{i} = x_{i} - x_{i -1} \quad\quad\quad (i = 1, \dots, n)
+U(P, f) = \sum_{i=1}^{n} M_{i}(x_{i} - x_{i-1})
+\quad\quad\quad
+L(P, f) = \sum_{i=1}^{n} m_{i}(x_{i} - x_{i-1})
 $$
-Now suppose $f$ is a bounded real function defined on $[a,b]$. Corresponding to each partition $P$ of $[a,b]$ we put 
-$$
-\begin{aligned}
-M_{i} &= \sup f(x) \quad\quad\quad (x_{i-1}\leq x \leq x_{i}) \\ 
-m_{i} &= \inf f(x) \quad\quad\quad (x_{i-1} \leq x \leq x_{i}) \\
-U(P, f) &= \sum_{i=1}^{n} M_{i}\Delta x_{i}\\ 
-L(P, f) &= \sum_{i = 1}^{n}m_{i} \Delta x_{i}
-\end{aligned}
-$$
-> $M_{i}$ and $m_{i}$ are the [[Supremum]] and [[Infimum]] of $f$ where the domain is restricted to partition $i$. Then, $U,L$ are just the sums of the areas where $M_{i},m_{i}$ are the "height" of the rectangle.
+
+> $M_{i}$ and $m_{i}$ are the [Supremum](../ch1-real-complex-numbers/Supremum.md) and [Infimum](../ch1-real-complex-numbers/Infimum.md) of $f$ where the domain is restricted to partition $i$. Then, $U,L$ are just the sums of the areas where $M_{i},m_{i}$ are the "height" of the rectangle.
 
 and finally, 
 $$
@@ -30,7 +28,7 @@ $$
 \underline{\int_{a}^{b}} f \, dx &= \sup L(P, f )
 \end{aligned}
 $$
-where the [[Infimum]] and [[Supremum]] are taken over all partitions $P$ of $[a,b]$. The LHS are called the **upper** and **lower Riemann integrals of $f$** over $[a,b]$ respectively. 
+where the [Infimum](../ch1-real-complex-numbers/Infimum.md) and [Supremum](../ch1-real-complex-numbers/Supremum.md) are taken over all partitions $P$ of $[a,b]$. The LHS are called the **upper** and **lower Riemann integrals of $f$** over $[a,b]$ respectively. 
 ## Definition (Riemann-Integrable)
 If the upper and lower integrals are equal, then $f$ is **Riemann-Integrable**  on $[a,b]$. we write $f \in \mathscr{R}$ (that is, $\mathscr{R}$ denotes the set of Riemann-Integrable functions), and we denote the common value by 
 $$
@@ -52,7 +50,7 @@ the numbers $L(P, f)$ and $U(P, f)$ form a bounded set. Thus, the upper and lowe
 > 4. The same logic follows as (1) but with the largest height applied to every partition. 
 
 # Definition (Riemann-Stieltjes Integral)
-Let $\alpha$ be a [[Monotonic|monotonically]] increasing function on $[a,b]$ (since $\alpha(a), \alpha(b)$ are finite, it follows that $\alpha$ is bounded on $[a,b]$) . Corresponding to each partition $P$ of $[a,b]$, we write 
+Let $\alpha$ be a [monotonically](../ch3-sequences-series/Monotonic.md) increasing function on $[a,b]$ (since $\alpha(a), \alpha(b)$ are finite, it follows that $\alpha$ is bounded on $[a,b]$) . Corresponding to each partition $P$ of $[a,b]$, we write 
 $$
 \Delta \alpha_{i} = \alpha(x_{i}) - \alpha(x_{i-1})
 $$
@@ -63,7 +61,7 @@ U(P, f \alpha) &= \sum_{i=1}^{n}M_{i} \Delta \alpha_{i} \\
 L(P, f,\alpha) &= \sum_{i=1}^{n}m_{i} \Delta \alpha_{i} \\ 
 \end{aligned}
 $$
-where $M_{i}, m_{i}$ have the same meaning as [[Riemann-Stieltjes Integral#Definition (Riemann Integrals)]] and we define 
+where $M_{i}, m_{i}$ have the same meaning as [Riemann Integrals](#definition-riemann-integrals) and we define 
 $$
 \begin{aligned}
 \ovl{\int_{a}^{b}} f \, d\alpha &= \inf U(P, f,\alpha) \\ 
@@ -77,7 +75,7 @@ $$
 This is the **Riemann-Stieltjes Integral** of $f$ with respect to $\alpha$ over $[a, b]$. 
 > This is a generalization of the Riemann Integral. Think of $\alpha$ as a weighing the standard area. The Riemann Integral can be computed when $\alpha(x) = x$. 
 ---
-> From here on out, assume that $f$ is real and bounded, and that $\alpha$ is [[Monotonic|monotonically]] increasing. 
+> From here on out, assume that $f$ is real and bounded, and that $\alpha$ is [monotonically](../ch3-sequences-series/Monotonic.md) increasing. 
 # Definition (Refinement)
 We say that the partition $P^{*}$ is a **refinement** of $P$ if $P^{*} \supset P$. Given two partitions $P_{1}, P_{2}$, we say that $P^{*}$ is a **common refinement** if $P^{*} = P_{1} \cup P_{2}$. 
 
@@ -118,13 +116,13 @@ L(P, f, \alpha)
 \leq\overset{(a)} U(P', f, \alpha)
 $$
 which is true from 
-- $(a):$ [[#Theorem (Upper Limits of Refinements)]]  
+- $(a):$ [Upper Limits of Refinements](#theorem-upper-limits-of-refinements)  
 - $(b):$ For any $\xi_{i}$, we see $m_{i} \leq f(\xi_{i}) \leq M_{i}$. 
 # Proposition (Riemann LB < UB)
 $$
 \underline{\int} \leq \ovl{\int}
 $$
-Proof: Since this is essentially comparing the [[Infimum]] and [[Supremum]], this follows from [[#Proposition (Separate Partition Limits)]]. 
+Proof: Since this is essentially comparing the [Infimum](../ch1-real-complex-numbers/Infimum.md) and [Supremum](../ch1-real-complex-numbers/Supremum.md), this follows from [Separate Partition Limits](#proposition-separate-partition-limits). 
 
 # Lemma (Riemann-Stieltjes Integrability)
 We say $f$ is Riemann-Stieltjes Integral iff $\forall \vepsi > 0, \exists$ partition $P$ such that $U(P, f, \alpha) - L(P, f, \alpha) < \vepsi$.
@@ -142,18 +140,18 @@ So, we have that
 $$
 U(P, f, \alpha) - L(P', f, \alpha) < \vepsi
 $$
-Then take $P \cup P'$ and apply [[#Theorem (Upper Limits of Refinements)]]. 
+Then take $P \cup P'$ and apply [Upper Limits of Refinements](#theorem-upper-limits-of-refinements). 
 
-$(\impliedby)$. The assumption implies that $\ovl{\int} - \underline{\int} < \vepsi$ for all $\vepsi > 0$. Then clearly they are equal and thus integrable by [[#Definition (Riemann-Stieltjes Integral)]].  
+$(\impliedby)$. The assumption implies that $\ovl{\int} - \underline{\int} < \vepsi$ for all $\vepsi > 0$. Then clearly they are equal and thus integrable by [Riemann-Stieltjes Integral](#definition-riemann-stieltjes-integral).  
 
 # Theorem (Continuity Implies Riemann-Stieltjes Integrable)
-If $f$ is [[Continuity|continuous]] then $f$ is Riemann-Stieltjes Integrable for any $\alpha$. 
+If $f$ is [continuous](../ch4-continuity/Continuity.md) then $f$ is Riemann-Stieltjes Integrable for any $\alpha$. 
 - Recall that we let $f$ be real and bounded. 
 - $\alpha$ is monotonically increasing.
 
 Proof:
-We know $U(P, f, \alpha) - L(P, f, \alpha) = \sum_{i=1}^{n}(M_{i} - m_{i})\Delta\alpha_{i}$. Then over any closed interval, continuous functions are [[Continuity#Definition (Uniformly Continuous)|uniformly continuous]]. So, for any $\eta > 0, \exists \delta > 0$ such that if $|x - y| < \delta, |f(x) - f(y)| < \eta$. So if $|x_{i}- x_{i-1}| < \delta,$ then $M_{i}- m_{i} \leq \eta$.  
-> Note that $M, m$ are defined as the [[Supremum]] and [[Infimum]] of $f$ on partition $P_{i}$. 
+We know $U(P, f, \alpha) - L(P, f, \alpha) = \sum_{i=1}^{n}(M_{i} - m_{i})\Delta\alpha_{i}$. Then over any closed interval, continuous functions are [uniformly continuous](../ch4-continuity/Continuity.md#definition-uniformly-continuous). So, for any $\eta > 0, \exists \delta > 0$ such that if $|x - y| < \delta, |f(x) - f(y)| < \eta$. So if $|x_{i}- x_{i-1}| < \delta,$ then $M_{i}- m_{i} \leq \eta$.  
+> Note that $M, m$ are defined as the [Supremum](../ch1-real-complex-numbers/Supremum.md) and [Infimum](../ch1-real-complex-numbers/Infimum.md) of $f$ on partition $P_{i}$. 
 
 We take a $P$ such that $|x_{i}-x_{i-1}|< \delta$ for any $i$. Then 
 $$
@@ -162,10 +160,10 @@ $$
 This goes to $0$ so $\eta(\alpha(b) - \alpha(a)) < \vepsi$. 
 
 # Proposition (Finite Discontinuities on Riemann-Stieltjes)
-If $f$ has finite [[Continuity#Definition (Discontinuity)|discontinuities]], (i.e. $\exists u_{1}, \dots, u_{r}$ such that $f$ is continuous on $[a,b] \setminus \{u_{1}, \dots, u_{r}\}$) and if $\alpha$ is increasing, and continuous at $u_{1}, \dots, u_{r}$ then $f \in \mathscr{R}(\alpha)$. 
+If $f$ has finite [discontinuities](../ch4-continuity/Continuity.md#definition-discontinuity), (i.e. $\exists u_{1}, \dots, u_{r}$ such that $f$ is continuous on $[a,b] \setminus \{u_{1}, \dots, u_{r}\}$) and if $\alpha$ is increasing, and continuous at $u_{1}, \dots, u_{r}$ then $f \in \mathscr{R}(\alpha)$. 
 
 Proof: 
-Fix $\vepsi > 0$. Let $|f| \leq M$ for $M > 0$. Then since $\alpha$ is [[Continuity|continuous]] at $u_{i}$, $\exists \vepsi_{i}$ such that 
+Fix $\vepsi > 0$. Let $|f| \leq M$ for $M > 0$. Then since $\alpha$ is [continuous](../ch4-continuity/Continuity.md) at $u_{i}$, $\exists \vepsi_{i}$ such that 
 $$
 \alpha(u_{i} + \vepsi_{i}) - \alpha(u_{i} - \vepsi_{i}) < \frac{\vepsi}{4rM}
 $$
@@ -177,7 +175,7 @@ and define
 $$
 F := [a,b] \setminus E
 $$
-which is closed and hence [[Compact Sets|compact]]. Then since $f$ is *continuous* on $[a,b]$ it is uniformly continuous on $f$ by [[Continuity#Theorem (Continuity + Compact = Uniform Continuity)|theorem]]. We cut $f$ into subintervals to guarantee
+which is closed and hence [compact](../ch2-basic-topology/Compact%20Sets.md). Then since $f$ is *continuous* on $[a,b]$ it is uniformly continuous on $f$ by [theorem](../ch4-continuity/Continuity.md#theorem-continuity--compact--uniform-continuity). We cut $f$ into subintervals to guarantee
 $$
 M_{i} - m_{i} < \frac{\vepsi}{2(\alpha(b) - \alpha(a))} 
 $$
@@ -255,7 +253,7 @@ I(x) = \begin{cases}
 \end{cases}
 $$
 # Theorem (Derivative Accumulator)
-Assume $\alpha$ increases [[Monotonic|monotonically]] and $\alpha' \in \mathscr{R}$ on $[a, b]$. Let $f$ be a bounded real function on $[a,b]$. Then $f \in \mathscr{R}(\alpha)$ if and only if $f\alpha' \in \mathscr{R}$. In that case
+Assume $\alpha$ increases [monotonically](../ch3-sequences-series/Monotonic.md) and $\alpha' \in \mathscr{R}$ on $[a, b]$. Let $f$ be a bounded real function on $[a,b]$. Then $f \in \mathscr{R}(\alpha)$ if and only if $f\alpha' \in \mathscr{R}$. In that case
 $$
 \int_{a}^{b} f d \alpha = \int_{a}^{b} f(x) \alpha'(x) dx
 $$
@@ -264,7 +262,7 @@ Proof:
 $$
 U(P, \alpha') - L(P, \alpha') < \vepsi
 $$
-Then the [[Derivative#Theorem (Cauchy Mean Value Theorem)]] gives points $t_{i} \in [x_{i - 1}, x_{i}]$ such that
+Then the [Cauchy Mean Value Theorem](../ch5-differentiation/Derivative.md#theorem-cauchy-mean-value-theorem) gives points $t_{i} \in [x_{i - 1}, x_{i}]$ such that
 $$
 \Delta \alpha_{i} - \alpha'(t_{i}) \Delta x_{i}
 $$ %%

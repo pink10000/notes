@@ -4,16 +4,16 @@ tags:
   - ch6
 ---
 # Proposition (Change of Variable)
-First let $f$ be a bounded function from $[a,b] \to \R$ and let $\alpha : [a,b] \to \R$ be an increasing function. Let $\phi : [c, d] \to [a,b]$ be a [[Monotonic|strictly increasing]] [[Continuity|continuous]] function with $\phi(c)= a$ and $\phi(d) = b$. 
+First let $f$ be a bounded function from $[a,b] \to \R$ and let $\alpha : [a,b] \to \R$ be an increasing function. Let $\phi : [c, d] \to [a,b]$ be a [strictly increasing](../ch3-sequences-series/Monotonic.md) [continuous](../ch4-continuity/Continuity.md) function with $\phi(c)= a$ and $\phi(d) = b$. 
 
 Then $f \in \mathscr{R}(\alpha) \iff f \circ \phi \in \mathscr{R}(\alpha \circ \phi)$ and 
 $$
 \int_{a}^{b} f d \alpha = \int_{c}^{d} (f \circ \phi) d (\alpha \circ \phi)
 $$
-> Note that $\phi$ is a [[Continuity|continuous]] bijection between $[a,b]$ and $[\alpha, \beta]$. Or, a [[Homeomorphisms|homeomorphism]]. It is like a *dictionary* to connect two different domains.  The composition $\alpha \circ \phi$ gives us a new [[Measure|measure]] for any subinterval of the new domain.
+> Note that $\phi$ is a [continuous](../ch4-continuity/Continuity.md) bijection between $[a,b]$ and $[\alpha, \beta]$. Or, a [homeomorphism](../ch4-continuity/Homeomorphisms.md). It is like a *dictionary* to connect two different domains.  The composition $\alpha \circ \phi$ gives us a new [[Measure|measure]] for any subinterval of the new domain.
 
 Proof: 
-We still show for any [[Riemann-Stieltjes Integral#Definition (Riemann Integrals)|partition]] $P$ the set of [[Riemann-Stieltjes Integral|Riemann-Stieltjes Sums]] for $f,\alpha$ are in one-to-one correspondence with the the sums for $f \circ \phi, \alpha \circ \phi$ with respect to a partition of $[c,d]$. So, let 
+We still show for any [partition](Riemann-Stieltjes%20Integral.md#definition-riemann-integrals) $P$ the set of [Riemann-Stieltjes Sums](Riemann-Stieltjes%20Integral.md) for $f,\alpha$ are in one-to-one correspondence with the th
 $$
 P := \{ x_{1}, x_{2}, \ldots, x_{n}  \}
 $$
@@ -22,7 +22,7 @@ $$
 \sum_{i=1}^{n} f(\xi_{i})(\alpha(x_{i}) - \alpha(x_{i-1}))
 \quad\quad\quad \xi_{i} \in [x_{i-1}, x_{i}]
 $$
-a Riemann sum for $f$ and $\alpha$. Since $\phi$ is a [[Homeomorphisms|homeomorphism]], $P$ corresponds with 
+a Riemann sum for $f$ and $\alpha$. Since $\phi$ is a [homeomorphism](../ch4-continuity/Homeomorphisms.md), $P$ corresponds with 
 $$
 P' := \{ \phi^{-1}(x_{1}), \phi^{-1}(x_{2}), \ldots, \phi^{-1}(x_{n}) \}
 $$
@@ -44,11 +44,11 @@ and so the respective upper and lower integrals are equal.
 > If $\phi$ is strictly decreasing, then the bounds order needs to change. However, the theorem still holds. 
 
 # Theorem (First Fundamental Theorem of Calculus)
-If $f : [a,b] \to \R$ is [[Riemann-Stieltjes Integral|Riemann Integrable]], define
+If $f : [a,b] \to \R$ is [Riemann Integrable](Riemann-Stieltjes%20Integral.md), define
 $$
 F(x) = \int_{a}^{x} f(t) \,dt 
 $$
-for $x \in [a,b]$. Then $F$ is [[Continuity|continuous]]. Furthermore, if $f$ is continuous at $x_{0}$, then the [[Derivative|derivative]] $F'(x_{0})$ exists. In particular, $F'(x_{0}) = f(x_{0})$. 
+for $x \in [a,b]$. Then $F$ is [continuous](../ch4-continuity/Continuity.md). Furthermore, if $f$ is continuous at $x_{0}$, then the [derivative](../ch5-differentiation/Derivative.md) $F'(x_{0})$ exists. In particular, $F'(x_{0}) = f(x_{0})$. 
 
 Proof:
 Take $p \in [a, b]$. WTS that $F$ is continuous at $p$. Assume $|f| \leq M$. Then if $|x - p| \leq \vepsi/M$, where $a < x \leq p$, we have 
@@ -59,13 +59,13 @@ $$
 \leq M \cdot |p - x|
 < \vepsi/M \cdot M = \vepsi
 $$
-by [[Riemann-Stieltjes Integral#Properties of the Integral|properties of the integral]] and so $F$ is continuous. 
+by [properties of the integral](Riemann-Stieltjes%20Integral.md#properties-of-the-integral) and so $F$ is continuous. 
 
 Assume $f$ is continuous at $x_{0}$. WTS that $F'(x_{0}) = f(x_{0})$ where 
 $$
 \lim_{x\to x_{0}} \left| \frac{F(x) - F(x_{0})}{x - x_{0}} - f(x_{0}) \right| = 0 
 $$
-> The absolute value is not actually needed here. ([[Derivative]]) 
+> The absolute value is not actually needed here. ([Derivative](../ch5-differentiation/Derivative.md)) 
 
 Then the sum is 
 $$
@@ -87,12 +87,12 @@ $$
 which converges to $0$ when $x \to x_{0}, t \to x_{0}$. 
 
 # Theorem (Second Fundamental Theorem of Calculus)
-If $f \in \mathscr{R}$ on $[a,b]$ and if there is a [[Derivative|differentiable]] function $F$ on $[a,b]$ such that $F' = f$, then 
+If $f \in \mathscr{R}$ on $[a,b]$ and if there is a [differentiable](../ch5-differentiation/Derivative.md) function $F$ on $[a,b]$ such that $F' = f$, then 
 $$
 \int_{a}^{b} f(x) dx = F(b) - F(a)
 $$
 Proof:
-Let $\vepsi > 0$ be given. Choose a partition $P = \{x_{0}, \ldots, x_{n}\}$ of $[a,b]$ so that $U(P, f) - L(P, f) < \vepsi$. The [[Derivative#Theorem (Cauchy Mean Value Theorem)|MVT]] gives points $t_{i} \in [x_{i-1}, x_{i}]$ such that 
+Let $\vepsi > 0$ be given. Choose a partition $P = \{x_{0}, \ldots, x_{n}\}$ of $[a,b]$ so that $U(P, f) - L(P, f) < \vepsi$. The [MVT](../ch5-differentiation/Derivative.md#theorem-cauchy-mean-value-theorem) gives points $t_{i} \in [x_{i-1}, x_{i}]$ such that 
 $$
 F(x_{i}) - F(x_{i-1}) = f(t_{i}) \Delta x_{i}
 $$
@@ -113,6 +113,6 @@ $$
 \int_{a}^{b} F(x) g(x) dx = F(b)G(b) - F(a)G(a) - \int_{a}^{b}f(x)G(x) dx
 $$
 Proof:
-Let $H(x):= F(x)G(x)$. By [[#Theorem (Second Fundamental Theorem of Calculus)]] to $H$ and its [[Derivative|derivative]], we note that $H' \in \sR$ by [[Riemann-Stieltjes Integral#Properties of the Integral]]. 
+Let $H(x):= F(x)G(x)$. By [Second Fundamental Theorem of Calculus](#theorem-second-fundamental-theorem-of-calculus) to $H$ and its [derivative](../ch5-differentiation/Derivative.md), we note that $H' \in \sR$ by [Properties of the Integral](Riemann-Stieltjes%20Integral.md#properties-of-the-integral).
 > $H'(x) = F'(x)G(x) + F(x)G'(x) = fG + Fg$. 
 

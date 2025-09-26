@@ -3,7 +3,9 @@ tags:
   - 140B
   - ch8
 ---
-We can define trigonometric functions as power series, using [[Taylor's Theorem]]. 
+# Definitions
+
+We can define trigonometric functions as power series, using [Taylor's Theorem](../ch5-differentiation/Taylor's%20Theorem.md). 
 
 # Euler's Number
 $$
@@ -43,7 +45,7 @@ f(x) = \sum_{k=1}^{n} c_{k}e^{ikx}
 \quad\quad\quad 
 c_{k}\in \C
 $$
-where equivalence is shown by [[#Euler's Formula]]. Indeed, 
+where equivalence is shown by [Euler's Formula](#eulers-formula). Indeed, 
 $$
 \begin{aligned}
 \{ e^{i0x} = e^{0} = 1 \} &\longleftrightarrow \{1\} \\
@@ -68,7 +70,7 @@ $$
 and the proof is equivalent. 
 
 # Definition (Inner Product) 
-In the space of [[Riemann-Stieltjes Integral|integrable functions]] over $[-\pi, \pi]$ with **inner product** given by 
+In the space of [integrable functions](../ch6-integration/Riemann-Stieltjes%20Integral.md) over $[-\pi, \pi]$ with **inner product** given by 
 $$\langle f,g \rangle = \int_{-\pi}^{\pi} f \cdot \ovl{g} dx$$
 # Definition (Orthonormal)
 Two functions $f,g$ are **orthonormal** if 

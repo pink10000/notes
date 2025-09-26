@@ -12,31 +12,25 @@ where $\vec{x}$ or $\mathbf{x}$ is denoted as an element in it. We have some pro
 - Multiplication by scalar. For $a \in \R, \vec{x} \in \R^{n}$ we have $a\vec{x} = (ax_{1}, \cdots, ax_{n})$.
 - We keep commutativity, associativity, distributive laws, etc. 
 
-# Inner Product
-Given two vectors,
+# Euclidean Space
+
+## Vector Space
+> **Note**: $(x) = (x_{1}, \dots, x_{k})$ is a vector.
+
+An inner product $\langle \vec{x}, \vec{y} \rangle : \R^{k} \times \R^{k} \to \R$ for $\vec{x}, \vec{y} \in \R^{k}$ is defined as  
 $$
-\vec{x}\cdots\vec{y} = x_{1}y_{1}+ x_2y_{2}= \sum_{i=1}^{n}x_{i}y_{i}
-$$
-In particular, 
-$$
-\vec{x}\vec{x} = \sum_{i=1}^{n}x_{i}^{2}
+\langle \vec{x}, \vec{y} \rangle = \vec{x} \cdot \vec{y}= x_{1}y_{1} + x_{2}y_{2} + \dots + x_{k}y_{k}  
 $$
 
-# Norm 
-We define the norm as:
-$$
-||\vec{x}|| := \sqrt{\vec{x}\vec{x}} = \sqrt{\sum_{i=1}^{n} x_{i}^{2}}
-$$
+The **norm** (length) of a vector is $||\vec{x}|| = \sqrt{\langle \vec{x}, \vec{x}\rangle}$. For $\R^{k}$, we have:
 
-## Proposition
-1. $||\vec{x}|| > 0$ unless $\vec{x} = \vec{0}$
-2. $||\lambda \vec{x}|| = |\lambda| \cdot ||\vec{x}||$ for $\lambda \in \R$ 
-3. [[Complex Numbers#Cauchy-Schwarz Inequality|Cauchy-Schwarz Inequality]]: So, $|\vec{x}\vec{y}| \leq ||\vec{x}|| \cdots ||\vec{y}||$
-4. [[Complex Numbers#Triangle Inequality|Triangle Inequality]]: $||\vec{x} + \vec{y}|| \leq ||\vec{x}|| + ||\vec{y}||$
-5. $||\vec{x} - \vec{y}|| \leq ||\vec{x} - \vec{z}|| + ||\vec{y} - \vec{z}||$
+1. $\langle \vec{x}, \vec{y} \rangle = \langle \vec{y}, \vec{x}\rangle$ 
+2. $\langle a\vec{x} + b\vec{y}, \vec{z} \rangle = a\langle \vec{x}, \vec{z} \rangle + b\langle \vec{y}, \vec{z} \rangle$
+3. [Cauchy-Schwarz Inequality](../ch1-real-complex-numbers/Complex%20Numbers.md#cauchy-schwarz-inequality): So, $|\vec{x}\vec{y}| \leq ||\vec{x}|| \cdots ||\vec{y}||$
+4. [Triangle Inequality](../ch1-real-complex-numbers/Complex%20Numbers.md#triangle-inequality): $||\vec{x} + \vec{y}|| \leq ||\vec{x}|| + ||\vec{y}||$
+5. $||\vec{x} - \vec{y}|| \geq | ||\vec{x}|| - ||\vec{y}|| |$
 
-### Proof:
-We see that $1,2$ is trivial and $3$ is just [[Complex Numbers#Cauchy-Schwarz Inequality|Cauchy-Schwarz]]. Assume $4$. We prove $5$. We note that 
+We see that $1,2$ is trivial and $3$ is just [Cauchy-Schwarz](../ch1-real-complex-numbers/Complex%20Numbers.md#cauchy-schwarz-inequality). Assume $4$. We prove $5$. We note that 
 $$
 x - y = (x - z) + (z - y)
 $$
@@ -64,7 +58,7 @@ $$
 &= ||x||^{2}+ 2xy + ||y||^{2}
 \end{aligned}
 $$
-Now, by [[Complex Numbers#Cauchy-Schwarz Inequality|Cauchy-Schwarz]], we have that $|xy| \leq ||x|| \cdot ||y||$, in which replacement of the middle term gives us:
+Now, by [Cauchy-Schwarz](../ch1-real-complex-numbers/Complex%20Numbers.md#cauchy-schwarz-inequality), we have that $|xy| \leq ||x|| \cdot ||y||$, in which replacement of the middle term gives us:
 $$
 \begin{aligned}
 &\leq ||x||^{2}+ 2||x|| \cdot ||y|| + ||y||^{2} \\
