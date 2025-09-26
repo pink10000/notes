@@ -1,0 +1,53 @@
+name: Update Downstream Repositories
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-and-dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout quartz-site repo to update submodule
+        uses: actions/checkout@v4
+        with:
+          repository: pink10000/quartz-site # The repo containing the submodule
+          token: ${{ secrets.REPO_TRIGGER_WORKFLOW }}
+          path: 'quartz-site' # Checkout to a specific directory
+
+      - name: Update submodule pointer
+        run: |
+          set -e # Exit immediately if a command exits with a non-zero status.
+
+          cd quartz-site
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          echo "--- Initializing submodule ---"
+          git submodule update --init --recursive
+          
+          echo "--- Waiting 15s for commit to propagate ---"
+          sleep 15
+
+          echo "--- Forcing submodule to update from remote ---"
+          # This command runs the specified shell script inside each submodule.
+          # It fetches the latest changes and forcefully resets the submodule to match.
+          git submodule foreach 'git fetch && git reset --hard origin/main'
+
+          echo "--- Staging and committing if changes exist ---"
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "Changes detected. Staging, committing, and pushing."
+            git add .
+            git commit -m "chore: update notes submodule to latest"
+            git push
+          else
+            echo "No changes were detected by git status. Submodule may already be up-to-date."
+          fi
+
+      - name: Trigger build workflow in main site repo
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_TRIGGER_WORKFLOW }}
+          repository: pink10000/pink10000.github.io # The final repo to be deployed
+          event-type: deploy-notes
