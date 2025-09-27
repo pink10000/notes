@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch5
+  - real_analysis_ch5
 ---
 # L'Hopital's Rule
 Suppose $f,g$ are real and differentiable in $(a,b)$ and $g'(x) \neq 0$ for all $x \in (a, b)$, where $-\infty \leq a < b \leq + \infty$. Suppose 

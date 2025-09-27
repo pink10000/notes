@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch1
+  - real_analysis_ch1
 ---
 Let $A$ be an ordered set and $B \subset A, B \neq \emptyset$, and bounded above. If there exists $a \in A$ such that
 1. $a$ is an [[Ordered Sets#Bounded Above|upper bound]] for $B$

@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch7
+  - real_analysis_ch7
 ---
 # Definition (Equicontinuous)
 Let $\mathscr{F}$ be a collection of functions on $E \to \C$. This collection is **equicontinuous** if for any $\vepsi > 0, \exists \delta > 0$ such that if $|x - y| < \delta$, then $|f(x) - f(y)| < \vepsi$ for all $x, y \in E$ and $f \in \mathscr{F}$. 

@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch5
+  - real_analysis_ch5
 ---
 # Definition (Vector-Valued Functions)
 The vector-valued $\vvf$ maps $[a,b] \to \R^{k}$. The same definition holds for $\vvf'(x)$ which is now

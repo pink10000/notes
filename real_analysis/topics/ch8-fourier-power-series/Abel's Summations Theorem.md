@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch8
+  - real_analysis_ch8
 ---
 # Theorem (Abel's Summations)
 If $\sum_{n=0}^{\infty} c_{n}x^{n}$ converges at (WLOG, let the center $x = 0$) the end point of the interval of convergence, then the power series can be extended continuously to the end point. 

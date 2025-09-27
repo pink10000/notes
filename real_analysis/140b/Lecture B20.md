@@ -1,7 +1,7 @@
 ---
 order: 20
 tags:
-  - ch8
+  - real_analysis_ch8
   - 140B
 ---
 [[Fourier Series]]

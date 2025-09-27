@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch3
+  - real_analysis_ch3
 ---
 # Definition 
 Given a [[Sequences|sequence]] $\{c_{n}\}$ of [[Complex Numbers]], the [[Series]], 

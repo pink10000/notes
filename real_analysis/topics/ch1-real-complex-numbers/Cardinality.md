@@ -1,6 +1,6 @@
 ---
 tags:
-  - ch1
+  - real_analysis_ch1
   - 140A
 ---
 

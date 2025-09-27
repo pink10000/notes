@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch6
+  - real_analysis_ch6
 ---
 # Proposition (Change of Variable)
 First let $f$ be a bounded function from $[a,b] \to \R$ and let $\alpha : [a,b] \to \R$ be an increasing function. Let $\phi : [c, d] \to [a,b]$ be a [strictly increasing](../ch3-sequences-series/Monotonic.md) [continuous](../ch4-continuity/Continuity.md) function with $\phi(c)= a$ and $\phi(d) = b$. 

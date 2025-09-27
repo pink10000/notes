@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch7
+  - real_analysis_ch7
 ---
 
 # Theorem (Uniform Convergence and Integration)

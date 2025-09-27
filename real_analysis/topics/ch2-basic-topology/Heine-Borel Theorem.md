@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch2
+  - real_analysis_ch2
 ---
 This is **compactness criterion for subsets of $\R^n$** . 
 

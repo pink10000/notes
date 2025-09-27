@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch7
+  - real_analysis_ch7
 ---
 In general, the [[Pointwise and Uniform Convergence|uniform convergence]] of $\{f_{n}\}$ implies nothing about the sequence $\{f_{n}'\}$. This means require stronger assertions to show that $f_{n}'\to f'$ if $f_{n}\to f$.
 

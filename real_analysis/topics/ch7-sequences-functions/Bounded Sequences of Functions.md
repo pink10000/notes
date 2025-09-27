@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch7
+  - real_analysis_ch7
 ---
 # Definition (Pointwise Bounded)
 A sequence of functions $f_{n} : E \to \C$ is **pointwise bounded** if $\forall x \in E, \{f_{n}\}_{n \geq 1}$ is a bounded [[Sequences|sequence]] where $\exists M_{x}$ such that $|f_{n}(x)| \leq M_{x}$. 

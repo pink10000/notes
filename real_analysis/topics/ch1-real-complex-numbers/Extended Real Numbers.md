@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch1
+  - real_analysis_ch1
 ---
 # Definition
 We define the **extended real number line** to be

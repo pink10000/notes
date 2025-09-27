@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch3
+  - real_analysis_ch3
 ---
 # Sequence 
 A **sequence** is a function $p : \N \to X$. 

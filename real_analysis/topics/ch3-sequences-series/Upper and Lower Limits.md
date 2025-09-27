@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch3
+  - real_analysis_ch3
 ---
 # Definition 
 Let $\{s_{n}\}$ be a [[Sequences|sequence]] of real numbers with the following property: 

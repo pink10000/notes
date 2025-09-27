@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch7
+  - real_analysis_ch7
 ---
 # Definition (Pointwise Convergence)
 Let $E$ be a set (most of the time, a [[Metric Space]]). Consider 

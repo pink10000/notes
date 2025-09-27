@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch2
+  - real_analysis_ch2
 ---
 # Definition
 Let $X$ be a nonempty set. A **metric** on $X$ is a function 

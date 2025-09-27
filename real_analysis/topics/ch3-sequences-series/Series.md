@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch3
+  - real_analysis_ch3
 ---
 # Definition 
 Let $(a_{n})$ be a [[Sequences|sequence]] of [[Complex Numbers]]. Let 

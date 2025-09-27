@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch6
+  - real_analysis_ch6
 ---
 Related: [[Vector-Valued Derivatives]] 
 # Definition (Vector Valued Functions)

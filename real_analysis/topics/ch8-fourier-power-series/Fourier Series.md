@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch8
+  - real_analysis_ch8
 ---
 # Definition (Fourier Partial Sum)
 Recall from [Example 2](Trigonometric%20Functions.md#example-2) that we have an orthonormal list on $[-\pi, \pi]$. Let

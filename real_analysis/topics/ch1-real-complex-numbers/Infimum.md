@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch1
+  - real_analysis_ch1
 ---
 # Definition
 Set $B\subset A$ where $(A, <)$ is an ordered set has an infimum $\alpha$ if

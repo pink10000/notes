@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch1
+  - real_analysis_ch1
 ---
 Let $A$ be a nonempty set. Then $A$ is an ordered set if there is a relation on $A$ denoted by "<" that satisfies:
 1. (*Trichotomy*) $\forall x,y \in a$ exactly one of the following holds:

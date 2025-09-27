@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch8
+  - real_analysis_ch8
 ---
 # Inner Product Space 
 $$

@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch8
+  - real_analysis_ch8
 ---
 I don't have a better name for this page. Feel free to suggest some on GitHub. 
 

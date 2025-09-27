@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch4
+  - real_analysis_ch4
 ---
 # Definition (Homeomorphism) 
 Let $f : X \to Y$ be [[Continuity|continuous]] and *bijective*. We say $f$ is a **homeomorphism** if $f^{-1}: Y \to X$ is continuous. 

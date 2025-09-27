@@ -1,7 +1,7 @@
 ---
 tags:
   - 140B
-  - ch8
+  - real_analysis_ch8
 ---
 # Dirichlet Kernel
 Let $f : [-\pi, \pi] \to \C$ where 

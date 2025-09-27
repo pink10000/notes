@@ -1,7 +1,7 @@
 ---
 tags:
   - 140A
-  - ch2
+  - real_analysis_ch2
 ---
 # Separated Sets
 Two subsets $A,B$ of [[Metric Space]] $X$ are said to be **separated** if both $A \cap \ovl{B}$ and $\ovl{A} \cap B$ are empty. 
