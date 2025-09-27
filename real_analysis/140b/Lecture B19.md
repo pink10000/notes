@@ -1,7 +1,7 @@
 ---
 order: 19
 tags:
-  - 140B
+  - MATH_140B
   - real_analysis_ch8
 ---
 [[Fourier Series]]

@@ -2,7 +2,7 @@
 order: 2
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 January 9, 2025

@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 
 We extend the definition of the [[Normal|Normal Distribution]] to higher dimensions. Indeed
 $$

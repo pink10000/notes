@@ -2,7 +2,7 @@
 order: 6
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 ---
 [[L'Hopital's Rule]]
 [[Vector-Valued Derivatives]]

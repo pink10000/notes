@@ -2,7 +2,7 @@
 order: 17
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Continuity#Corollary (Extreme Value Theorem)]]

@@ -2,6 +2,6 @@
 order: 5
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 ---
 [[Taylor's Theorem]]

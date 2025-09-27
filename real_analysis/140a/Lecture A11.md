@@ -2,7 +2,7 @@
 order: 11
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Sequences]]

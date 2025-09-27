@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140A
+  - MATH_140A
   - real_analysis_ch1
 ---
 Let $A$ be a nonempty set. Then $A$ is an ordered set if there is a relation on $A$ denoted by "<" that satisfies:

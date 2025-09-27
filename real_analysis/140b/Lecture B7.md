@@ -1,7 +1,7 @@
 ---
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 order: 7
 ---
 [[Riemann-Stieltjes Integral]]

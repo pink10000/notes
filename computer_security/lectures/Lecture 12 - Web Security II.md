@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 
 # Cross-Site Request Forgery (CSRF)
 - browser sends `GET` request attaches all cookies associated with the target site

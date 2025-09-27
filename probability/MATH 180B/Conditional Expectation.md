@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 # Discrete (Mass)
 The **conditional expectation** of $X$ given $Y$ is:
 $$

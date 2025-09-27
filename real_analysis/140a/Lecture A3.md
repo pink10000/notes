@@ -2,7 +2,7 @@
 order: 3
 tags: 
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 [[Archimedean Property]]
 [[Complex Numbers]]

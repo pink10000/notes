@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 Let $X,Y$ be independent RVs. Suppose that we know the distribution of the random variables. What is the distribution of $X + Y$?
 
 # Discrete

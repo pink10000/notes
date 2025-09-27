@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 Let $(\Omega, F, P)$ be a probability space. A **stochastic process** is a collection $(X_t)_{t \in T}$ random variables $X_{t}: \Omega \to S$. 
 - $\Omega:= \text{sample space}$
 	- flip a fair coin infinitely many times: $\Omega = \{H, T\}^{\mathbb{N}}$ 

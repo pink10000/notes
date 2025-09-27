@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 It is the probability of all possible pairs of two random variables. 
 
 ## Discrete Case

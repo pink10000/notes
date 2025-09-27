@@ -2,7 +2,7 @@
 order: 4
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 

@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 # Discrete (Mass)
 Let $X,Y$ be two discrete random variables taking values in 
 $$

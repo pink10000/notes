@@ -2,7 +2,7 @@
 order: 13
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Upper and Lower Limits]]

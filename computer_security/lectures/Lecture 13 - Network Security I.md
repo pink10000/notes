@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 
 - communication on the internet is constructed of discrete, self-addressed, chunks of data called **packets**
 - networking is done in layers

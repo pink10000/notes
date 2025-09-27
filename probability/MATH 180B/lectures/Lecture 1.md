@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 #Lecture
 - January 6, 2025
 

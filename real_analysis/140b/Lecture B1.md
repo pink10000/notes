@@ -2,7 +2,7 @@
 order: 1
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 ---
 
 - Review

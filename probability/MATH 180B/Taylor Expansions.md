@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 | Function $f(x)$  | Taylor Series Expansion (Centered at $x=0$) |
 |------------------|--------------------------------------------|
 | **Exponential** $e^x$ | $\sum_{n=0}^{\infty} \frac{x^n}{n!}$ |

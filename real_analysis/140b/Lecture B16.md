@@ -1,7 +1,7 @@
 ---
 order: 16
 tags:
-  - 140B
+  - MATH_140B
   - Lecture
 ---
 [[Equicontinuity]]

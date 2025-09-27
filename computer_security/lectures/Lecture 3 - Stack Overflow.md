@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 
 When is a program secure?
 - when it doesn't do bad things

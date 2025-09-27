@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 Given event $A$, we have some event $A^{c}$, the complement of it. In particular, 
 $$
 \begin{aligned}

@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 - Assets - What we are protecting?
 - Attackers - Who is attacking?
 

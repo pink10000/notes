@@ -1,7 +1,7 @@
 ---
 order: 14
 tags:
-  - 140B
+  - MATH_140B
   - Lecture
 ---
 [[Pointwise and Uniform Convergence]]

@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 - ways to **corrupt control flow**
 	1. stack overflow
 	2. heap overflow

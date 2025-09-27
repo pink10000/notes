@@ -2,7 +2,7 @@
 order: 9
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Compact Sets#Lemma (Compact Implies Bounded)]]

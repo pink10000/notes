@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140A
+  - MATH_140A
   - real_analysis_ch2
 ---
 # Definition

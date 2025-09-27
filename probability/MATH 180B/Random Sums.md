@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 - Let $\xi_{1}, \xi_{2}, \cdots$ be **independent, identically, distributed** RVs.
 - Let $N$ be a discrete RV independent of $\xi_{i}$ that takes a value in $\N$. It is also pairwise independent to $\xi_{i}$.
 - $X = \sum_{i=1}^{N} \xi_{i}$ is called a random sum

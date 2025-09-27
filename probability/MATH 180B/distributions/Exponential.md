@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 The **exponential distribution** is a continuous probability distribution commonly used to model the time between events in a Poisson process. It is characterized by a single parameter $ \lambda > 0 $, known as the **rate parameter**.
 
 ---

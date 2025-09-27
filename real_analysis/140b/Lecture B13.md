@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140B
+  - MATH_140B
 order: 13
 ---
 [[Pointwise and Uniform Convergence]]

@@ -2,7 +2,7 @@
 order: 2
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 ---
 [[Continuity]]
 [[Derivative]]

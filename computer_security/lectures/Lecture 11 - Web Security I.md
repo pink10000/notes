@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 # Web Architecture
 1. browser $B$ issues requests to internet $I$
 2. server $S$ responds through $I$

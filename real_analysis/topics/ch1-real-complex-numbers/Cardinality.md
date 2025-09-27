@@ -1,7 +1,7 @@
 ---
 tags:
   - real_analysis_ch1
-  - 140A
+  - MATH_140A
 ---
 
 # Functions

@@ -2,7 +2,7 @@
 order: 16
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Limits of Functions]]

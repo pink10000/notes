@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 #Lecture 
 
  The [[Conditional Expectation]] of $X$ given $Y$ 

@@ -1,7 +1,7 @@
 ---
 order: 15
 tags:
-  - 140B
+  - MATH_140B
   - real_analysis_ch7
 ---
 [[Pointwise and Uniform Convergence]]

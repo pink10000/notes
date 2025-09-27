@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140B
+  - MATH_140B
   - real_analysis_ch6
 ---
 Related: [[Vector-Valued Derivatives]] 

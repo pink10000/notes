@@ -2,7 +2,7 @@
 order: 4
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 ---
 
 [[Derivative#Theorem (Lagrange Mean Value Theorem)]]

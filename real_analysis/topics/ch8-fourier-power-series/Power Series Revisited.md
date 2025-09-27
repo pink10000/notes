@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140B
+  - MATH_140B
   - real_analysis_ch8
 ---
 I don't have a better name for this page. Feel free to suggest some on GitHub. 

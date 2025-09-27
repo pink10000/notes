@@ -1,7 +1,7 @@
 ---
 order: 101
 tags:
-  - 140B
+  - MATH_140B
   - Lecture
 ---
 

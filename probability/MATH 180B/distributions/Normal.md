@@ -1,3 +1,7 @@
+---
+tags:
+  - MATH_180B
+---
 
 
 # Sum of 2 Independent RVs

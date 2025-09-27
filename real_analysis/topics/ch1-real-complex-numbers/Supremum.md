@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140A
+  - MATH_140A
   - real_analysis_ch1
 ---
 Let $A$ be an ordered set and $B \subset A, B \neq \emptyset$, and bounded above. If there exists $a \in A$ such that

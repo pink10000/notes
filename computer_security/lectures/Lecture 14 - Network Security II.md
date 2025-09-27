@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 - DNS
 - Netowrk perimeter defenses
 - DOS

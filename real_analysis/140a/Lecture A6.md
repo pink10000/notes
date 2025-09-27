@@ -2,7 +2,7 @@
 order: 6
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Metric Space]]

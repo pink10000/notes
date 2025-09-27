@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140A
+  - MATH_140A
   - real_analysis_ch1
 ---
 Let $n \in \N$ and define 

@@ -1,6 +1,6 @@
 ---
 tags:
-  - 140B
+  - MATH_140B
   - real_analysis_ch6
 ---
 Before we are able to understand [[Riemann-Stieltjes Integral]] we need to define the notion of a **measure**. 

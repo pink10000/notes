@@ -2,7 +2,7 @@
 order: 11
 tags:
   - Lecture
-  - 140B
+  - MATH_140B
 ---
 [[Integration of Vector Functions]]
 [[Integration of Complex Functions]]

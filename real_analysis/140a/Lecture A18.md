@@ -2,7 +2,7 @@
 order: 18
 tags:
   - Lecture
-  - 140A
+  - MATH_140A
 ---
 
 [[Continuity#Theorem (Continuity Retains Connectedness)]]

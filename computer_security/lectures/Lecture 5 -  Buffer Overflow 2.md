@@ -1,3 +1,7 @@
+---
+tags:
+  - CSE_127
+---
 # Heap Vulnerabilities 
 - happens via memory management errors
 - attacker can attempt to get victim to invoke `malloc()` and `free()` in unintended sequences or with invalid arguments
