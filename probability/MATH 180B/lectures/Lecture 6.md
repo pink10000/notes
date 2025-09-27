@@ -1,0 +1,2 @@
+#Lecture
+[[Multivariate Normal]]
