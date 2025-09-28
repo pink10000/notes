@@ -37,7 +37,7 @@ This setup integrates a collection of notes managed with Quartz into a subdirect
 
 ## Local Preview (Notes Repository)
 1. Clone the [quartz fork](https://github.com/pink10000/quartz-site ) 
-2. Check if you need to pull from upstream for the git submodule(s) in `content`
+2. Run `git pull --recurse-submodules` to update all submodules
 3. Run `npx quartz build --serve`
 
 Check [this](https://quartz.jzhao.xyz/build) if not clear.

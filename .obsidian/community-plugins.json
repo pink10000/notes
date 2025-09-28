@@ -7,6 +7,6 @@
   "better-word-count",
   "nlp",
   "graph-analysis",
-  "advanced-exclude",
-  "mermaid-tools"
+  "mermaid-tools",
+  "dataview"
 ]
