@@ -1,7 +1,7 @@
 ---
 order: 6
 tags:
-  - Lecture
+  - MATH_140B_Lecture
   - MATH_140B
 ---
 [[L'Hopital's Rule]]

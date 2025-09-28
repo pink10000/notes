@@ -2,7 +2,7 @@
 order: 101
 tags:
   - MATH_140B
-  - Lecture
+  - MATH_140B_Lecture
 ---
 
 Apparently this material was covered in a discussion. 

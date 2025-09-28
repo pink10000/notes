@@ -1,6 +1,6 @@
 ---
 tags:
-  - Lecture
+  - MATH_140B_Lecture
   - MATH_140B
 order: 7
 ---

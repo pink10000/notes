@@ -1,7 +1,7 @@
 ---
 order: 3
 tags: 
-  - Lecture
+  - MATH_140A_Lecture
   - MATH_140A
 ---
 [[Archimedean Property]]

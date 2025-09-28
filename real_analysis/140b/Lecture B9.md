@@ -2,7 +2,7 @@
 order: 9
 tags:
   - MATH_140B
-  - Lecture
+  - MATH_140B_Lecture
 ---
 [[Riemann-Stieltjes Integral]]
 [[Fundamental Theorem of Calculus]]

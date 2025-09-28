@@ -1,7 +1,7 @@
 ---
 order: 1
 tags:
-  - Lecture
+  - MATH_140A_Lecture
   - MATH_140A
 ---
 - [[Ordered Sets]]

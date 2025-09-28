@@ -2,7 +2,7 @@
 order: 10
 tags:
   - MATH_140B
-  - Lecture
+  - MATH_140B_Lecture
 ---
 [[Fundamental Theorem of Calculus]]
 [[Integration of Vector Functions]]

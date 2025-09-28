@@ -1,7 +1,7 @@
 ---
 order: 11
 tags:
-  - Lecture
+  - MATH_140B_Lecture
   - MATH_140B
 ---
 [[Integration of Vector Functions]]
