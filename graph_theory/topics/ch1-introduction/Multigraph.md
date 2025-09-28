@@ -1,6 +1,6 @@
 ---
 tags:
-  - MATH_158
+  - MATH_154
 ---
 # Definition 
 A **multigraph** is a [[Graph]] where there are multiple edges between the same pair of vertices. 

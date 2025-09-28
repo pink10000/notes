@@ -1,7 +1,7 @@
 ---
 tags:
-  - MATH_158
-  - MATH_158_Lecture
+  - MATH_154
+  - MATH_154_Lecture
 ---
 [Supplemental Textbook](https://cseweb.ucsd.edu/~dakane/Math154/154-textbook.pdf)
 
@@ -10,7 +10,15 @@ Because Obsidian is on Mermaid version 11.4 ([1]([https://github.com/mermaid-js/
 
 Actually, I think using `x--x` will be easier. 
 
-:/ 
+:/
+
+---
+[[Graph]]
+[[Pseudograph]]
+[[Multigraph]]
+[[Directed Graph]]
+[[Degree]]
+[[Handshake Lemma]]
 
 
 ---
