@@ -1,0 +1,7 @@
+/*
+  This snippet centers all Mermaid diagrams in Obsidian.
+*/
+div.mermaid {
+    display: flex;
+    justify-content: center;
+}
