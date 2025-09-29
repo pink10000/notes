@@ -8,4 +8,4 @@ $$
 \sum_{v \in V} \deg(v) = 2|E|
 $$
 Proof:
-When we could the degrees of vertices of $G$, each edge of $G$ is counted twice. 
+When we count the degrees of vertices of $G$, each edge of $G$ is counted twice. 
