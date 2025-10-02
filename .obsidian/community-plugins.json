@@ -8,5 +8,6 @@
   "nlp",
   "graph-analysis",
   "mermaid-tools",
-  "dataview"
+  "dataview",
+  "obsidian-git"
 ]

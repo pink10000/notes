@@ -47,3 +47,16 @@ giving us the ciphertext
 ```
 EMTMETENOAQOXJN
 ```
+
+# Examples
+```
+Keyword: Zeus
+Plaintext: MTSQAGXY
+
+ZEUS -> ESUZ -> 2431
+
+MTSQ -> TQSM
+AGXY -> GYXA
+
+Corresponding Ciphertext: TQSMGYXA (B)
+```
