@@ -50,3 +50,7 @@ graph TD
         Cycle["Cycle: Path where start vertex = end vertex"]
     end
 ```
+
+# Lemma (Cycle Existence)
+If $G$ has a walk from $v$ to $v$ (i.e. to itself), then $G$ has a cycle through $v$. Proof is trivial. 
+
