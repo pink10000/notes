@@ -12,4 +12,12 @@ tags:
 - Example [[Rectangular Transposition]]. 
 - [[Caesar Cipher]]
 - [[Polybius Square]]
-- 
+- [[Playfair Cipher]]
+
+# 3 (10/01)
+- Review on [[Playfair Cipher]]
+## Modulus
+Let $a \equiv a' \bmod n$ and $b \equiv b' \mod n$. Then 
+- $a + b \equiv a' + b' \bmod n$
+- $ab \equiv a'b' \bmod n$
+- $a^{r} \equiv (a')^{r}\bmod n$ where $r \in \Z_{>0}$. 
