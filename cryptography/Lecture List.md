@@ -2,6 +2,7 @@
 tags:
   - MATH_187A
 ---
+Supplementary Textbook: https://sagrawalx.github.io/crypt/ 
 # 1 (09/26)
 - Covered history of cryptography
 - Frequency Analysis - method for breaking all ciphers
@@ -16,8 +17,4 @@ tags:
 
 # 3 (10/01)
 - Review on [[Playfair Cipher]]
-## Modulus
-Let $a \equiv a' \bmod n$ and $b \equiv b' \mod n$. Then 
-- $a + b \equiv a' + b' \bmod n$
-- $ab \equiv a'b' \bmod n$
-- $a^{r} \equiv (a')^{r}\bmod n$ where $r \in \Z_{>0}$. 
+- [[Modulus]]

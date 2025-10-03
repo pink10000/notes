@@ -16,3 +16,15 @@ ZOOLOGY -> APPMPHZ
 
 # Complexity
 Since the shift is circular with period $26$, there are only $26$ possible shifts (including the identity, the $0$ shift). Let $n = 30$. Then we are shifting only $30 \bmod 26 \equiv 4$ times. 
+
+# Example 1
+Using a shift of $3$, encrypt 
+```
+Meet at La Jolla Shores
+```
+
+This becomes 
+```
+MEETATLAJOLLASHORES
+PHHWDWODMROODVKRUHV
+```
