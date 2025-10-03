@@ -13,7 +13,7 @@ tags:
 6. If there is an unpaired letter at the end, insert the letter `X` after it. 
 7. For each pair, if it has the same row, replace with the letters immediately to the right of it. If it is the same column, replace with letters immediately below it. If the pair is a "rectangle", then we select the opposite row letters.
 
-# Examples
+# Example 1
 Keyword: `ALPHHABET`
 ```
 A L P H B
@@ -31,6 +31,7 @@ Let plaintext be `JELLY`.
 7. -> GT PW HW
 ```
 
+# Example 2
 Now with the same matrix, let the plaintext be
 ```
 HIDDEN JEWELS IN THE TREES
@@ -53,4 +54,22 @@ HE -> AD
 TR -> CQ
 EX -> CV
 ES -> DO
+```
+
+# Example 3 
+Encrypt `Little Fluffy` with keyword `FAJITAS`. So, 
+```
+F A I T S
+B C D E G
+H K L M N 
+O P Q R U
+V W X Y Z
+```
+such that 
+```
+LITTLE FLUFFY
+LITXTLE FLUFXFY
+
+LI TX TL EF LU FX FY
+QD IY IM BT NQ IV TV
 ```

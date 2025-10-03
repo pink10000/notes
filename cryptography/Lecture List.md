@@ -18,3 +18,7 @@ Supplementary Textbook: https://sagrawalx.github.io/crypt/
 # 3 (10/01)
 - Review on [[Playfair Cipher]]
 - [[Modulus]]
+
+# 4 (10/03)
+- [[Modulus]]
+- [[Vignere Cipher]]

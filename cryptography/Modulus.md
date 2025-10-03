@@ -8,6 +8,8 @@ Let $a \equiv a' \bmod n$ and $b \equiv b' \mod n$. Then
 - $ab \equiv a'b' \bmod n$
 - $a^{r} \equiv (a')^{r}\bmod n$ where $r \in \Z_{>0}$. 
 
+It is not generally true that $a^{r} \equiv a^{r'} \bmod n$. 
+
 # Example 1
 $$
 417 \cdot 22 \bmod 10
@@ -61,4 +63,3 @@ We are done.
 Explain why $2$ is not invertible $\bmod 4$. 
 
 Suppose by contradiction it is. Thus, $\exists x \in \Z$ where $2x \equiv 1 \bmod 4$. But when $x$ is even ($x = 2k$), then $4k \equiv 0 \bmod 4$, a contradiction. If is odd where $x = 2k + 1$, Then $4k + 2 \equiv 0 + 2 \bmod 4$ which is not $1$, another contradiction. 
-
