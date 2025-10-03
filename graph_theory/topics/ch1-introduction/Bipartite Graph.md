@@ -3,7 +3,7 @@ tags:
   - MATH_154
 ---
 # Definition (Bipartite Graph)
-A **bipartite graph** i$V$ s a [[Graph]] that partitions a left $L$ and right $R$ side. Indeed, $V = L \cup R$. 
+A **bipartite graph** $V$ is a [[Graph]] that partitions a left $L$ and right $R$ side. Indeed, $V = L \cup R$. 
 - $L \cap R = \varnothing$. 
 - All edges connect a vertex in $L$ to a vertex in $R$. 
 ```mermaid
