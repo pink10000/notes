@@ -53,13 +53,4 @@ $$
 $$
 We could also use the [[Induced Metric Space#Definition (Open/Closed Relative)]] because this holds $\iff$ holds for all finite intersections (by induction). 
 
-This generating set $\sigma$ is called the **sub-basis** for the topology $T(\sigma)$.
-# Definition (Base/Basis)
-$\beta \subseteq \mathcal{P}(X)$ is a **base** (or **basis**) for the topology $T$ if any element $U \in T$ can be written as a union if any element $U \in T$ can be written as a union of elements in $\beta$. 
-## Examples
-In $\R$ with the standard topology, the set of all open intervals $(a,b)$ is a basis for the topology, since any open set of $\R$ can be written as a union of open intervals.  
-
-In a [[Metric Space]] $(X, d)$, the $\{B_{\vepsi}(x), \vepsi > 0, x \in X\}$ forms a basis for the associated topology. 
-
-# Definition (Sub-Base)
-We say a collection $S$ of $\tau$ is a **subbasis** if all finite intersections of $S$ form a basis for $\tau$. A subbasis determines a 
+This generating set $\sigma$ is called the **sub-basis** for the topology $T(\sigma)$. See [[Base]]. 
