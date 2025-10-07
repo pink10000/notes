@@ -71,6 +71,8 @@ This implies $\exists \delta > 0$ such that $N_{\delta}(x) \subset f^{-1}(N_{\ve
 This implies $\forall z \in N_{\delta}(x)$, we have $f(z) \subset N_{\vepsi}(f(x))$.
 
 So $\forall z$ with $d(x, z) < \delta$, we have $d(f(x), f(z)) < \vepsi$. 
+
+> Also in [[MATH 190A - Lecture 5#Definition (Topological Characterization of Continuity)]].
 # Proposition (Continuity Retains Compactness)
 Let $f : X \to Y$ be continuous. Let $K \subset X$ be compact. Then $f(K)$ is [[Compact Sets|compact]].
 

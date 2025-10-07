@@ -6,7 +6,7 @@ tags:
 [[Base]]
 
 # Closed Sets
-A set $A \subseteq X$ is closed $\iff$ $X - A$ is open. By De Morgan, we see that 
+A set $A \subseteq X$ is closed $\iff$ $X - A$ is open. By DeMorgan, we see that 
 1. $\varnothing, X$ are closed
 2. Arbitrary intersection of closed sets is closed. 
 $$
@@ -57,8 +57,4 @@ x \in \ovl{A}
 &\iff \forall \text{ open } U \text{ containing } x, U \not\subseteq X - A \\
 &\iff \forall \text{ open } U \text{ containing } x, U \cap A \neq \varnothing
 \end{aligned}
-$$
-# Theorem 
-$$
-\ovl{A} = \{ x \in X : x \in U \cap A\} 
 $$

@@ -68,3 +68,4 @@ Clearly any intersection of any two such basic open intervals is either another 
 
 ## Remark
 Bases are usually not unique. Any representation of an open set $U \in T$ as a union of base elements $U = \bigcup_{i \in I} B_{i}$ is almost certainly not unique. 
+

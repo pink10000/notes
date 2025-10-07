@@ -50,3 +50,56 @@ Recall that $X = \{a, b\}$ must be in $T$.
 
 Let $X = \{a, b, c\}$. There are $29$ different topologies. 
 
+# Definition (Subspace Topology)
+If $(X, T)$ is a [[Topological Space]] and $A$ is any subset of $X$, then we can define a **subspace topology** $T_{A}$ on $A$ via 
+$$
+T_{A} =  \{ A \cap U : U \in T_{X} \}
+$$
+Checking the axioms,
+1. $\varnothing \in T_{X} \implies A \cap \varnothing = \varnothing \in T_{A}$ and $A \subset X$, so $A \cap A = A \in T_{A}$. 
+2. $\bigcup_{i \in I} (A \cap U_{i}) =  A \cap \left( \bigcup_{i \in I} U_{i} \right)$
+3. $\bigcap_{i \in I} (A \cap U_{i}) = A \cap \left( \bigcap_{i \in I} U_{i} \right)$
+
+## Example
+Let $I = [0, 1] \subseteq \R$. Then considering set $[0, 1/2) \subset \R$ is open in this subspace. 
+> A subset $B$ of $A$ can be open in $A$, but not open in $X$. See [[Induced Metric Space#Definition (Open/Closed Relative)]]. 
+
+# Lemma (Intersection of Openness)
+If $A$ is open in $X$, and $U$ open in $X$, then $A \cap U$ is also open in $X$. See [[Metric Space#Lemma (Openness and Closure)|lemma]].
+
+# Lemma (Unique Smallest Topology)
+Given *any* subset $\sigma \subseteq \mathcal{P}(X)$, there is a *unique smallest topology* $T(\sigma)$ containing $\sigma$ and its open sets are of form
+$$
+(*) \quad\quad\quad\quad
+U = \bigcup_{i \in I} (S_{i,1} \cap S_{i,2} \cap \cdots \cap S_{i,n})
+$$
+where $S_{i,j} \in \sigma$. $n$ is some arbitrary finite positive integer.
+> Technically, one can argue that the intersection of no things (when $\sigma = \varnothing$) is $X$ itself. 
+
+Proof: 
+Clearly, if $T \supseteq \sigma$, is a topology, it must contain all these sets. We can check axioms. Arbitrary unions of $(*)$ intersections are of the form 
+$$
+\bigcup_{i \in I} (S_{i,1} \cap \cdots \cap S_{i,n})
+\cap 
+\bigcup_{j \in J} (S_{j,1} \cap \cdots \cap S_{j,m})
+=
+\bigcup_{i \in I, j \in J} \text{summand 1} \cap \text{summand 2}
+$$
+We could also use the [[Induced Metric Space#Definition (Open/Closed Relative)]] because this holds $\iff$ holds for all finite intersections (by induction). 
+
+This generating set $\sigma$ is called the **sub-basis** for the topology $T(\sigma)$. See [[Base]]. 
+
+# Theorem (Equivalent Closure in a Topology)
+If we have a base for the topology, we can say 
+$$
+x \in \ovl{A} \iff \forall B \in \beta, B \cap A \neq \varnothing 
+$$
+# Definition (Neighborhood in a Topology)
+A **neighborhood** of a point $x$ is any set which contains an open set containing $x$. We can denote it as $N_{x}$ or "$N$ of $x$". 
+
+> This definition is not standard. Some call a neighborhood is merely an open set. Here, we say that neighborhoods don't necessarily have to be open or closed (or either!) but merely that it contains some open set. 
+
+We can also say that 
+$$
+x \in \ovl{A} \iff \exists N_{x}, N_{x} \cap A \neq \emptyset 
+$$
