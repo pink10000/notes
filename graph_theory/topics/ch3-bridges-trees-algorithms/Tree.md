@@ -150,13 +150,36 @@ $$
 
 # Definition (Spanning Tree)
 If $G$ is a [[Graph]], a **spanning tree** of $G$ is a [[Graph#Definition (Subgraph)|subgraph]] $T$ that is a tree and has the same vertex set. 
+```mermaid
+graph LR;
+    A((A)) o--o B((B));
+    B((B)) o--o C((C));
+    C((C)) o--o A((A));
+    B((B)) o--o D((D));
+    D((D)) o--o E((E));
+    C((C)) o--o E((E));
+```
+with the spanning tree:
+```mermaid
+graph LR;
+    A((A)) o--o B((B));
+    B((B)) o--o C((C));
+    B((B)) o--o D((D));
+    D((D)) o--o E((E));
+```
+# Theorem (Connected Graphs Have a Spanning Tree)
+Every (finite) connected graph $G$ has a [[#Definition (Spanning Tree)|spanning tree]].  
 
-> Give example 
+Proof:
+Start with graph $G$, and a subgraph $T$ with no edges. While  does not connect all vertices in , find some edge in  that connects different components and add it to $T$. 
 
-# Theorem 
-Every (finite) connected graph $G$ has a spanning tree. 
+This construction gives us a tree because we never create a cycle.
 
-Proof: 
-If $G$ is connected but not a tree, it has a [[Cycle]]. Let $e$ be an edge of this cycle $C$. If remove $e$ from $G$, then it is still connected. 
+Suppose for the sake of contradiction that the construction stops before is a fully connected graph. Thus, $T$ is some forest with at least two separate connected components. But then that means there is no edge to connect these two in $G$. But then $G$ is now disconnected, a contradiction.
 
-> Finish proof.
+# Definition (Minimum Spanning Tree)
+Given graph $G$ with weight function $w : E \to \R$, we want the spanning tree $T$ where 
+$$
+\sum_{e \in E} w(e)
+$$
+is as small as possible. 
