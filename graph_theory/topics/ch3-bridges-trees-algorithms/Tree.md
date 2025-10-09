@@ -176,10 +176,3 @@ Start with graph $G$, and a subgraph $T$ with no edges. While  does not connect 
 This construction gives us a tree because we never create a cycle.
 
 Suppose for the sake of contradiction that the construction stops before is a fully connected graph. Thus, $T$ is some forest with at least two separate connected components. But then that means there is no edge to connect these two in $G$. But then $G$ is now disconnected, a contradiction.
-
-# Definition (Minimum Spanning Tree)
-Given graph $G$ with weight function $w : E \to \R$, we want the spanning tree $T$ where 
-$$
-\sum_{e \in E} w(e)
-$$
-is as small as possible. 
