@@ -2,7 +2,6 @@
 tags:
   - MATH_190A
 ---
-
 # Definition (Topological Characterization of Continuity)
 If $(X, \tau_{x})$ and $(Y, \tau_{y})$  are [[Topological Space|topological spaces]], then we can define a function $f : X \to Y$ to be **continuous** if $\forall$ open $U\subseteq Y$, the preimage $f^{-1}(U)$ is open in $X$. This is correct if the topologies come from metrics. 
 
@@ -38,3 +37,46 @@ Given $V \subseteq Y$ open, WTS $f^{-1}(V)$ is open in $X$. So take $a \in f^{-1
 
 $(\implies)$
 Given $N$ a neighborhood of $f(a)$, then it contains some open $V$ where $f(a) \in V$. Then global continuity implies $f^{-1}(V)$ is open, but $a \in f^{-1}(V) \subseteq f^{-1}(N)$ and so $f^{-1}(N)$ is a neighborhood of $a$. 
+# Theorem (Closed Set Criterion for Continuity)
+$f$ is continuous $\iff f^{-1}(F)$ is closed in $X$, $\forall$ closed $F$ in $Y$. 
+
+Proof: 
+The preimage satisfies $f^{-1}(Y - U) = X - f^{-1}(U)$. Then apply [[#Definition (Topological Characterization of Continuity)]]. 
+
+> Also in [[Continuity#Proposition (Topological Characterization of Continuity)]] from real analysis.
+
+# Theorem (Characterization of Continuity by Closure)
+$f$ is continuous $\iff f( \Cl_{X}(A) ) \subseteq \Cl_{Y}(f(A))$ for all subsets $A$ of $Y$. 
+
+Proof:
+$(\implies)$
+Given continuous $f$ and a point $x \in \ovl{A}$, WTS $f(x) \in \ovl{f(A)}$, or that every neighborhood of $f(x)$ meets $f(A)$. But if $N$ is a neighborhood of $f(x)$, then b the local form of continuity, $f^{-1}(N)$ is a neighborhood of $x$. 
+
+Therefore, since $x \in \ovl{A}$, $f^{-1}(N)$ must meet $A$ at some point $y \in A \cap f^{-1}(N)$. But then $f(y) \in f(A) \cap N$ as requested. 
+
+$(\impliedby)$
+We'll use the "closed-set" definition of continuity. Given $F$ closed in $Y$, show $A = f^{-1}(F)$ closed in $X$. If $x \in \ovl{A}$, we'll show it is also in $A$, such that it implies $\ovl{A} = A$. We know 
+$$
+f(x) \in \ovl{f}(A) = \ovl{F} = F
+$$
+hence $x \in f^{-1}(F) = A$ by "condition".
+
+# Theorem (Continuity by Composition in a Topology)
+Given continuous functions 
+$$
+\begin{aligned}
+f &: (X, \tau_{X}) \to (Y, \tau_{Y}) \\
+g &: (Y, \tau_{Y}) \to (Z, \tau_{Z}) \\
+\end{aligned}
+$$
+we have that $g \circ f$ is continuous. 
+
+Proof:
+Given $U$ open in $Z$, 
+$$
+\begin{aligned}
+(g \circ f)^{-1}(U)
+&:= f^{-1}(g^{-1}(U))
+\end{aligned}
+$$
+But as $g$ continuous, $g^{-1}(U)$ is open, and as $f$ is continuous, $f^{-1}(g^{-1}(U))$ is open. We apply [[#Definition (Topological Characterization of Continuity)]] twice. 
