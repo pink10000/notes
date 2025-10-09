@@ -22,3 +22,12 @@ Supplementary Textbook: https://sagrawalx.github.io/crypt/
 # 4 (10/03)
 - [[Modulus]]
 - [[Vignere Cipher]]
+
+# 5 (10/06)
+Quiz
+
+# 6 (10/8)
+- practice [[Modulus]] questions
+- [[Greatest Common Divisor|GCD]]
+- [[Euclidean Algorithm]]
+- [[Euclidean Algorithm#Bezout's Identity]]

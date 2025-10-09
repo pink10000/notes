@@ -63,3 +63,10 @@ We are done.
 Explain why $2$ is not invertible $\bmod 4$. 
 
 Suppose by contradiction it is. Thus, $\exists x \in \Z$ where $2x \equiv 1 \bmod 4$. But when $x$ is even ($x = 2k$), then $4k \equiv 0 \bmod 4$, a contradiction. If is odd where $x = 2k + 1$, Then $4k + 2 \equiv 0 + 2 \bmod 4$ which is not $1$, another contradiction. 
+
+# Example 6
+There exist three odd integers $a,b,c$ such that every integer $x$ is congruent mod $3$ to either $a$ or $b$ or $c$. 
+
+True. Let $a = 3, b = 1, c = 2$. We would let $a = 0$, but we must find an odd integer. Fortunately $3 \equiv 0 \bmod 3$. 
+
+Consider 4 integers, but with $a,b,c,d$. False. $a,b,c,d$ must be $0,1,2,3$ respectively. But then $0$ must be congruent to some odd multiple of $4$. Since $4$ is even, this cannot be true. 
