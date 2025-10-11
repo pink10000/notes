@@ -51,6 +51,4 @@ Given a leaf,
 graph LR;
 	m((m)) o--o k((k));
 ```
-We say $k$ can only be a leaf when at least one of its neighbors can be removed. But then this means $k$ will be added to the list. 
-
-Given a list of numbers, maintain a list $V$ of remaining vertices, initially $1$ to $n$. Then repeatedly, find the smallest element in $V$ not in $L$. Connect it to the first element of $L$. Remove the element of $V$ and element of $L$. We repeat until $L$ is empty. Then connect remaining elements of $V$. 
+We say $k$ can only be a leaf when at least one of its neighbors can be removed. This means $k$ will be added to the list. Therefore, it will be added $\deg(k) - 1$ times. But as leaves have degree $1$, they will appear in the list $1 - 1 = 0$ times. 
