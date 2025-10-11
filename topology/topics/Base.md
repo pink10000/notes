@@ -3,7 +3,7 @@ tags:
   - MATH_190A
 ---
 # Definition (Base/Basis)
-$\beta \subseteq \mathcal{P}(X)$ is a **base** (or **basis**) for the topology $T$ if any element $U \in T$ can be written as a union of any elements $U \in T$ can be written as a union of elements in $\beta$. 
+$\beta \subseteq \mathcal{P}(X)$ is a **base** (or **basis**) for the topology $\tau$ if any element $U \in \tau$ can be written as a union of elements in $\beta$. 
 ## Examples
 In $\R$ with the standard topology, the set of all open intervals $(a,b)$ is a basis for the topology, since any open set of $\R$ can be written as a union of open intervals.  
 
@@ -68,4 +68,7 @@ Clearly any intersection of any two such basic open intervals is either another 
 
 ## Remark
 Bases are usually not unique. Any representation of an open set $U \in T$ as a union of base elements $U = \bigcup_{i \in I} B_{i}$ is almost certainly not unique. 
+
+# Definition (Product of Spaces Base)
+See [[Product of Spaces#Definition (Product of Spaces Base)]]. 
 

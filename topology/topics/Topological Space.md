@@ -87,8 +87,7 @@ $$
 $$
 We could also use the [[Induced Metric Space#Definition (Open/Closed Relative)]] because this holds $\iff$ holds for all finite intersections (by induction). 
 
-This generating set $\sigma$ is called the **sub-basis** for the topology $T(\sigma)$. See [[Base]]. 
-
+This generating set $\sigma$ is called the **sub-basis** for the topology $T(\sigma)$. The notion of a sub-base is a more "primitive form" of a [[Base]]. 
 # Theorem (Equivalent Closure in a Topology)
 If we have a base for the topology, we can say 
 $$
