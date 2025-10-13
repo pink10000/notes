@@ -4,7 +4,7 @@ tags:
 ---
 # Definition (Topological Space)
 A **topological space** is a set $X$ together with a **topology**, $T_{X}$ which is a set of subsets of $X$ (such that $T_{X} \subseteq \mathcal{P}(X)$) that satisfy the following axioms:
-1. $\varnothing \not \in T_{X}$ an $X \in T_{X}$ 
+1. $\varnothing \in T_{X}$ and $X \in T_{X}$ 
 2. if $\{U_{i}\}_{i \in I}$ is a family of elements in $T_{X}$, then $\bigcup_{i \in I} U_{i} \in T_{X}$.  
 3. if $U_{1}, \dots, U_{n}$ is a *finite* set of elements in $T_{X}$, then $\bigcap_{i =1}^{n} U_{i} \in T_{X}$  
 

@@ -5,11 +5,11 @@ aliases:
   - subspace topology
 ---
 # Definition (Subspace Topology)
-Recall if $(X, \tau_{X})$ is a topological space and $A \subseteq X$, we define on $A$,
+Recall if $(X, \tau_{X})$ is a topological space and $A \subseteq X$, we can define the **subspace topology** defined on $A$:
 $$
 \tau_{A} = \{ U \cap A \mid U \text{ open in } X\}
 $$
-and this does form a [[Topological Space|topology]] on $A$. This does this because the *canonical inclusion map* 
+This does form a [[Topological Space|topology]] on $A$ because of the *canonical inclusion map* 
 $$
 i : A \hookrightarrow X
 $$
