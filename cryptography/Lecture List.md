@@ -31,3 +31,13 @@ Quiz
 - [[Greatest Common Divisor|GCD]]
 - [[Euclidean Algorithm]]
 - [[Euclidean Algorithm#Bezout's Identity]]
+
+# 7 (10/10)
+- review on [[Euclidean Algorithm]] and [[Euclidean Algorithm#Bezout's Identity]]
+- [[Modular Inversion]]
+- [[Affine Cipher]]
+
+# 8 (10/13)
+- review on [[Modular Inversion#Theorem (Modular Inversion)]]
+- [[Affine Cipher]]
+- [[Hill Cipher]], but no examples.
