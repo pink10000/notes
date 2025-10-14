@@ -1,6 +1,8 @@
 ---
 tags:
   - MATH_154
+aliases:
+  - connected
 ---
 # Definition (Reachability)
 We say vertex $u$ is **reachable** from $v$ if there is a [[Walk]] from $v$ to $u$. 

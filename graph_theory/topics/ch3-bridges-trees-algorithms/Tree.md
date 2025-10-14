@@ -1,6 +1,8 @@
 ---
 tags:
   - MATH_154
+aliases:
+  - tree
 ---
 # Definition (Tree)
 A **tree** is a [[Connectivity|connected]] [[Graph]] with no [[Cycle|cycles]]. 

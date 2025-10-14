@@ -37,8 +37,43 @@ $$
 \longleftrightarrow
 \{ \text{ordered lists of } n - 2 \text{ numbers from } 1, 2, \dots, n  \}
 $$
-Start with a tree $T$. Repeatedly, we find the [[Tree#Definition (Leaf)|leaf]] with the smallest label. We add that label to $v$'s neighbors, and then remove $v$ from $T$. We do this until $T$ has only $2$ vertices. 
 
+**Tree $\to$ List:** We repeatedly remove the smallest index [[Tree#Definition (Leaf)|leaf]] and then add its neighbor to a list until the tree only has $2$ vertices left. 
+
+**List $\to$ Tree**: Let $L$ be the list we want to convert. Let $V = \{1, \dots, n\}$ be a list of $n$ numbers. Repeatedly, we find the smallest element $v$ of $V$ not in $L$. Connect $v$ to the first element of $L$, and remove $v$ in $L$ and $V$. We do this until $L$ is empty. The remaining elements of $V$ get connected. 
+
+```
+Try:
+L = [7, 2, 8, 6, 3, 1, 7]
+V = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+Note that L has two less elements. Recall the formula!
+```
+
+We want to claim that by induction on $|S|$, that this is a bijection.  In particular, the base case $n = 2$ is boring. $S = \{x, y\}$, and we only have one tree where $x$ is connected to $y$. Now, assume $|S| = n$. What if $|S| = n + 1$?
+
+Suppose we had tree $T$ with smallest leaf $\ell$. We could partition a tree as 
+$$
+\ell -(_{x}T')
+$$
+where $x$ is $\ell$'s only neighboring vertex. Then our list would be $x \circ \list(T')$. Since $\ell$ is the smallest leaf of $S$ not in our tree, then in our **List $\to$ Tree** algorithm, then we have $S - \{\ell\}$ in the next iteration. This also produces $\list(T')$. But then this is our inductive hypothesis, the exact $T$ we started with. 
+
+This tells us our algorithms are inverses in one direction. 
+
+Now, if $\ell$ is our smallest element of $S$ not in $L$, then $x$ is the first element of $L$, and $L = x \circ L'$ where is our list. Thus, we need to show how 
+$$
+(*)
+\quad\quad\quad
+S - \{\ell\} \circ L' \to T'
+$$
+that our list decomposes to tree $T'$. 
+1. I claim our smallest leaf is $\ell$. 
+2. I claim the proceeding [[#Lemma (Counting Labeled Leaves)]], which we prove after this. 
+Then following **Tree $\to$ List** algorithm, with claim $(1)$, then by the inductive hypothesis, 
+$$
+\list(T') = L'
+$$
+Essentially, we turn our tree back to our list that we started with. Indeed, by claim $(2)$, we have $(*)$.
 # Lemma (Counting Labeled Leaves)
 $$
 \{\text{leaves of original tree}\} 
@@ -52,3 +87,22 @@ graph LR;
 	m((m)) o--o k((k));
 ```
 We say $k$ can only be a leaf when at least one of its neighbors can be removed. This means $k$ will be added to the list. Therefore, it will be added $\deg(k) - 1$ times. But as leaves have degree $1$, they will appear in the list $1 - 1 = 0$ times. 
+
+# Generalized Cayley's Theorem
+The number of [[Tree#Definition (Spanning Tree)|spanning trees]] of $K_{n}$ is equal to $n^{n-2}$.  
+
+
+# Matrix-Tree Theorem
+The number spanning trees of $G$ is equal to $\det(M')$ where $M'$ is defined as
+$$
+M = 
+\begin{bmatrix}
+M_{ii} = \deg(v_{i}) \\ \\
+M_{ij} = 
+\begin{cases}  
+-1 & v_{i} \text{ adjacent to } v_{j} \text{ for } i \neq j \\ \\
+0 & \text{otherwise}
+\end{cases} 
+\end{bmatrix}
+$$
+and $M' = M$ but remove the first row and column. 
