@@ -74,3 +74,6 @@ Let $P_{u}$ be the $v-u$ path. Now consider path $P_{u} + (u, w)$, of length $|P
 Since $u$ is arbitrary, every edge has different coloring, and the graph is [[Bipartite Graph|bipartite]]. 
 
 If $G$ is not connected then we can split it to its connected components and repeat the process. Then each connected component is bipartite. 
+
+# Definition (Bridge)
+A **bridge** is an edge where if you removed it from the [[Graph]], it would make the graph no longer connected (create one more [[#Theorem (Connected Components)|connected component]]).
