@@ -46,7 +46,7 @@ This is essentially the origins of graph theory. The map is decomposed to the fo
 Is there a [[Walk#Definition (Trail)|trail]] that visits each edge once? 
 
 # Definition (Eulerian Graph)
-A [[Graph]] $G$ is called **Eulerian** if it contains a [[Walk#Definition (Circuit)|circuit]] that visits each edge of $G$ once. That circuit is called an **Eulerian Circuit**. 
+A [[Graph]] $G$ is called **Eulerian** if it contains a [[Walk#Definition (Circuit)|circuit]] that visits each edge of $G$ once (and has the same start and end). That circuit is called an **Eulerian Circuit**. 
 
 If we are talking about a trail, then the graph is called **Semi-Eulerian** and the trail is called an **Eulerian Trail**. 
 
