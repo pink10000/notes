@@ -38,3 +38,4 @@ graph
     L2 o--o R4
     L2 o--o R5
 ```
+The [[Degree]] of $K_{a,b}$ is equal to $ab$. 

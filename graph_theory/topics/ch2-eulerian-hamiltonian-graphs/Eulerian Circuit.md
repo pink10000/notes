@@ -66,6 +66,10 @@ A *finite* graph $G$ is Eulerian iff
 
 Proof: Let $G$ be Eulerian.
 
+$(\implies)$ This is trivial. $(1)$ is immediate by definition of Eulerian, and two is from [[#Observations On Eulerian Graphs]]. 
+
+$(\impliedby)$ We can ignore the isolated vertices, and only pay attention the singular connected component. 
+
 **Claim A**: $G$ has a circuit, or it is empty. This is obvious.
 
 **Claim B**: The edges of $G$ can be partitioned into circuits. 

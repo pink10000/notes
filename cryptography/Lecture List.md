@@ -41,3 +41,18 @@ Quiz
 - review on [[Modular Inversion#Theorem (Modular Inversion)]]
 - [[Affine Cipher]]
 - [[Hill Cipher]], but no examples.
+
+# 9 (10/15)
+- review on [[Hill Cipher]]
+
+| A | B | C | D | E | F | G | H | I | J | K | L | M |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+
+| N | O | P | Q | R | S | T | U | V | W | X | Y | Z |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+- Brief coverage of [[Frequency Analysis]]
+# 10 (10/17)
+- Quiz 
+- [[Playfair Cipher]], Masonic Cipher, [[Vignere Cipher]], Modular Arithmetic, GCDs, [[Euclidean Algorithm]], Bezout’s identity

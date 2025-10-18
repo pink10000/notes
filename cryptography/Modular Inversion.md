@@ -51,3 +51,6 @@ $$
 \end{aligned}
 $$
 Thus, $r = 17$, which is the inverse. 
+
+# Invertible Numbers mod 26
+See [[Affine Cipher#Definition (Decipher Function)]].
