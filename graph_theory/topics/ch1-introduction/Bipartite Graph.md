@@ -3,7 +3,7 @@ tags:
   - MATH_154
 ---
 # Definition (Bipartite Graph)
-A **bipartite graph** $V$ is a [[Graph]] that partitions a left $L$ and right $R$ side. Indeed, $V = L \cup R$. 
+A **bipartite graph** $G$ is a [[Graph]] that partitions a left $L$ and right $R$ side. Indeed, $V = L \cup R$. 
 - $L \cap R = \varnothing$. 
 - All edges connect a vertex in $L$ to a vertex in $R$. 
 ```mermaid
@@ -39,3 +39,8 @@ graph
     L2 o--o R5
 ```
 The [[Degree]] of $K_{a,b}$ is equal to $ab$. 
+
+# Theorem (Bipartite Cycles)
+[[Graph]] $G$ is [[Bipartite Graph#Formal|bipartite]] iff it contains no odd length [[Cycle]]. 
+
+Proof: See [[Connectivity#Theorem (Bipartite Cycles)]].
