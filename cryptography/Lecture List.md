@@ -56,3 +56,6 @@ Quiz
 # 10 (10/17)
 - Quiz 
 - [[Playfair Cipher]], Masonic Cipher, [[Vignere Cipher]], Modular Arithmetic, GCDs, [[Euclidean Algorithm]], Bezout’s identity
+
+# 11 (10/20)
+- Probability. Won't add because it's not hard.
