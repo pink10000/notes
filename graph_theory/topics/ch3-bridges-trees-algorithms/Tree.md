@@ -178,3 +178,8 @@ Start with graph $G$, and a subgraph $T$ with no edges. While  does not connect 
 This construction gives us a tree because we never create a cycle.
 
 Suppose for the sake of contradiction that the construction stops before is a fully connected graph. Thus, $T$ is some forest with at least two separate connected components. But then that means there is no edge to connect these two in $G$. But then $G$ is now disconnected, a contradiction.
+
+# Theorem (Block Graph Leaves are Always Blocks)
+Leaves in a block graph are always [[Block Graph|blocks]]. 
+
+Proof: See [[Block Graph#Theorem (Block Graph Leaves are Always Blocks)]].

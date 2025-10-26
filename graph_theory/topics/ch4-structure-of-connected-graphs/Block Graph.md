@@ -59,13 +59,12 @@ Essentially, we are condensing the blocks into their own "vertex" and keeping th
 
 ## Lemma (Block Graphs are Bipartite)
 If $G$ is a finite connected graph, then its block graph is a [[Bipartite Graph]]. Indeed, we have two types of vertices, we simply have one be colored white and the other be colored black. And by [[#Lemma (Block Intersection is Singleton or Empty)]], then we cannot have an edge connecting to blocks, as they would just be combined to a single block vertex. 
-
 ## Lemma (Block Graphs are Trees)
 A block graph is always a [[Tree]]. 
 
 Proof: We need to show two properties:
 1. Block graphs are always connected. 
-2.  fsd
+2. Block graphs have no cycle.
 
 For $(1)$, let $B_{1}, B_{2}$ be two arbitrary blocks. We can assume both vertices are blocks. The proof is the same otherwise. Since the original graph $G$ was connected, then we have some path $P$ in $G$, and follow it for any vertex $u \in B_{1}$ and $v \in B_{2}$. If there is an edge $(u, v)$ we are done. 
 
@@ -75,11 +74,7 @@ P : B_{1} \to c_{1} \to B_{3} \to c_{3} \to \dots \to c_{2} \to B_{2}
 $$
 Since $u,v$ and $B_{1},B_{2}$ were arbitrary, then we are done. 
 
-## Lemma (Block Graphs have No Cycles)
-A block graph has no [[Cycle|cycles]]. 
-
-Proof:
-Assume by contradiction there is a cycle in the block graph. Then we have some cycle from $B_{1}$ to $B_{n}$. 
+For $(2)$, assume by contradiction there is a cycle in the block graph. Then we have some cycle from $B_{1}$ to $B_{n}$. 
 
 But if we take the union $B_{1} \cup B_{2} \cup \dots \cup B_{n}$, then we'd have no cut vertex. Suppose we removed some vertex $x \in B_{i}$. Each individual $B_{j}$ without $x$ is still connected. Indeed, we still share
 $$
@@ -90,3 +85,41 @@ $$
 B_{n} \to B_{n-1} \to \dots \to B_{i}
 $$
 with $B_{1} \to B_{n}$. But then as it is still connected, then we have new block, which is the union. 
+
+# Theorem (Block Graph Leaves are Always Blocks)
+Leaves in a block graph are always blocks. 
+
+Proof: Every [[Cut|cut]] vertex is part of $\geq 2$ blocks, so they cannot be leaves. Then by [[#Lemma (Block Graphs are Trees)]], the block graph is a tree, and by [[Tree#Lemma (Minimum Leaves)]], the only vertices left are blocks, which must be leaves. 
+
+# Lemma (Blocks are $K_{2}$ xor Contain a Cycle)
+A block is either a $K_{2}$ *xor* contains a [[Cycle|cycle]]. 
+
+Proof:
+1. Block $B$ must always contain an edge since it must contain more than one vertex and by [[#Lemma (All Edges Exist in a Block)]], must have its edges (it's also connected).
+2. If $B$ has no cycles, then it is a tree. Then by [[#Theorem (Block Graph Leaves are Always Blocks)]], any non-leaf is a cut vertex. Thus only the tree $K_{2}$ works since it has no cut vertices. If $B$ has a cycle, we are done. 
+
+> $B$ is $K_{2} \iff$ its sole edge is a [[Connectivity#Definition (Bridge)|bridge]]. 
+
+# Theorem 
+For finite [[Connectivity|connected]] graph $G$ (that is not $K_{2}$), the following are equivalent:
+1. $G$ is a single block.
+2. Any two edges of $G$ share a cycle.
+3. Any two vertices of $G$ share a cycle.
+
+Proof:
+
+Direction $(2) \implies (3)$ is trivial. For $(3) \implies (1)$, removing any vertex that is part of a cycle does not disconnect the graph, so there are no [[Cut#Definition (Cut Vertex)|cut vertices]], and $G$ is a single block. 
+
+For $(1) \implies (2)$, we define a relation $\sim$  on $E(G)$ where $e \sim f$ if $e = f$ or $e,f$ are on a common cycle. This is trivially reflexive and symmetric. Transitivity is non-trivial. 
+
+This partitions $E(G)$ into equivalence classes. The goal is to show that if $G$ is a block, there is only *one* equivalence class. By [[Ear#Theorem (Ear Decomposition)]], any block $G$ not $K_{2}$ can be constructed from cycle $C$ and adding ears. We prove by induction on the number of ears. 
+
+Base Case: If we have $0$ ears, then $G = C$, such all edges of $G$ lie on a cycle, and so any two edges share a cycle. 
+
+Inductive Hypothesis: Assume any block $H$ constructed from $k$ ears has only one edge equivalence class. 
+
+Inductive Step: Let $G$ be a block constructed from $k + 1$ ears, such that $G = H + E$ where $H$ is a block constructed from $k$ ears and $E$ is a near ear. $E$ connects $u,v \in V(H)$. By the inductive hypothesis, $H$ is a singular equivalence class $\mathfrak{A}$. We form a new cycle $C' = P \cup E$ where $P$ is a path in $H$ whose endpoints are $u,v$ which correspond with $E$. Let $g$ be any edge of $E$, and $f$ be any edge on $P$, such that $g \sim f$. But then $g$ belongs in $\mathfrak{A}$. 
+
+As $g$ arbitrary, all edges of $E$ belong in $\mathfrak{A}$. Thus $G$ is in the same equivalence class. Thus all edges are equivalent, and any two edges share a cycle.
+
+> We did now show transitivity, so this proof is not complete. But the general idea is that since $G$ is connected and a single block, intersecting cycles allows you to construct a larger cycle that contains all edges $e,g$. 

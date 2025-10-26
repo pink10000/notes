@@ -1,0 +1,649 @@
+\documentclass[10pt,landscape]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows,positioning}
+
+% Preamble imports
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\ovl}[1]{\overline{#1}}
+
+% Page setup
+\geometry{top=.4in,left=.4in,right=.4in,bottom=.4in}
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% Compact lists
+\setlist{nosep, leftmargin=*}
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{3}
+
+% multicol parameters
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+     \Large{\underline{MATH 154 Midterm 1 Sheet}} \\
+     \small{Kyle Trinh, FA25}
+\end{center}
+
+\section{Ch 1: Introduction}
+
+\textbf{Graph:} $G = (V, E)$ where:
+\begin{itemize}
+\item $V$ = set of vertices
+\item $E$ = set of edges (unordered pairs from $V$)
+\end{itemize}
+
+\textbf{Adjacent Vertices:} Connected by an edge.
+
+\textbf{Incident:} Vertex $v$ is incident on edge $e$ if $v$ is an endpoint of $e$.
+
+\textbf{Neighborhood:}
+\begin{itemize}
+\item Open: $N(v)$ = adjacent vertices (not including $v$)
+\item Closed: $\ovl{N(v)} = N(v) \cup \{v\}$
+\end{itemize}
+
+\textbf{Subgraph:} $H$ is subgraph of $G$ if obtained by taking some vertices and edges of $G$.
+
+\textbf{Induced Subgraph:} Takes vertices and \textit{all} edges between them.
+
+\textbf{Pseudograph:} Graph allowing self-loops.
+
+\textbf{Multigraph:} Graph allowing multiple edges between same vertices.
+
+\textbf{Directed Graph (Digraph):} Edges have direction.
+
+\subsection{Degree}
+
+\textbf{Degree $\deg(v)$:} Number of edges incident on $v$.
+\begin{itemize}
+\item In multigraph: count each edge
+\item Self-loop counts twice
+\end{itemize}
+
+\textbf{$d$-regular:} All vertices have degree $d$.
+
+\textbf{Minimum Degree:} $\delta(G) = \min_{v \in V} \deg(v)$
+\subsection{Handshake Lemma}
+
+\textbf{Theorem:} For finite graph $G = (V, E)$:
+$$\sum_{v \in V} \deg(v) = 2|E|$$
+
+\textit{Proof:} Each edge counted twice when summing degrees (once per endpoint).
+
+\textbf{Corollary 1:} Number of odd-degree vertices is even.
+
+\textbf{Corollary 2:} Cannot have degree sequence with exactly one odd-degree vertex.
+
+\textbf{Complete Graph $K_n$:} Every pair of vertices connected.
+\begin{itemize}
+\item $(n-1)$-regular
+\item $|E| = \frac{n(n-1)}{2} = \binom{n}{2}$
+\end{itemize}
+
+\textbf{Cycle $C_n$:} Circular arrangement of $n$ vertices.
+\begin{itemize}
+\item $|V| = n$, $|E| = n$
+\item 2-regular
+\item Bipartite iff $n$ even
+\end{itemize}
+
+\textbf{Path $P_n$:} Linear arrangement of $n$ vertices.
+\begin{itemize}
+\item $|V| = n$, $|E| = n-1$
+\item Two vertices of degree 1, rest degree 2
+\end{itemize}
+
+\textbf{Bipartite Graph:} $V = L \cup R$ where $L \cap R = \varnothing$, all edges connect $L$ to $R$.
+
+\textbf{Theorem:} Let $G = H_1 \sqcup H_2$ with only one shared edge. Then $G$ is bipartite iff $H_1$ and $H_2$ are bipartite. 
+
+\textbf{Complete Bipartite $K_{a,b}$:}
+\begin{itemize}
+\item $|L| = a$, $|R| = b$
+\item Every vertex in $L$ connected to every vertex in $R$
+\item $|E| = ab$
+\item Left vertices: degree $b$; Right vertices: degree $a$
+\end{itemize}
+
+\subsection{Walks}
+
+\textbf{Walk:} Sequence $v_1, v_2, \ldots, v_n$ where $(v_i, v_{i+1}) \in E$.
+\begin{itemize}
+\item Can repeat vertices and edges
+\item Length = number of edges traversed
+\end{itemize}
+
+\textbf{Trail:} Walk with no repeated edges (can repeat vertices).
+\textbf{Path:} Walk with no repeated vertices (or edges).
+\textbf{Circuit:} Trail with same start and end vertex.
+\textbf{Cycle:} Path with same start and end vertex (except endpoints).
+\textbf{Hierarchy:} Cycle $\subset$ Path $\subset$ Trail $\subset$ Walk
+
+\section{Ch 2: Connectivity \& Special Walks}
+
+\textbf{Reachability:} $u$ is reachable from $v$ if there exists a walk from $v$ to $u$.
+
+\textbf{Connected:} Graph where every pair of vertices is reachable.
+
+\textbf{Connected Component:} Maximal connected subgraph.
+
+\textbf{Theorem:} Reachability is an equivalence relation:
+\begin{enumerate}
+\item Reflexive: $v$ reachable from $v$
+\item Symmetric: $u$ from $v$ $\implies$ $v$ from $u$
+\item Transitive: $u$ from $v$, $v$ from $w$ $\implies$ $u$ from $w$
+\end{enumerate}
+
+\textbf{Bridge:} Edge whose removal increases number of connected components.
+
+\textbf{Cut Vertex:} Vertex whose removal disconnects graph.
+
+\subsection{Bipartite Characterization}
+
+\textbf{Lemma (Odd Loop):} If graph has odd-length loop, it has odd-length cycle.
+
+\textbf{Theorem (Bipartite $\iff$ No Odd Cycles):} Graph $G$ is bipartite iff $G$ contains no odd-length cycle.
+
+\textit{Proof $(\implies)$:} In cycle $v_1, v_2, \ldots, v_n, v_1$, colors alternate. If $n$ odd, $v_n$ and $v_1$ same color, contradiction.
+
+\textit{Proof $(\impliedby)$:} Pick vertex $v$. Color vertices based on parity of distance from $v$:
+\begin{itemize}
+    \item Even distance $\to$ white
+    \item Odd distance $\to$ black
+\end{itemize}
+All paths from $v$ to $w$ have same parity (else odd cycle exists). Adjacent vertices have different parity, so different colors.
+
+\textbf{Corollary:} Every tree is bipartite (no cycles at all).
+
+\textbf{Eulerian Circuit:} Circuit visiting each edge exactly once.
+\textbf{Eulerian Graph:} Contains an Eulerian circuit.
+\textbf{Eulerian Trail:} Trail visiting each edge exactly once (different start/end).
+
+\textbf{Semi-Eulerian:} Contains an Eulerian trail.
+
+Note: Eulerian $\implies$ Semi-Eulerian
+
+\textbf{Theorem (Eulerian Characterization):} Finite graph $G$ is Eulerian iff:
+\begin{enumerate}
+    \item $G$ connected (ignoring isolated vertices)
+    \item All vertices have even degree
+\end{enumerate}
+
+\textit{Proof $(\implies)$:} In circuit, entering vertex requires exiting, so degree is even.
+
+\textit{Proof $(\impliedby)$:} Key claims:
+\begin{itemize}
+    \item \textbf{Claim A:} If all degrees even, edges can be partitioned into cycles
+    \item \textbf{Claim B:} Cycles sharing a vertex can be merged
+    \item \textbf{Claim C:} Connected graph with edge partition into cycles is Eulerian
+\end{itemize}
+
+\textbf{Theorem (Semi-Eulerian):} Finite $G$ is Semi-Eulerian iff:
+\begin{enumerate}
+    \item $G$ connected (ignoring isolated vertices)
+    \item At most 2 vertices have odd degree
+\end{enumerate}
+
+\textit{Proof Idea:} If 2 odd-degree vertices $u, v$ exist, add edge $(u,v)$ to make all degrees even. Graph now Eulerian. Remove $(u,v)$ from circuit to get Eulerian trail.
+
+\textbf{Constructive Algorithm:} Always choose non-bridge edge (unless no choice). Can prove no vertex surrounded only by bridges when conditions met.
+
+\textbf{Hamiltonian Cycle:} Cycle visiting each vertex exactly once.
+
+\textbf{Hamiltonian Path:} Path visiting each vertex exactly once.
+
+\textbf{Hamiltonian Graph:} Contains a Hamiltonian cycle.
+
+\textbf{WARNING:} No simple characterization like Eulerian! This is NP-complete.
+
+\textbf{Necessary Condition:} If Hamiltonian, then connected.
+
+\textbf{Lemma (Minimum Degree $\to$ Connected):} If $\delta(G) \geq \frac{n-1}{2}$, then $G$ is connected.
+
+\textit{Proof:} For any $u, v$: either edge $(u,v)$ exists, or they share common neighbor. If neighborhoods disjoint, total vertices $\geq n-1$ from just two vertices, contradiction.
+
+\textbf{Lemma (Path Extension):} If $\delta(G) \geq n/2$ and path $P$ has length $k$:
+\begin{itemize}
+    \item If $k < n$: can extend path or form cycle
+    \item If $k = n$: have Hamiltonian path
+\end{itemize}
+
+\textit{Proof Sketch:} For maximal path $v_1, \ldots, v_m$, endpoints only connect within path. Let $S = \{i : (v_i, v_m) \in E\}$ and $T = \{i : (v_1, v_{i+1}) \in E\}$. Both $|S|, |T| \geq n/2$. If $S \cap T = \varnothing$, then $|S \cup T| \geq n$ but $|S \cup T| \leq m-1 < n$, contradiction. So overlap exists, giving cycle.
+
+\textbf{Theorem:} If $G$ has $n > 2$ vertices and $\delta(G) \geq n/2$, then $G$ is Hamiltonian.
+
+\textit{Proof:} Assume not Hamiltonian. Take maximal path $P$ of length $k < n$. By lemma, $P$ becomes cycle $C$ of length $k$. Since connected, some vertex $u \notin C$ connects to $C$, extending $P$. Contradiction.
+
+\textbf{Example (Bound is Tight):} $K_{n/2} \sqcup K_{n/2}$ has $\delta = n/2 - 1$ and is disconnected (not Hamiltonian).
+
+\section{Ch 3: Trees \& MST}
+\textbf{Tree:} Connected graph with no cycles.
+
+\textbf{Forest:} Graph with no cycles (each component is tree).
+
+\textbf{Leaf:} Vertex of degree 1.
+
+\textbf{Theorem (Unique Paths):} In tree, unique path exists between any two vertices.
+
+\textit{Proof:} Connected $\implies$ path exists. If two different paths $P_1, P_2$ exist from $u$ to $v$, they diverge and reconverge, forming cycle. Contradiction.
+
+\textbf{Theorem (Tree Edge Count):} For tree $T = (V, E)$:
+$$|E| = |V| - 1$$
+
+\textit{General Form:} For any graph with $c(G)$ connected components:
+$$c(G) = |V| - |E|$$
+holds iff $G$ has no cycles.
+
+\textit{Relaxed Form:} For any graph $G$: $c(G) \geq |V| - |E|$
+
+\textit{Proof:} Induction on $|E|$. Base: $|E| = 0 \implies c(G) = |V|$.
+Step: Adding edge either:
+\begin{itemize}
+\item Connects two components: $c(G) \to c(G)-1$ (no cycle)
+\item Stays in one component: $c(G)$ unchanged (creates cycle)
+\end{itemize}
+
+\textbf{Theorem (Minimum Leaves):} Tree with $n > 1$ vertices has at least 2 leaves.
+
+\textit{Proof:} By Handshake Lemma:
+$$\sum_{v \in V} (2 - \deg(v)) = 2n - 2(n-1) = 2$$
+Each leaf contributes 1, non-leaves contribute $\leq 0$. So at least 2 leaves.
+
+\textbf{Spanning Tree:} Subgraph that is tree with same vertex set as $G$.
+
+\textbf{Theorem:} Every connected graph has a spanning tree.
+
+\textit{Construction:} Start with no edges. While disconnected, add edge connecting different components.
+
+\textbf{Depth-First Search (DFS):}
+\begin{itemize}
+    \item Explore as far as possible before backtracking
+    \item Applications: Detect cycles, find connected components
+\end{itemize}
+
+\textbf{Breadth-First Search (BFS):}
+\begin{itemize}
+    \item Explore level by level
+    \item Checks neighbors in order of discovery
+    \item Applications: Shortest paths in unweighted graphs
+\end{itemize}
+
+\textbf{Weighted Graph:} Graph with weight function $w: E \to \R$.
+
+\textbf{Minimum Spanning Tree (MST):} Spanning tree $T$ minimizing:
+$$\sum_{e \in E(T)} w(e)$$
+
+\textbf{Lemma (Lightest Edge in MST):} If $e$ is minimum weight edge in connected $G$, then some MST contains $e$.
+
+If $e$ is \textit{unique} minimum, then \textit{all} MSTs contain $e$.
+
+\textit{Proof:} Given MST $T$ without $e = (u,v)$:
+\begin{itemize}
+    \item Adding $e$ to $T$ creates cycle $C$
+    \item $C$ contains edge $e' \neq e$ with $w(e') \geq w(e)$
+    \item $T' = T \cup \{e\} \setminus \{e'\}$ is spanning tree with $w(T') \leq w(T)$
+\end{itemize}
+
+\textbf{Kruskal's Algorithm:}
+\begin{enumerate}
+    \item Sort edges by weight
+    \item Start with $T$ = same vertices, no edges
+    \item For each edge in sorted order:
+    \item[] Add to $T$ if doesn't create cycle
+    \item Stop when $T$ has $n-1$ edges
+\end{enumerate}
+
+\textbf{Prim's Algorithm:}
+\begin{enumerate}
+    \item Start with arbitrary vertex $v$, set $T = \{v\}$
+    \item While $T$ doesn't span all vertices:
+    \item[] Add lightest edge connecting $T$ to vertex not in $T$
+\end{enumerate}
+
+\textbf{Graph Contraction:} After adding edge $(u,v)$ to MST, can merge $u$ and $v$ into single vertex for subsequent steps.
+
+\textbf{Cayley's Theorem:} Number of labeled trees on $n$ vertices is:
+$$n^{n-2}$$
+
+\textbf{Bijection Proof:}
+
+Trees on $n$ vertices $\longleftrightarrow$ Lists of $n-2$ numbers from $\{1, \ldots, n\}$
+
+\textbf{Tree $\to$ List (Prüfer Code):}
+\begin{enumerate}
+\item Repeatedly:
+\item[] Remove smallest-index leaf
+\item[] Add its neighbor to list
+\item Continue until 2 vertices remain
+\end{enumerate}
+
+\textbf{List $\to$ Tree:}
+\begin{enumerate}
+\item Let $L$ = list, $V = \{1, \ldots, n\}$
+\item Repeatedly:
+\item[] Find smallest $v \in V$ not in $L$
+\item[] Connect $v$ to first element of $L$
+\item[] Remove $v$ from $V$, remove first element from $L$
+\item When $L$ empty, connect remaining elements of $V$
+\end{enumerate}
+
+\textbf{Key Lemma:} Leaves of tree = vertices not appearing in Prüfer code.
+
+\textit{Proof:} Non-leaf of degree $d$ appears $d-1$ times. Leaf (degree 1) appears $1-1 = 0$ times.
+
+\textbf{Corollary:} $K_n$ has $n^{n-2}$ spanning trees.
+
+\section{Ch 4: Structure of Connected Graphs}
+
+\textbf{Cut Vertex:} Vertex whose removal disconnects graph.
+
+\textbf{Bridge:} Edge whose removal disconnects graph.
+
+\textbf{Block:} Maximal connected subgraph with no cut vertices.
+
+\textbf{2-Connected:} Graph with no cut vertices.
+
+\textbf{Properties:}
+\begin{itemize}
+\item Every bridge is incident to cut vertex (unless graph is $K_2$)
+\item Trees: every edge is bridge, every non-leaf is cut vertex
+\item Cycle: no bridges, no cut vertices
+\end{itemize}
+
+\section{Key Formulas \& Quick Reference}
+
+\subsection{Edge Counts}
+
+\begin{tabular}{ll}
+$K_n$ & $|E| = \frac{n(n-1)}{2}$ \\
+$K_{a,b}$ & $|E| = ab$ \\
+$C_n$ & $|E| = n$ \\
+$P_n$ & $|E| = n-1$ \\
+Tree & $|E| = |V| - 1$ \\
+Forest ($c$ comp) & $|E| = |V| - c$ \\
+\end{tabular}
+
+\subsection{Degree Bounds}
+
+\begin{tabular}{ll}
+Handshake & $\sum \deg(v) = 2|E|$ \\
+Odd vertices & Even count \\
+$K_n$ & $(n-1)$-regular \\
+$C_n$ & 2-regular \\
+\end{tabular}
+
+\subsection{Sufficient Conditions}
+
+\begin{tabular}{ll}
+Connected & $\delta(G) \geq \frac{n-1}{2}$ \\
+Hamiltonian & $\delta(G) \geq \frac{n}{2}$ \\
+Eulerian & Connected + all even deg \\
+Semi-Eulerian & Connected + $\leq 2$ odd deg \\
+\end{tabular}
+
+\subsection{Counting}
+
+\begin{tabular}{ll}
+Labeled trees & $n^{n-2}$ \\
+Spanning trees of $K_n$ & $n^{n-2}$ \\
+\end{tabular}
+
+\section{Problem-Solving Strategies}
+
+\subsection{Check if Eulerian}
+\begin{enumerate}
+\item Count odd-degree vertices
+\item If 0: Eulerian
+\item If 2: Semi-Eulerian
+\item If $>2$: Neither
+\item Check connectivity
+\end{enumerate}
+
+\subsection{Check if Hamiltonian}
+No easy test! Try:
+\begin{itemize}
+\item $\delta(G) \geq n/2$? (sufficient)
+\item Connected? (necessary)
+\item Bipartite with $|L| = |R|$? (necessary if bipartite)
+\item Has cut vertex? (usually not Hamiltonian)
+\end{itemize}
+
+\subsection{Find MST}
+\textbf{Kruskal:} Sort edges, add if no cycle
+\textbf{Prim:} Grow tree from vertex
+
+\subsection{Count Trees}
+\begin{itemize}
+\item Labeled trees on $n$: use $n^{n-2}$
+\item Spanning trees: Matrix-Tree Theorem
+\item Unlabeled: enumerate by hand (small $n$)
+\end{itemize}
+
+\subsection{Prove by Induction}
+\textbf{On $|E|$:}
+\begin{enumerate}
+\item Base: $|E| = 0$
+\item Add/remove edge, apply IH
+\item Consider cases: cycle created or not
+\end{enumerate}
+
+\textbf{On $|V|$:}
+\begin{enumerate}
+\item Base: $|V| = 1$ or $2$
+\item Remove vertex (often leaf)
+\item Apply IH, add vertex back
+\end{enumerate}
+
+\section{Common Theorems \& Techniques}
+
+\subsection{Extremal Arguments}
+
+\textbf{Longest Path:} Take maximal path $P$. Endpoints have special properties (all neighbors in $P$).
+
+\textbf{Minimum Degree:} Vertex $v$ with $\deg(v) = \delta(G)$ has all neighbors with $\deg \geq \delta(G)$.
+
+\subsection{Pigeonhole Principle}
+
+If $|S| + |T| > |U|$ and $S, T \subseteq U$, then $S \cap T \neq \varnothing$.
+
+Used in: Hamiltonian proof, bipartite proof.
+
+\subsection{Path/Cycle Relationships}
+
+\textbf{Walk $\to$ Path:} Remove loops to get path.
+
+\textbf{Odd Loop $\to$ Odd Cycle:} Remove internal repetitions.
+
+\textbf{Path in Tree:} Unique path between any two vertices.
+
+\section{Worked Examples}
+
+\subsection{Ex 1: Edge Count}
+
+\textbf{Q:} 5-regular graph with 8 vertices. How many edges?
+
+\textbf{A:} $\sum \deg(v) = 8 \times 5 = 40 = 2|E| \implies |E| = 20$
+
+\subsection{Ex 2: Is Eulerian?}
+
+\textbf{Q:} Graph with degree sequence $[2, 2, 3, 3, 4]$. Eulerian?
+
+\textbf{A:} Two odd-degree vertices. Semi-Eulerian (if connected), not Eulerian.
+
+\subsection{Ex 3: Tree Edges}
+
+\textbf{Q:} Forest with 12 vertices, 3 components. How many edges?
+
+\textbf{A:} $|E| = |V| - c = 12 - 3 = 9$ edges.
+
+\subsection{Ex 4: Cayley's Algorithm}
+
+\textbf{Q:} Tree with edges $(1,2), (2,3), (3,4), (3,5)$. Find Prüfer code.
+
+\textbf{A:} Leaves: $\{1, 4, 5\}$
+\begin{itemize}
+\item Remove 1, add neighbor 2: $[2]$
+\item Remove 4, add neighbor 3: $[2, 3]$
+\item Remove 5, add neighbor 3: $[2, 3, 3]$
+\end{itemize}
+Code: $[2, 3, 3]$
+
+\subsection{Ex 5: MST Weight}
+
+\textbf{Q:} Edges: $(A,B,5), (B,C,2), (C,A,3), (A,D,1), (C,D,4)$
+
+\textbf{A:} Kruskal (sort: 1, 2, 3, 4, 5):
+\begin{itemize}
+\item Add $(A,D,1)$
+\item Add $(B,C,2)$
+\item Add $(C,A,3)$ [connects all]
+\end{itemize}
+Total: $1 + 2 + 3 = 6$
+
+\subsection{Ex 6: Hamiltonian?}
+
+\textbf{Q:} Is $K_{3,3}$ Hamiltonian?
+
+\textbf{A:} Yes! $|L| = |R| = 3$. Cycle exists alternating sides:
+$$L_1 \to R_1 \to L_2 \to R_2 \to L_3 \to R_3 \to L_1$$
+
+\section{Important Properties by Graph Type}
+
+\subsection{Complete Graphs $K_n$}
+
+\begin{itemize}
+\item Eulerian: iff $n$ odd
+\item Hamiltonian: always (for $n \geq 3$)
+\item Not bipartite (for $n \geq 3$)
+\item $n^{n-2}$ spanning trees
+\end{itemize}
+
+\subsection{Cycles $C_n$}
+
+\begin{itemize}
+\item Eulerian: always
+\item Hamiltonian: always
+\item Bipartite: iff $n$ even
+\item No bridges, no cut vertices
+\end{itemize}
+
+\subsection{Complete Bipartite $K_{m,n}$}
+
+\begin{itemize}
+\item Eulerian: iff both $m, n$ odd
+\item Hamiltonian: iff $m = n$ (both $\geq 2$)
+\item Always bipartite
+\item $K_{3,3}$: non-planar
+\end{itemize}
+
+\subsection{Trees}
+
+\begin{itemize}
+\item Not Eulerian (has leaves)
+\item Not Hamiltonian (unless $P_n$)
+\item Always bipartite
+\item Every edge is bridge
+\item $|E| = |V| - 1$
+\end{itemize}
+
+\subsection{Paths $P_n$}
+
+\begin{itemize}
+\item Semi-Eulerian: always (2 odd vertices)
+\item Hamiltonian: by definition
+\item Bipartite: always
+\item Tree with exactly 2 leaves
+\end{itemize}
+
+\section{Common Mistakes}
+
+\begin{itemize}
+\item \textbf{Eulerian vs Hamiltonian:} Edges vs vertices!
+\item \textbf{Trail vs Path:} Trail can repeat vertices
+\item \textbf{Circuit vs Cycle:} Circuit can repeat vertices
+\item \textbf{Subgraph vs Induced:} Induced has ALL edges
+\item \textbf{Tree edges:} $|V| - 1$, not $|V|$
+\item \textbf{Cayley:} $n^{n-2}$, not $n^n$ or $(n-1)!$
+\item \textbf{Bipartite:} Triangle ($K_3$) is NOT bipartite
+\item \textbf{Handshake:} Odd vertices come in pairs
+\end{itemize}
+
+\section{Proof Writing Tips}
+
+\begin{enumerate}
+\item \textbf{State assumptions:} "Let $G = (V,E)$ be a connected graph..."
+\item \textbf{State goal:} "We will show that..."
+\item \textbf{Use theorems:} "By Handshake Lemma..."
+\item \textbf{Draw pictures:} For small cases
+\item \textbf{Check edge cases:} $|V| = 1, 2$
+\item \textbf{Both directions:} For "iff" proofs
+\item \textbf{End clearly:} "Therefore..." or "QED"
+\end{enumerate}
+
+\section{Notation Reference}
+
+\begin{tabular}{ll}
+$G = (V, E)$ & Graph \\
+$\deg(v)$ & Degree of $v$ \\
+$\delta(G)$ & Min degree \\
+$\Delta(G)$ & Max degree \\
+$N(v)$ & Open neighborhood \\
+$\ovl{N(v)}$ & Closed neighborhood \\
+$K_n$ & Complete graph \\
+$K_{m,n}$ & Complete bipartite \\
+$C_n$ & Cycle \\
+$P_n$ & Path \\
+$c(G)$ & Connected components \\
+$w(e)$ & Weight of edge \\
+\end{tabular}
+
+\vfill
+\hrule
+\vspace{1mm}
+\begin{center}
+\textit{Good luck on your midterm! Study the theorems and practice proofs.}
+\end{center}
+
+\end{multicols}
+\end{document}
