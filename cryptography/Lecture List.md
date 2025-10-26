@@ -59,3 +59,11 @@ Quiz
 
 # 11 (10/20)
 - Probability. Won't add because it's not hard.
+
+# 12 (10/24)
+- Quiz 3: modular inversion, affine cipher, hill cipher, probability
+- more probability
+- [[Index of Coincidence]]
+
+## Independent Events:
+$A, B$ are independent if $P(A \cap B) = P(A)P(B)$ or $P(A|B) = P(A)$. 
