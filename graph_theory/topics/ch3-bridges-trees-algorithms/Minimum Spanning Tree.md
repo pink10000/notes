@@ -58,6 +58,20 @@ $$
 indeed, all MSTs must contain $e$. 
 
 # Graph Contraction 
-When we construct an edge $e = (u, v)$ to our MST, we can treat $u, v$ as the same vertex, *combining* the previous vertices of the edge. We can repeat our construction by selecting the lightest *remaining* edge in [[#Lemma (Constructing MST by Lightest Edge)|lemma]]. 
+We can construct a new graph by taking a subset $W \subseteq V(G)$ and replacing it with a singular vertex $w$. Then we take the edges incident on the vertices of $W$ and replace them with $w$. For example, 
+```mermaid
+graph LR;
+	a((1)) o--o b((2));
+	a o--o c((3));
+	b o--o c;  
+	b o--o d((4));
+```
+which when contracted with $W = \{1, 2\}$, we get 
+```mermaid
+graph LR;
+	a((1, 2)) o--o b((3));
+	a o--o c((4));
+```
+In particular to MST construction, when we add an edge $e = (u, v)$ to our MST, we can treat $u, v$ as the same vertex, *combining* the previous vertices of the edge. We can repeat our construction by selecting the lightest *remaining* edge in [[#Lemma (Constructing MST by Lightest Edge)|lemma]]. 
 
 Where *remaining* means an edge that does not form a cycle. 

@@ -100,7 +100,7 @@ Proof:
 
 > $B$ is $K_{2} \iff$ its sole edge is a [[Connectivity#Definition (Bridge)|bridge]]. 
 
-# Theorem 
+# Theorem (Edges & Vertices Share a Cycle in a Single Block)
 For finite [[Connectivity|connected]] graph $G$ (that is not $K_{2}$), the following are equivalent:
 1. $G$ is a single block.
 2. Any two edges of $G$ share a cycle.
