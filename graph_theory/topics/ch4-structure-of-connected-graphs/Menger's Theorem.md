@@ -48,7 +48,7 @@ where cutting any path here still gives us another $\ell - 1$ paths to cut.
 
 > We require vertex-disjoint because if two paths overlap, then removing the overlapping vertex disconnects both paths.
 
-# Theorem (Menger's Theorem)
+# Menger's Theorem (Vertex Form)
 If $u,v \in G$, two non-adjacent vertices in a finite [[Graph]], then it is possible to find $\kappa(u, v)$ many vertex-disjoint [[Path|paths]].
 
 Proof:
@@ -56,7 +56,7 @@ We proceed with strong induction on $|E|$.
 
 Base Case: If $|E| = 0$, then we can find $0$ paths, and thus $\kappa = 0$. The theorem holds.
 
-Inductive Step: Let $|E| = m$. Assume Menger's Theorem holds for all graphs with $< m$ edges. Let $W$ be the minimum $u \to v$ vertex cutset of size $\kappa = \kappa(u, v)$. 
+Inductive Step: Let $|E| = m$. Assume Menger's Theorem holds for all graphs with $< m$ edges. Let $W$ be the minimum $u \to v$ vertex cutset of size $\kappa = \kappa(u, v)$,
 ```mermaid
 graph LR;
 	u[Hu] o--o w[[W]];
@@ -111,7 +111,7 @@ Then we can apply the inductive hypothesis such that on $G_{u}$, there are $\kap
 
 As $H_{u} \cap H_{v} = \varnothing$, then these two paths only intersect at $W$. Thus, we get $\kappa$ total vertex-disjoint paths from $u \to v$ in $G$. 
 
-However, we need *strictly less* than $m$ edges to apply the IH. This works *unless* $H_{u} = \{u\}$ or $H_{v} = \{v\}$[^1]. The inductive steps fails here, since any minimum cut $W$ results in one of the contracted graphs having $m$ edges (since we do not remove any internal edges from $G_{u}$ or $G_{v}$).
+However, we need *strictly less* than $m$ edges to apply the IH. This works *unless* $H_{u} = \{u\}$ or $H_{v} = \{v\}$. The inductive steps fails here, since any minimum cut $W$ results in one of the contracted graphs having $m$ edges (since we do not remove any internal edges from $G_{u}$ or $G_{v}$).
 
 WLOG, let $H_{u} = \{u\}$. Then the set of $u$'s neighbors[^1], $N(u) \subseteq W$. We have two cases depending on the intersection of $N(v)$. 
 
@@ -156,8 +156,11 @@ This completes the proof.
 
 > See [link](https://www.math.nagoya-u.ac.jp/~richard/teaching/s2024/SML_Ch_3.pdf), which closest resembles the proof in class. 
 
-[^1]:For every edge $(a, u)$ for some , $N(u)$ is the set of such $a$.
-## Corollary (Removing Edges)
-What is the minimum number of edges to remove to separate $u$ from $v$? We see that this number $\ell$ is $\geq$ than the max n umber of edge-disjoint $u\to v$ paths. 
+[^1]:Fix $u \in V(G)$. For every edge $(a, u)$, $N(u)$ is the set of such $a$.
 
-What about equality? We get the Maxflow-Mincut Theorem (which will be proven later).
+# Menger's Theorem (Weak Edge Form)
+Let $\lambda(u, v)$ represent the minimum number of removed edges to separate $u$ from $v$. Then 
+$$
+\lambda(u, v) \geq \text{max number of edge-disjoint paths from } u \to v
+$$
+Equality is true. But this is proved in the [[Maxflow-Mincut Theorem]] which will be proved later in the course. 
