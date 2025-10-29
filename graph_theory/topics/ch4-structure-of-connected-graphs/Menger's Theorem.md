@@ -73,7 +73,7 @@ where $W$ is our cutset. We see that in graph $G - W$, it forms at least two [[C
 We can form two new graphs by [[Minimum Spanning Tree#Graph Contraction|graph contraction]]:
 $$
 \begin{aligned}
-G_{u} &:= V(H_{v}) \to u' \\ 
+G_{u} &:= V(H_{u}) \to u' \\ 
 G_{v} &:= V(H_{v}) \to v' \\
 \end{aligned}
 $$
