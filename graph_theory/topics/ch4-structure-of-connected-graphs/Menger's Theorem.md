@@ -103,30 +103,41 @@ graph LR;
 ```
 In graph $G_{u}$, cutset $W$ is a $u' \to v$ cut of size $\kappa$. By definition of $W$, this must be the minimum, such that $\kappa_{G_{u}}(u', v) = \kappa$. Symmetrically, $\kappa_{G_{v}}(u, v') = \kappa$. 
 
-Since we did strong induction, we can apply the inductive hypothesis on $G_{u}$ and $G_{v}$. We have two cases: 
+Since we did strong induction, we can apply the inductive hypothesis on $G_{u}$ and $G_{v}$. We have three cases: 
 
-Suppose $H_{u}$ or $H_{v}$ contain at least one internal edge (i.e. an edge $(a, b$ where vertices $a,b \in E(H_{u})$). WLOG, upon graph contraction, we reduce the number of edges by at least one, such that $|E(G_{u})| < m$. 
+**Case 1**: Suppose $H_{u} \neq \{u\}$ and $H_{v} \neq \{v\}$. WLOG, upon graph contraction, we reduce the number of edges by at least one, such that $|E(G_{u})| < m$. 
 
 Then we can apply the inductive hypothesis such that on $G_{u}$, there are $\kappa$ vertex-disjoint $u' \to v$ paths, corresponding to the $W \to v$ paths in $G$ from $H_{u}$. Likewise, on $G_{v}$ there are $\kappa$ vertex-disjoint $u \to v'$ paths, corresponding to the $u \to W$ paths in $G$ from $H_{v}$.
 
 As $H_{u} \cap H_{v} = \varnothing$, then these two paths only intersect at $W$. Thus, we get $\kappa$ total vertex-disjoint paths from $u \to v$ in $G$. 
 
-However, we need *strictly less* than $m$ edges to apply the IH. This works *unless* $H_{u} = \{u\}$ or $H_{v} = \{v\}$. The inductive steps fails here, since any minimum cut $W$ results in one of the contracted graphs having $m$ edges (since we do not remove any internal edges from $G_{u}$ or $G_{v}$).
+**Case 2**: Suppose $H_{u} = \{u\}$ and $H_{v} = \{v\}$. Then trivially, neighborhood[^1] $N(u) = N(v) = W$, which must be the minimal cut set.  
 
-WLOG, let $H_{u} = \{u\}$. Then the set of $u$'s neighbors[^1], $N(u) \subseteq W$. We have two cases depending on the intersection of $N(v)$. 
+**Case 3**: WLOG, $H_{u} = \{u\}$ and $H_{v} \neq \{v\}$. We need *strictly less* than $m$ edges to apply the IH. The inductive steps fails here, since any minimum cut $W$ results in one of the contracted graphs having $m$ edges (since we do not remove any internal edges from $G_{u}$ or $G_{v}$).
 
-**Case 1**: Suppose $x \in N(u) \cap N(v)$. Then any cutset $W$ over $u \to v$ must contain $x$. Consider a new graph $G' = G - \{x\}$, which has *fewer edges* than $G$. Since $x$ is in every $W$, then min-cut $W'$ of $G'$ has size $\kappa' = \kappa - 1$. By the inductive hypothesis, there are $\kappa - 1$ vertex-disjoint $u \to v$ paths in $G'$ and thus $G$. But then we also have another path $u \to x \to v$ which exists in $G$ and is vertex-disjoint. 
+We know here that $W = N(u)$ since $u$ has no other neighbors in $H_{u}$. 
+
+**Case 3A**: Suppose $x \in N(u) \cap N(v)$. Then any cutset $W$ over $u \to v$ must contain $x$. Consider a new graph $G' = G - \{x\}$, which has *fewer edges* than $G$. Since $x$ is in every $W$, then min-cut $W'$ of $G'$ has size $\kappa' = \kappa - 1$. By the inductive hypothesis, there are $\kappa - 1$ vertex-disjoint $u \to v$ paths in $G'$ and thus $G$. But then we also have another path $u \to x \to v$ which exists in $G$ and is vertex-disjoint. 
 
 This gives us a total of $\kappa - 1 + 1 = \kappa$ vertex-disjoint $u \to v$ paths, and we are done. 
 
-**Case 2**: Suppose $N(u) \cap N(v) = \varnothing$. Then every vertex $w \in W$ is adjacent to either only to $u$ only to $v$, but not both. Since $|E(G)| > 0$, then there must be some edge $e = (x, y)$ where $x \in N(u)$ and $y \not\in N(v) \cup \{u\}$. 
+**Case 3B**: Suppose $N(u) \cap N(v) = \varnothing$. Then every vertex $w \in W$ is adjacent to either only to $u$ only to $v$, but not both. Since $|E(G)| > 0$, then there must be some edge $e = (x, y)$ where $x \in N(u)$ and $y \in H_{v}$.
 ```mermaid
 graph LR;
-	u((u)) o--o w[[Nu ----- x]];
-	u o--o w;
-	u o--o w;
-	u o--o w;
-	w o--e--o y((y)); 
+    u((u));
+    y((y));
+
+    subgraph W
+        Nu;
+        x;
+    end
+
+    u o--o Nu;
+    u o--o Nu;
+    u o--o Nu;
+    u o--o x;
+    
+    x o--e--o y;
 ```
 Let graph $G' = G - \{e\}$. Then we can apply the inductive hypothesis on $G'$ such that $\kappa_{G'}(u, v) = \kappa'$. But removing an arbitrary edge *may or may not* reduce $\kappa$, such that 
 $$
@@ -134,23 +145,36 @@ $$
 $$
 This gives us two cases:
 
-**Case 2A**: If $\kappa' = \kappa$, then by the inductive hypothesis, we get that $G'$ has a $\kappa$ many vertex-disjoint $u \to v$ paths, which are also paths in $G$.
+**Case 3BA**: If $\kappa' = \kappa$, then by the inductive hypothesis, we get that $G'$ has a $\kappa$ many vertex-disjoint $u \to v$ paths, which are also paths in $G$.
 
-**Case 2B**: It is possible that the set that we cut is all of the neighbors of $u$, such that $\kappa' < \kappa$. Since we remove one edge, then we can only remove $u \to v$ path, such that $\kappa_{G'}(u, v) = \kappa - 1$. By the induction hypothesis, we have $\kappa - 1$ vertex-disjoint $u \to v$ paths in $G'$. 
+**Case 3BB**: It is possible that the set that we cut is all of the neighbors of $u$, such that $\kappa' < \kappa$. Since we remove one edge, then we can only remove $u \to v$ path, such that $\kappa_{G'}(u, v) = \kappa - 1$. By the induction hypothesis, we have $\kappa - 1$ vertex-disjoint $u \to v$ paths in $G'$. 
 
-Let $W'$ be the minimum cutset in $G'$ for $u,v$. We know $|W'| = \kappa - 1$. But then $W'$ is not a $u \to v$ cutset in $G$ since the minimum is of size $\kappa$. Indeed, this means there are some vertices we "miss" from cutting $W'$ in $G$. Since the only difference is $e$, then we can construct some minimal path $P$ in $G$ that must use $e$. This gives 
+Let $W'$ be the minimum cutset in $G'$ for $u,v$. We know $|W'| = \kappa - 1$. But then $W'$ is not a $u \to v$ cutset in $G$ since the minimum is of size $\kappa$. Indeed, this means there are some vertices we "miss" from cutting $W'$ in $G$. Since the only difference is $e$, then we can construct some path $P$ in $G$ that must use $e$. This gives 
 $$
 P : u \to x \to y \to v
 $$
-Consider set $X = W' \cup \{x\}$. Any $u \to v$ path in $G$ must have some vertex in $W$. If not, then it must have the form $u \to x \to y \to v$. Therefore $X$ is a minimum cut for $G$. By the same logic, we can say that $Y = W' \cup \{y\}$ is a minimum cut in $G$. 
+So, $W = W' \cup \{x\}$. But then this can be true for $y$, such that 
+```mermaid
+graph LR;
+    u((u));
+    y((y));
+	x;
+	
+    subgraph W
+        Nu;
+        y;
+    end
 
-Since both $X,Y$ are minimal cuts, then we apply **Case 2**, such that $x$ is adjacent to $u$ and cannot be adjacent to $v$ (otherwise their neighborhoods are not disjoint). 
+    u o--o Nu;
+    u o--o Nu;
+    u o--o Nu;
+    u o--o x;
+    
+    x o--e--o y;
+```
+In this case, if $y \in N(v)$ we defer to **Case 2**. If not, then as $W'$ is a minimal cut for $G'$ by IH, adding $e$ to $G'$ gives path $P$. Then by the same logic as **Case 3A**, $W' \cup \{y\}$ is a cutset with $\kappa - 1 + 1 = \kappa$.  Then apply **Case 1** with $H_{u} = \{u, x\}$ and we are done.  
 
-But this must also be true for $y$. Vertex $y$ must be "adjacent only to $u$" or "adjacent only to $v$". 
-1. If the former, then edge $(u, y)$ exists, such that our path $P$ is not minimal (since we can by skip $x$ entirely), a contradiction.
-2. If the latter, then $(x, y)$ cannot exist, since it would mean $y$ is adjacent to some vertex other than $v$, contradicting our **Case 2** premise. 
-
-This meas **Case 2B** cannot happen, so $\kappa' = \kappa$. By the inductive hypothesis on $G'$, there are $\kappa$ vertex-disjoint $u \to v$ paths in $G'$ which are also paths in $G$. 
+**Case 4**: We have the case where $\kappa = 1$ such that $G$ is $u \to x \to y \to v$ only. Then any $x,y$ is a cutset and we are done.
 
 This completes the proof. 
 
