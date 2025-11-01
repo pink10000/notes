@@ -46,4 +46,5 @@ Some graphs you cannot draw. For example, there is no $3-$regular graph with $5$
 Let 
 $$
 \delta(G) = \min_{v \in V} \deg(v)
-$$ denote the minimum degree of any vertex $v \in V$ for [[Graph]] $G$. 
+$$ 
+denote the minimum degree of any vertex $v \in V$ for [[Graph]] $G$. 
