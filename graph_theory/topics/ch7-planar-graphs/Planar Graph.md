@@ -108,3 +108,7 @@ $$
 3|V| -6 \geq |E| \geq 3|V|
 $$
 by [[#Theorem (Planar Graph Edge Bound)]] which is a contradiction. 
+
+# Lemma (Triangulations)
+For nay planar embedding of a graph $G$ there is a way to add more edges to $G$ to get a new planar graph $G'$ in which all faces are triangles. 
+
