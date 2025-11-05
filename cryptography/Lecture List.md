@@ -72,3 +72,12 @@ $A, B$ are independent if $P(A \cap B) = P(A)P(B)$ or $P(A|B) = P(A)$.
 - [[G-Test]]
 - [[Rectangular Transposition]]
 - Quiz: modular inversion, affine cipher, hill cipher, probability
+
+# 14 (10/31)
+- Review
+- Don't really feel like writing all of this
+
+# 15 (11/4)
+- [[Prime Number]]
+- [[Fundamental Theorem of Arithmetic]]
+
