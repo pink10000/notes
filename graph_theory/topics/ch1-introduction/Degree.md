@@ -48,3 +48,14 @@ $$
 \delta(G) = \min_{v \in V} \deg(v)
 $$ 
 denote the minimum degree of any vertex $v \in V$ for [[Graph]] $G$. 
+
+# Definition (Maximum Degree of a Graph)
+Let 
+$$
+\Delta(G) = \max_{v \in V} \deg(v)
+$$
+denote the maximum degree of any vertex in graph $G$.
+
+## Lemma (Big Delta Less Than 3)
+- For $\Delta(G) \in \{0, 1\}$, then $|E| = 0$ or any connected component is at most [[Complete Graph]] $K_{2}$.
+- For $\Delta(G) = 2$, then we must have a [[Path]] graph or a cycle.
