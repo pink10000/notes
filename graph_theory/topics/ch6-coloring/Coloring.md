@@ -122,6 +122,107 @@ k &= k - 1 + \deg_{H_{2}}(u) \\
 \end{aligned}
 $$
 and likewise for $w$. But then this means we can easily find a $k-$coloring $c_{2}$ for $H_{2}'$ where $c_{2}(u) = c_{2}(w)$. Then permute colors to ensure $c_{1}(u) = c_{2}(u)$ and $c_{1}(w) = c_{2}(w)$, allowing us to combine the halves, and giving us our coloring. 
+# Theorem (Weak Planar Coloring Bound)
+If $G$ is a [[Planar Graph]], then $\chi(G) \leq 6$.
 
-# Coloring Planar Graphs
-We extend the definition for [[Planar Graph|planar graphs]] by choosing to color faces and not vertices. 
+Proof:
+
+By [[Planar Graph#Theorem (Planar Graphs have Bounded Minimum)]] we know $G$ has $\delta(G) \leq 5$. We apply greedy coloring but on low degree vertices last and proceed with induction on $|V|$. So, if $|V| = 1$, then we are done. 
+
+Inductively, assume that if we have any planar graph on $n$ vertices, then $\chi(G) \leq 6$, then we want to show the same for $G$ with $n + 1$ vertices. 
+
+Pick $v \in G$ where $\deg(v) \leq 5$, which will be the last vertex to color. In particular, we color $G - v$ then color $v$. Since $G$ is planar, $G - v$ is planar, and by the IH, we can color $G - v$. As $v$ has $\leq 5$ neighbors, then we must have some available color. Using that, we have a $6-$coloring of $G$. 
+
+# Theorem (Strong Planar Coloring Bound)
+If $G$ is a [[Planar Graph]], then $\chi(G) \leq 5$. 
+
+Proof: We induct on $|V|$. If $|V| \leq 5$, we are done (assign each vertex a unique color). Assume all planar graphs with $k$ vertices have a  $5-$coloring, and we want to show this for a graph $G$ with $k + 1$ vertices. Pick $v \in V$ where $\deg(v) \leq 5$. Again, the goal is color $G - v$ (which we can by the IH), and then add back $v$ and color it.
+
+**Case 1**: If $\deg(v) < 5$, then we have at least one color left for $v$, allowing us to color it. 
+
+**Case 2**: Suppose $\deg(v) = 5$. In this case, we cannot greedily color. We get two sub-cases:
+
+**Case 2A**: If $v$'s neighbors all use $4$ distinct colors, then at least one color is free. Select that and we are done. 
+
+**Case 2B**: Suppose all of $v$'s neighbors all have distinct colors. 
+```tikz
+\usepackage{tikz-cd}
+\begin{document}
+% https://q.uiver.app/#q=WzAsNixbMSwxLCJ2Il0sWzAsMCwiXFxjb2xvcntyZWR9dl8xIl0sWzIsMCwiXFxjb2xvcntibHVlfXZfMiJdLFszLDEsIlxcY29sb3J7Z3JlZW59dl8zIl0sWzIsMiwiXFxjb2xvcntwdXJwbGV9dl80Il0sWzAsMiwiXFxjb2xvcnticm93bn12XzUiXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsNSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCw0LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}
+	{\color{red}v_1} && {\color{blue}v_2} \\
+	& v && {\color{green}v_3} \\
+	{\color{orange}v_5} && {\color{purple}v_4}
+	\arrow[no head, from=2-2, to=1-1]
+	\arrow[no head, from=2-2, to=1-3]
+	\arrow[no head, from=2-2, to=2-4]
+	\arrow[no head, from=2-2, to=3-1]
+	\arrow[no head, from=2-2, to=3-3]
+\end{tikzcd}
+\end{document}
+```
+The goal is to recolor one of $v$'s neighbors to free up a color for $v$. 
+
+**Attempt 1**: Suppose we tried to free up $\color{red}\texttt{red}$ on $v_{1}$ by changing it to $\color{green}\texttt{green}$. We can only do this if $v_{1}$ has no $\color{green}\texttt{green}$ neighbors. But then to swap $w \in N(v_{1})$ to $\color{red}\texttt{red}$, none of $N(w)$ can be $\color{red}\texttt{red}$. We can abstract this by finding the [[Kempe Chain]] $K_{\color{red}\texttt{red},\color{green}\texttt{green}}$. It is the connected component containing $v_{1}$ that includes only $\color{red}\texttt{red}$ and $\color{green}\texttt{green}$ vertices. We get two cases:
+
+**Case 2B.1.1**: If $v_{3} \not \in K_{\color{red}\texttt{red}, \color{green}\texttt{green}}$ then can safely swap all the colors from $\color{red}\texttt{red}$ to $\color{green}\texttt{green}$ and $\color{green}\texttt{green}$ to $\color{red}\texttt{red}$. This means $v_{1}$ is $\color{green}\texttt{green}$, and we can color $v$ $\color{red}\texttt{red}$. 
+
+**Case 2B.1.2**: If $v_{3}\in K_{\color{red}\texttt{red},\color{green}\texttt{green}}$,
+```tikz
+\usepackage{tikz-cd}
+\begin{document}
+% https://q.uiver.app/#q=WzAsOCxbMSwyLCJ2Il0sWzAsMSwiXFxjb2xvcntyZWR9dl8xIl0sWzIsMSwiXFxjb2xvcntibHVlfXZfMiJdLFszLDIsIlxcY29sb3J7Z3JlZW59dl8zIl0sWzIsMywiXFxjb2xvcntwdXJwbGV9dl80Il0sWzAsMywiXFxjb2xvcnticm93bn12XzUiXSxbMSwwLCJcXGNvbG9ye2dyZWVufVxcYnVsbGV0Il0sWzMsMCwiXFxjb2xvcntyZWR9XFxidWxsZXQiXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsNSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCw0LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDZdLFs2LDddLFs3LDNdXQ==
+\begin{tikzcd}
+	& {\color{green}\bullet} && {\color{red}\bullet} \\
+	{\color{red}v_1} && {\color{blue}v_2} \\
+	& v && {\color{green}v_3} \\
+	{\color{orange}v_5} && {\color{purple}v_4}
+	\arrow[no head, from=1-2, to=1-4]
+	\arrow[no head, from=1-4, to=3-4]
+	\arrow[no head, from=2-1, to=1-2]
+	\arrow[no head, from=3-2, to=2-1]
+	\arrow[no head, from=3-2, to=2-3]
+	\arrow[no head, from=3-2, to=3-4]
+	\arrow[no head, from=3-2, to=4-1]
+	\arrow[no head, from=3-2, to=4-3]
+\end{tikzcd}
+\end{document}
+```
+then we cannot swap to free up a color for $v$. 
+
+**Attempt 2**: Suppose we tried to swap $\color{blue}\texttt{blue}$ and $\color{orange}\texttt{orange}$ for $v_{2}$ and $v_{5}$ respectively. We find [[Kempe Chain]] $K_{\color{blue}\texttt{blue},\color{orange}\texttt{orange}}$. This means that 
+
+**Case 2B.2.1**: If $v_{4} \not\in K_{\color{blue}\texttt{blue},\color{orange}\texttt{orange}}$, then we can safely swap, and we are done. 
+
+**Case 2B.2.2**: Otherwise, we have 
+```tikz
+\usepackage{tikz-cd}
+\begin{document}
+% https://q.uiver.app/#q=WzAsMTAsWzIsMiwidiJdLFsxLDEsIlxcY29sb3J7cmVkfXZfMSJdLFszLDEsIlxcY29sb3J7Ymx1ZX12XzIiXSxbNCwyLCJcXGNvbG9ye2dyZWVufXZfMyJdLFszLDMsIlxcY29sb3J7cHVycGxlfXZfNCJdLFsxLDMsIlxcY29sb3J7b3JhbmdlfXZfNSJdLFsyLDAsIlxcY29sb3J7Z3JlZW59XFxidWxsZXQiXSxbNCwwLCJcXGNvbG9ye3JlZH1cXGJ1bGxldCJdLFswLDIsIlxcY29sb3J7Ymx1ZX1cXGJ1bGxldCJdLFsxLDAsIlxcY29sb3J7b3JhbmdlfVxcYnVsbGV0Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDUsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsNCwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDMsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw2LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsNywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDMsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw4LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzgsOSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs5LDIsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}
+	& {\color{orange}\bullet} & {\color{green}\bullet} && {\color{red}\bullet} \\
+	& {\color{red}v_1} && {\color{blue}v_2} \\
+	{\color{blue}\bullet} && v && {\color{green}v_3} \\
+	& {\color{orange}v_5} && {\color{purple}v_4}
+	\arrow[no head, from=1-2, to=2-4]
+	\arrow[no head, from=1-3, to=1-5]
+	\arrow[no head, from=1-5, to=3-5]
+	\arrow[no head, from=2-2, to=1-3]
+	\arrow[no head, from=3-1, to=1-2]
+	\arrow[no head, from=3-3, to=2-2]
+	\arrow[no head, from=3-3, to=2-4]
+	\arrow[no head, from=3-3, to=3-5]
+	\arrow[no head, from=3-3, to=4-2]
+	\arrow[no head, from=3-3, to=4-4]
+	\arrow[no head, from=4-2, to=3-1]
+\end{tikzcd}
+\end{document}
+```
+But then this means that **Case 2B.1.2** and **Case 2B.2.2** happened at the same time. In particular, both chains must be vertex disjoint since they use different colors, and since $K_{\color{red}\texttt{red},\color{green}\texttt{green}}$ surround $v_{2}$, the existence of $K_{\color{blue}\texttt{blue},\color{orange}\texttt{orange}}$ means that they must intersect. 
+
+But this is a contradiction as $G$ must be planar. Therefore only a single case $2$ for both attempts must be true. The inductive step holds, and we are done.
+
+> This is also known as the *Five Color Theorem*.
+
+## Corollary (Four Color Theorem)
+Actually, for planar $G$, $\chi(G) \leq 4$. 
