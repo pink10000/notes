@@ -48,7 +48,7 @@ A block $B$ is either equal to [[Complete Graph]] $K_{2}$ xor a [[Cycle]] with e
 
 Proof:
 
-Let $B$ be a block. We know from [[Block Graph#Lemma (Blocks are $K_{2}$ xor Contain a Cycle)]] that $B$ is $K_{2}$ xor a cycle. If $B = K_{2}$ we are done. Let $B$ contain a [[Cycle]] $C$. We want to show that we can iteratively add ears to form $B$.
+Let $B$ be a block. We know from [[Block Graph#Lemma (Block-Cycle Characterization)]] that $B$ is $K_{2}$ xor a cycle. If $B = K_{2}$ we are done. Let $B$ contain a [[Cycle]] $C$. We want to show that we can iteratively add ears to form $B$.
 
 Let $H_{0} = C$ be our initial subgraph of $B$. Assume we have some subgraph $H_{i}$ of $B$ after adding $i$ ears. If $H_{i}= B$ we are done. Let $H_{i}\neq B$. Since $B$ is connected,  $\exists$ edge $e = (u, v)$ where $u \in V(H_{i})$ and $v \not\in V(H_{i})$.
 > If all edges of $H_{i}$ connected to only vertices of $H_{i}$ then $H_{i}$ is a disconnected component, which is impossible since $B$ is connected.

@@ -9,14 +9,21 @@ In a [[Connectivity|connected]] [[Graph]] $G$, a **block** is a maximal [[Graph#
 ```tikz
 \usepackage{tikz-cd}
 \begin{document}
+% https://q.uiver.app/#q=WzAsNSxbMSwxLCJhIl0sWzAsMCwiXFxidWxsZXQiXSxbMCwyLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzIsMiwiXFxidWxsZXQiXSxbMCwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
 \begin{tikzcd}
-	a & b & c
-	\arrow[no head, from=1-1, to=1-2]
-	\arrow[no head, from=1-2, to=1-3]
+	\bullet && \bullet \\
+	& a \\
+	\bullet && \bullet
+	\arrow[no head, from=1-1, to=2-2]
+	\arrow[no head, from=1-3, to=3-3]
+	\arrow[no head, from=2-2, to=1-3]
+	\arrow[no head, from=2-2, to=3-1]
+	\arrow[no head, from=2-2, to=3-3]
+	\arrow[no head, from=3-1, to=1-1]
 \end{tikzcd}
 \end{document}
 ```
-Here, $b$ is the cut vertex and $a,c$ would be blocks. 
+Here, $a$ is the cut vertex and the connected subgraphs formed by its removal on the left and right are blocks.
 
 # Lemma (All Edges Exist in a Block)
 Every edge $e$ in a [[Connectivity|connected]] graph is contained in the some block. 
@@ -90,7 +97,7 @@ Leaves in a block graph are always blocks.
 
 Proof: Every [[Cut|cut]] vertex is part of $\geq 2$ blocks, so they cannot be leaves. Then by [[#Lemma (Block Graphs are Trees)]], the block graph is a tree, and by [[Tree#Lemma (Minimum Leaves)]], the only vertices left are blocks, which must be leaves. 
 
-# Lemma (Blocks are $K_{2}$ xor Contain a Cycle)
+# Lemma (Block-Cycle Characterization)
 A block is either a $K_{2}$ *xor* contains a [[Cycle|cycle]]. 
 
 Proof:
