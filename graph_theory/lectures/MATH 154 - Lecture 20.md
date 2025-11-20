@@ -5,3 +5,5 @@ tags:
 ---
 - [[Hall's Theorem]]
 - [[Bipartite Handshake Lemma]]
+- [[Konig's Theorem]]
+- [[Vizing's Theorem]]

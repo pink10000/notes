@@ -77,3 +77,9 @@ If $G$ is not connected then we can split it to its connected components and rep
 
 # Definition (Bridge)
 A **bridge** is an edge where if you removed it from the [[Graph]], it would make the graph no longer connected (create one more [[#Theorem (Connected Components)|connected component]]).
+
+# Definition (Odd Connected Components)
+For graph $G$, 
+$$
+\Omega(G) = | \{ \text{CCs of } G \text{ with odd number of vertices}\} |
+$$

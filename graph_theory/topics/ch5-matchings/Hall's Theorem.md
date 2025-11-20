@@ -92,3 +92,27 @@ d|S| &\leq d|N(S)| \\
 \end{aligned}
 $$
 which indicates there is a matching. And as $|L| = |R|$, there must be a perfect matching. 
+
+# Lemma (Matching Max Degree Left Vertices)
+There exists a matching $M$ that matches all of the maximum degree left-vertices. 
+
+Proof:
+
+Let $M \subseteq L$ where $v \in M$ has $\deg_{G}(s) = \Delta(G)$. We can consider $G' = M \cup N(M)$. By [[#Hall's Theorem]], there is a matching for the LHS vertices, unless $\exists S$ where $|S| > |N(S)|$. 
+
+Consider $G''$ of just $S \cup N(S)$. By [[Bipartite Handshake Lemma]], 
+$$
+\begin{aligned}
+k|S| = \sum_{v \in S} \deg_{G''}(v) &=
+\sum_{v\in N(S)} \deg_{G''}(v) \leq k|N(S)| \\ 
+|S| \leq |N(S)|
+\end{aligned}
+$$
+but this is a contradiction.
+
+# Lemma (Tutte's Theorem)
+If $S \subset G$ where $|S| < \Omega(G - S)$[^1], then $G$ has no perfect matching. 
+
+
+
+[^1]: See [[Connectivity#Definition (Odd Connected Components)]] for $\Omega(G - S)$.

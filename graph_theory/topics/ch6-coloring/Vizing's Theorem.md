@@ -48,3 +48,15 @@ In particular, we only care about $u',v,w$. Each one of these vertices are an en
 Suppose we recolored one of these paths. Each path has $2$ ends, but we have $3$ vertices. It must be the case that one of these $3$ vertices where the other endpoint is not one of these $3$. We can then recolor that particular [[Kempe Chain]] (and potentially some minor recolorings) and we are done. 
 
 > This proof write up is of very poor quality. You are better off watching a YouTube video on it (although the first video I watched was pretty bad).
+# Theorem (Edge Coloring is Big Delta for Bipartite)
+If $G$ is a finite [[Bipartite Graph]], then 
+$$
+\chi'(G) = \Delta(G)
+$$
+Proof: We induct on $\Delta(G)$. If $\Delta(G) = 0$, we are done. Otherwise, WTS there is a [[Matching]] $M$ that matches all the vertices of $\Delta(G)$.
+
+Let's color all edges in $M$ the first color. Then we can induct on $G - M$. Since every maximum vertex in $G$ just lost $1$, vertex, then 
+$$
+\Delta(G - M) = \Delta(G) - 1
+$$
+By the inductive hypothesis, we can color the rest with $\Delta(G) - 1$ many colors. So, 
