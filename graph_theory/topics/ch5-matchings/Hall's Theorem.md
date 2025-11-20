@@ -109,10 +109,3 @@ k|S| = \sum_{v \in S} \deg_{G''}(v) &=
 \end{aligned}
 $$
 but this is a contradiction.
-
-# Lemma (Tutte's Theorem)
-If $S \subset G$ where $|S| < \Omega(G - S)$[^1], then $G$ has no perfect matching. 
-
-
-
-[^1]: See [[Connectivity#Definition (Odd Connected Components)]] for $\Omega(G - S)$.
