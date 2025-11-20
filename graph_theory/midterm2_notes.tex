@@ -1,0 +1,925 @@
+\documentclass[10pt,landscape]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows,positioning}
+
+% Preamble imports
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\ovl}[1]{\overline{#1}}
+
+% Page setup
+\geometry{top=.4in,left=.4in,right=.4in,bottom=.4in}
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% Compact lists
+\setlist{nosep, leftmargin=*}
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{3}
+
+% multicol parameters
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+     \Large{\underline{MATH 154 Midterm 2 Sheet}} \\
+     \small{Kyle Trinh, FA25}
+\end{center}
+
+\section{Ch 1: Introduction}
+
+\textbf{Graph:} $G = (V, E)$ where:
+\begin{itemize}
+\item $V$ = set of vertices
+\item $E$ = set of edges (unordered pairs from $V$)
+\end{itemize}
+
+\textbf{Adjacent Vertices:} Connected by an edge.
+
+\textbf{Incident:} Vertex $v$ is incident on edge $e$ if $v$ is an endpoint of $e$.
+
+\textbf{Neighborhood:}
+\begin{itemize}
+\item Open: $N(v)$ = adjacent vertices (not including $v$)
+\item Closed: $\ovl{N(v)} = N(v) \cup \{v\}$
+\end{itemize}
+
+\textbf{Subgraph:} $H$ is subgraph of $G$ if obtained by taking some vertices and edges of $G$.
+
+\textbf{Induced Subgraph:} Takes vertices and \textit{all} edges between them.
+
+\textbf{Pseudograph:} Graph allowing self-loops.
+
+\textbf{Multigraph:} Graph allowing multiple edges between same vertices.
+
+\textbf{Directed Graph (Digraph):} Edges have direction.
+
+\subsection{Degree}
+
+\textbf{Degree $\deg(v)$:} Number of edges incident on $v$.
+\begin{itemize}
+\item In multigraph: count each edge
+\item Self-loop counts twice
+\end{itemize}
+
+\textbf{$d$-regular:} All vertices have degree $d$.
+
+\textbf{Minimum Degree:} $\delta(G) = \min_{v \in V} \deg(v)$
+\subsection{Handshake Lemma}
+
+\textbf{Theorem:} For finite graph $G = (V, E)$:
+$$\sum_{v \in V} \deg(v) = 2|E|$$
+
+\textit{Proof:} Each edge counted twice when summing degrees (once per endpoint).
+
+\textbf{Corollary 1:} Number of odd-degree vertices is even.
+
+\textbf{Corollary 2:} Cannot have degree sequence with exactly one odd-degree vertex.
+
+\textbf{Complete Graph $K_n$:} Every pair of vertices connected.
+\begin{itemize}
+\item $(n-1)$-regular
+\item $|E| = \frac{n(n-1)}{2} = \binom{n}{2}$
+\end{itemize}
+
+\textbf{Cycle $C_n$:} Circular arrangement of $n$ vertices.
+\begin{itemize}
+\item $|V| = n$, $|E| = n$
+\item 2-regular
+\item Bipartite iff $n$ even
+\end{itemize}
+
+\textbf{Path $P_n$:} Linear arrangement of $n$ vertices.
+\begin{itemize}
+\item $|V| = n$, $|E| = n-1$
+\item Two vertices of degree 1, rest degree 2
+\end{itemize}
+
+\textbf{Bipartite Graph:} $V = L \cup R$ where $L \cap R = \varnothing$, all edges connect $L$ to $R$.
+
+\textbf{Theorem:} Let $G = H_1 \sqcup H_2$ with only one shared edge. Then $G$ is bipartite iff $H_1$ and $H_2$ are bipartite. 
+
+\textbf{Complete Bipartite $K_{a,b}$:}
+\begin{itemize}
+\item $|L| = a$, $|R| = b$
+\item Every vertex in $L$ connected to every vertex in $R$
+\item $|E| = ab$
+\item Left vertices: degree $b$; Right vertices: degree $a$
+\end{itemize}
+
+\subsection{Walks}
+
+\textbf{Walk:} Sequence $v_1, v_2, \ldots, v_n$ where $(v_i, v_{i+1}) \in E$.
+\begin{itemize}
+\item Can repeat vertices and edges
+\item Length = number of edges traversed
+\end{itemize}
+
+\textbf{Trail:} Walk with no repeated edges (can repeat vertices).
+\textbf{Path:} Walk with no repeated vertices (or edges).
+\textbf{Circuit:} Trail with same start and end vertex.
+\textbf{Cycle:} Path with same start and end vertex (except endpoints).
+\textbf{Hierarchy:} Cycle $\subset$ Path $\subset$ Trail $\subset$ Walk
+
+\section{Ch 2: Connectivity \& Special Walks}
+
+\textbf{Reachability:} $u$ is reachable from $v$ if there exists a walk from $v$ to $u$.
+
+\textbf{Connected:} Graph where every pair of vertices is reachable.
+
+\textbf{Connected Component:} Maximal connected subgraph.
+
+\textbf{Theorem:} Reachability is an equivalence relation:
+\begin{enumerate}
+\item Reflexive: $v$ reachable from $v$
+\item Symmetric: $u$ from $v$ $\implies$ $v$ from $u$
+\item Transitive: $u$ from $v$, $v$ from $w$ $\implies$ $u$ from $w$
+\end{enumerate}
+
+\textbf{Bridge:} Edge whose removal increases number of connected components.
+
+\textbf{Cut Vertex:} Vertex whose removal disconnects graph.
+
+\subsection{Bipartite Characterization}
+
+\textbf{Lemma (Odd Loop):} If graph has odd-length loop, it has odd-length cycle.
+
+\textbf{Theorem (Bipartite $\iff$ No Odd Cycles):} Graph $G$ is bipartite iff $G$ contains no odd-length cycle.
+
+\textit{Proof $(\implies)$:} In cycle $v_1, v_2, \ldots, v_n, v_1$, colors alternate. If $n$ odd, $v_n$ and $v_1$ same color, contradiction.
+
+\textit{Proof $(\impliedby)$:} Pick vertex $v$. Color vertices based on parity of distance from $v$:
+\begin{itemize}
+    \item Even distance $\to$ white
+    \item Odd distance $\to$ black
+\end{itemize}
+All paths from $v$ to $w$ have same parity (else odd cycle exists). Adjacent vertices have different parity, so different colors.
+
+\textbf{Corollary:} Every tree is bipartite (no cycles at all).
+
+\textbf{Eulerian Circuit:} Circuit visiting each edge exactly once.
+\textbf{Eulerian Graph:} Contains an Eulerian circuit.
+\textbf{Eulerian Trail:} Trail visiting each edge exactly once (different start/end).
+
+\textbf{Semi-Eulerian:} Contains an Eulerian trail.
+
+Note: Eulerian $\implies$ Semi-Eulerian
+
+\textbf{Theorem (Eulerian Characterization):} Finite graph $G$ is Eulerian iff:
+\begin{enumerate}
+    \item $G$ connected (ignoring isolated vertices)
+    \item All vertices have even degree
+\end{enumerate}
+
+\textit{Proof $(\implies)$:} In circuit, entering vertex requires exiting, so degree is even.
+
+\textit{Proof $(\impliedby)$:} Key claims:
+\begin{itemize}
+    \item \textbf{Claim A:} If all degrees even, edges can be partitioned into cycles
+    \item \textbf{Claim B:} Cycles sharing a vertex can be merged
+    \item \textbf{Claim C:} Connected graph with edge partition into cycles is Eulerian
+\end{itemize}
+
+\textbf{Theorem (Semi-Eulerian):} Finite $G$ is Semi-Eulerian iff:
+\begin{enumerate}
+    \item $G$ connected (ignoring isolated vertices)
+    \item At most 2 vertices have odd degree
+\end{enumerate}
+
+\textit{Proof Idea:} If 2 odd-degree vertices $u, v$ exist, add edge $(u,v)$ to make all degrees even. Graph now Eulerian. Remove $(u,v)$ from circuit to get Eulerian trail.
+
+\textbf{Constructive Algorithm:} Always choose non-bridge edge (unless no choice). Can prove no vertex surrounded only by bridges when conditions met.
+
+\textbf{Hamiltonian Cycle:} Cycle visiting each vertex exactly once.
+
+\textbf{Hamiltonian Path:} Path visiting each vertex exactly once.
+
+\textbf{Hamiltonian Graph:} Contains a Hamiltonian cycle.
+
+\textbf{WARNING:} No simple characterization like Eulerian! This is NP-complete.
+
+\textbf{Necessary Condition:} If Hamiltonian, then connected.
+
+\textbf{Lemma (Minimum Degree $\to$ Connected):} If $\delta(G) \geq \frac{n-1}{2}$, then $G$ is connected.
+
+\textit{Proof:} For any $u, v$: either edge $(u,v)$ exists, or they share common neighbor. If neighborhoods disjoint, total vertices $\geq n-1$ from just two vertices, contradiction.
+
+\textbf{Lemma (Path Extension):} If $\delta(G) \geq n/2$ and path $P$ has length $k$:
+\begin{itemize}
+    \item If $k < n$: can extend path or form cycle
+    \item If $k = n$: have Hamiltonian path
+\end{itemize}
+
+\textit{Proof Sketch:} For maximal path $v_1, \ldots, v_m$, endpoints only connect within path. Let $S = \{i : (v_i, v_m) \in E\}$ and $T = \{i : (v_1, v_{i+1}) \in E\}$. Both $|S|, |T| \geq n/2$. If $S \cap T = \varnothing$, then $|S \cup T| \geq n$ but $|S \cup T| \leq m-1 < n$, contradiction. So overlap exists, giving cycle.
+
+\textbf{Theorem:} If $G$ has $n > 2$ vertices and $\delta(G) \geq n/2$, then $G$ is Hamiltonian.
+
+\textit{Proof:} Assume not Hamiltonian. Take maximal path $P$ of length $k < n$. By lemma, $P$ becomes cycle $C$ of length $k$. Since connected, some vertex $u \notin C$ connects to $C$, extending $P$. Contradiction.
+
+\textbf{Example (Bound is Tight):} $K_{n/2} \sqcup K_{n/2}$ has $\delta = n/2 - 1$ and is disconnected (not Hamiltonian).
+
+\section{Ch 3: Trees \& MST}
+\textbf{Tree:} Connected graph with no cycles.
+
+\textbf{Forest:} Graph with no cycles (each component is tree).
+
+\textbf{Leaf:} Vertex of degree 1.
+
+\textbf{Theorem (Unique Paths):} In tree, unique path exists between any two vertices.
+
+\textit{Proof:} Connected $\implies$ path exists. If two different paths $P_1, P_2$ exist from $u$ to $v$, they diverge and reconverge, forming cycle. Contradiction.
+
+\textbf{Theorem (Tree Edge Count):} For tree $T = (V, E)$:
+$$|E| = |V| - 1$$
+
+\textit{General Form:} For any graph with $c(G)$ connected components:
+$$c(G) = |V| - |E|$$
+holds iff $G$ has no cycles.
+
+\textit{Relaxed Form:} For any graph $G$: $c(G) \geq |V| - |E|$
+
+\textit{Proof:} Induction on $|E|$. Base: $|E| = 0 \implies c(G) = |V|$.
+Step: Adding edge either:
+\begin{itemize}
+\item Connects two components: $c(G) \to c(G)-1$ (no cycle)
+\item Stays in one component: $c(G)$ unchanged (creates cycle)
+\end{itemize}
+
+\textbf{Theorem (Minimum Leaves):} Tree with $n > 1$ vertices has at least 2 leaves.
+
+\textit{Proof:} By Handshake Lemma:
+$$\sum_{v \in V} (2 - \deg(v)) = 2n - 2(n-1) = 2$$
+Each leaf contributes 1, non-leaves contribute $\leq 0$. So at least 2 leaves.
+
+\textbf{Spanning Tree:} Subgraph that is tree with same vertex set as $G$.
+
+\textbf{Theorem:} Every connected graph has a spanning tree.
+
+\textit{Construction:} Start with no edges. While disconnected, add edge connecting different components.
+
+\textbf{Depth-First Search (DFS):}
+\begin{itemize}
+    \item Explore as far as possible before backtracking
+    \item Applications: Detect cycles, find connected components
+\end{itemize}
+
+\textbf{Breadth-First Search (BFS):}
+\begin{itemize}
+    \item Explore level by level
+    \item Checks neighbors in order of discovery
+    \item Applications: Shortest paths in unweighted graphs
+\end{itemize}
+
+\textbf{Weighted Graph:} Graph with weight function $w: E \to \R$.
+
+\textbf{Minimum Spanning Tree (MST):} Spanning tree $T$ minimizing:
+$$\sum_{e \in E(T)} w(e)$$
+
+\textbf{Lemma (Lightest Edge in MST):} If $e$ is minimum weight edge in connected $G$, then some MST contains $e$.
+
+If $e$ is \textit{unique} minimum, then \textit{all} MSTs contain $e$.
+
+\textit{Proof:} Given MST $T$ without $e = (u,v)$:
+\begin{itemize}
+    \item Adding $e$ to $T$ creates cycle $C$
+    \item $C$ contains edge $e' \neq e$ with $w(e') \geq w(e)$
+    \item $T' = T \cup \{e\} \setminus \{e'\}$ is spanning tree with $w(T') \leq w(T)$
+\end{itemize}
+
+\textbf{Kruskal's Algorithm:}
+\begin{enumerate}
+    \item Sort edges by weight
+    \item Start with $T$ = same vertices, no edges
+    \item For each edge in sorted order:
+    \item[] Add to $T$ if doesn't create cycle
+    \item Stop when $T$ has $n-1$ edges
+\end{enumerate}
+
+\textbf{Prim's Algorithm:}
+\begin{enumerate}
+    \item Start with arbitrary vertex $v$, set $T = \{v\}$
+    \item While $T$ doesn't span all vertices:
+    \item[] Add lightest edge connecting $T$ to vertex not in $T$
+\end{enumerate}
+
+\textbf{Graph Contraction:} After adding edge $(u,v)$ to MST, can merge $u$ and $v$ into single vertex for subsequent steps.
+
+\textbf{Cayley's Theorem:} Number of labeled trees on $n$ vertices is:
+$$n^{n-2}$$
+
+\textbf{Bijection Proof:}
+
+Trees on $n$ vertices $\longleftrightarrow$ Lists of $n-2$ numbers from $\{1, \ldots, n\}$
+
+\textbf{Tree $\to$ List (Prüfer Code):}
+\begin{enumerate}
+\item Repeatedly:
+\item[] Remove smallest-index leaf
+\item[] Add its neighbor to list
+\item Continue until 2 vertices remain
+\end{enumerate}
+
+\textbf{List $\to$ Tree:}
+\begin{enumerate}
+\item Let $L$ = list, $V = \{1, \ldots, n\}$
+\item Repeatedly:
+\item[] Find smallest $v \in V$ not in $L$
+\item[] Connect $v$ to first element of $L$
+\item[] Remove $v$ from $V$, remove first element from $L$
+\item When $L$ empty, connect remaining elements of $V$
+\end{enumerate}
+
+\textbf{Key Lemma:} Leaves of tree = vertices not appearing in Prüfer code.
+
+\textit{Proof:} Non-leaf of degree $d$ appears $d-1$ times. Leaf (degree 1) appears $1-1 = 0$ times.
+
+\textbf{Corollary:} $K_n$ has $n^{n-2}$ spanning trees.
+
+\section{Ch 4: Structure of Connected Graphs}
+
+\textbf{Cut Vertex:} Vertex whose removal disconnects graph.
+
+\textbf{Bridge:} Edge whose removal disconnects graph.
+
+\textbf{Block:} Maximal connected subgraph with no cut vertices.
+
+\textbf{2-Connected:} Graph with no cut vertices.
+
+\subsection{Block Properties}
+
+\textbf{Theorem:} Every edge is in some block.
+
+\textbf{Theorem (Block Intersection):} Two blocks intersect in at most one vertex (which must be a cut vertex).
+
+\textbf{Block Graph:} Graph where vertices = \{blocks\} $\cup$ \{cut vertices\}, with edges between block $B$ and cut vertex $v$ if $v \in V(B)$.
+
+\textbf{Properties:}
+\begin{itemize}
+\item Block graph is always bipartite
+\item Block graph is always a tree
+\item Leaves of block graph are always blocks
+\end{itemize}
+
+\textbf{Lemma (Block-Cycle):} A block is either $K_2$ or contains a cycle.
+
+\textit{Note:} Block is $K_2 \iff$ its sole edge is a bridge.
+
+\textbf{Theorem (Single Block Characterization):} For connected $G$ (not $K_2$), equivalent:
+\begin{enumerate}
+\item $G$ is a single block (no cut vertices)
+\item Any two edges share a cycle
+\item Any two vertices share a cycle
+\end{enumerate}
+
+\textit{Proof Sketch:} $(3) \implies (1)$: Vertices on cycles remain connected when any vertex removed. $(1) \implies (2)$: Use ear decomposition, induction on ears.
+
+\subsection{Ear Decomposition}
+
+\textbf{Ear:} Path in $G$ whose endpoints are in subgraph $H$ but internal vertices are not.
+
+\textbf{Theorem (Ear Decomposition):} A block is either $K_2$ or a cycle with ears.
+
+\textbf{Lemma:} If $H$ has no cut vertex and $E$ is an ear, then $H + E$ has no cut vertex.
+
+\subsection{Menger's Theorem}
+
+\textbf{Notation:} $\kappa(u,v)$ = minimum number of vertices to disconnect $u$ from $v$.
+
+\textbf{Lemma:} If $\ell$ vertex-disjoint $u \to v$ paths exist, then $\kappa(u,v) \geq \ell$.
+
+\textit{Reasoning:} Must remove at least one vertex from each path to disconnect. Vertex-disjoint required since overlapping vertex disconnects both paths.
+
+\textbf{Observation:} If $\kappa(u,v) > 1$, then $u,v$ are in same block (no cut vertex separates them), so they share a cycle.
+
+\textbf{Menger's Theorem (Vertex):} For non-adjacent vertices $u,v$, there exist $\kappa(u,v)$ vertex-disjoint paths from $u$ to $v$.
+
+\textbf{Edge Form:} Let $\lambda(u,v)$ = minimum edges to disconnect $u,v$. Then max number of edge-disjoint $u \to v$ paths equals $\lambda(u,v)$.
+
+\textit{Proof Idea (Vertex):} Strong induction on $|E|$. For minimum cutset $W$ of size $\kappa$, contract components to form smaller graphs, apply IH, combine paths.
+
+\section{Ch 7: Planar Graphs}
+
+\textbf{Planar Graph:} Graph that can be drawn in plane without edge crossings.
+
+\textbf{Planar Embedding:} Specific drawing without crossings.
+
+\textbf{Face:} Connected region of $\R^2 \setminus G$ in planar embedding.
+
+\subsection{Euler's Formula}
+
+\textbf{Theorem:} For finite connected planar graph:
+$$|F| - |E| + |V| = 2$$
+
+\textit{Proof:} Induction on $|E|$. Base: tree has $|F| = 1$. Step: Remove edge from cycle, merges two faces.
+
+\textbf{Examples:} Tree ($F=1$), Cycle ($F=2$), Wheel ($F=n+1, V=n+1, E=2n$), Grid ($n \times n$: $F=n^2+1, V=(n+1)^2, E=2n(n+1)$)
+
+\subsection{Planar Graph Bounds}
+
+\textbf{Theorem (Edge Bound):} If connected planar with $|V| \geq 3$:
+$$|E| \leq 3|V| - 6$$
+
+\textit{Proof:} Face Handshake: $\sum \text{Sides}(F) = 2|E|$. Each face has $\geq 3$ sides, so $3|F| \leq 2|E|$. By Euler: $|E| \leq 3|V| - 6$.
+
+\textit{Note:} Equality holds iff all faces are triangles.
+
+\textbf{General Form:} If faces have $\geq k$ sides: $|E| \leq \frac{k(|V|-2)}{k-2}$
+
+\textbf{Corollary:} If bipartite planar, $|E| \leq 2|V| - 4$ (faces have $\geq 4$ sides).
+
+\textbf{Theorem (Bounded Min Degree):} Finite connected planar has $\delta(G) \leq 5$.
+
+\textit{Proof:} If $\delta \geq 6$, then $2|E| \geq 6|V|$, so $|E| \geq 3|V|$. But $|E| \leq 3|V| - 6$, contradiction.
+
+\subsection{Non-Planar Graphs}
+
+\textbf{Theorem:} $K_5$ is non-planar.
+
+\textit{Proof:} $|E| = 10 > 3(5) - 6 = 9$.
+
+\textbf{Theorem:} $K_{3,3}$ is non-planar.
+
+\textit{Proof:} Bipartite, so if planar, $|E| \leq 2|V| - 4 = 8$. But $|E| = 9$.
+
+\textbf{Graph Subdivision:} Obtained by placing vertices in middle of edges.
+
+\textbf{Lemma (Subdivisions Preserve Planarity):} If $G'$ is subdivision of $G$, then $G'$ is planar $\iff$ $G$ is planar.
+
+\textit{Proof:} Given embedding of $G$, add vertices in middle of edges for $G'$. Given embedding of $G'$, remove added vertices and join edges for $G$.
+
+\textbf{Kuratowski's Theorem:} Graph $G$ is planar iff it has no subdivision of $K_5$ or $K_{3,3}$ as subgraph.
+
+\subsection{Triangulation \& Fary}
+
+\textbf{Triangulation:} Add edges to planar graph until all faces are triangles.
+
+\textbf{Lemma (Triangulation Has Low-Degree Interior):} If triangulated planar graph has $|V| > 3$, then has interior vertex with $\deg(v) \leq 5$.
+
+\textit{Proof:} By Handshake and edge bound: $\sum (6 - \deg(v)) = 12$. Boundary vertices (3 on outer face) contribute $\leq 4$ each, so some interior vertex has $\deg(v) < 6$.
+
+\textbf{Fary's Theorem:} Every planar graph has straight-line embedding.
+
+\textit{Proof Sketch:} Induction on $|V|$. Triangulate, find interior vertex $v$ with $\deg(v) \leq 5$. Remove $v$, apply IH. Reinsert $v$ in polygon with $\leq 5$ sides (can find central point with straight lines to all vertices).
+
+\subsection{Polyhedra}
+
+\textbf{Polyhedron:} 3D figure with flat faces. Euler's formula applies to planar graph of vertices/edges.
+
+\textbf{Face Handshake Lemma:} $\sum_F \text{Sides}(F) = 2|E|$
+
+\textbf{Platonic Solids:} All edges same length, faces regular $s$-gons, $d$-regular. From Euler + Handshake:
+$$|E| = \frac{2}{2/d + 2/s - 1}$$
+Need $d,s \geq 3$ and $2/d + 2/s > 1$. Only 5 solutions:
+\begin{itemize}
+\item $(d,s) = (3,3)$: Tetrahedron ($V=4, E=6, F=4$)
+\item $(d,s) = (3,4)$: Cube ($V=8, E=12, F=6$)
+\item $(d,s) = (3,5)$: Dodecahedron ($V=20, E=30, F=12$)
+\item $(d,s) = (4,3)$: Octahedron ($V=6, E=12, F=8$)
+\item $(d,s) = (5,3)$: Icosahedron ($V=12, E=30, F=20$)
+\end{itemize}
+
+\section{Ch 6: Coloring}
+
+\textbf{Vertex Coloring:} Assignment of colors to vertices so adjacent vertices have different colors.
+
+\textbf{Chromatic Number $\chi(G)$:} Minimum colors needed.
+
+\subsection{Basic Chromatic Numbers}
+
+\begin{itemize}
+\item $\chi(G) = 1 \iff |E| = 0$
+\item $\chi(G) = 2 \iff G$ bipartite
+\item $\chi(K_n) = n$
+\item $\chi(C_n) = 2$ if $n$ even, $3$ if $n$ odd
+\item $\chi(P_n) = 2$
+\end{itemize}
+
+\subsection{Bounds on Chromatic Number}
+
+\textbf{Clique Number $\omega(G)$:} Largest $n$ such that $K_n \subseteq G$.
+
+\textbf{Lower Bound:} $\chi(G) \geq \omega(G)$
+
+\textbf{Trivial Upper Bound:} $\chi(G) \leq |V|$ (assign each vertex unique color)
+
+\textbf{Upper Bound (Greedy):} $\chi(G) \leq \Delta(G) + 1$
+
+\textit{Proof:} Greedily color vertices. Each vertex has $\leq \Delta(G)$ neighbors, so one of $\Delta(G) + 1$ colors available.
+
+\textbf{Special Cases (Equality):} $\chi = \Delta + 1$ only for:
+\begin{itemize}
+\item $K_n$: $\chi(K_n) = n$, $\Delta = n-1$
+\item Odd cycles: $\chi(C_n) = 3$, $\Delta = 2$
+\end{itemize}
+
+\textbf{Brook's Theorem:} If $G$ connected, not special cases:
+$$\chi(G) \leq \Delta(G)$$
+
+\textit{Note:} For $\Delta \leq 2$, graph is path or cycle, both have $\chi \leq 2 \leq \Delta$.
+
+\textit{Proof Sketch:} If not regular, pick low-degree vertex last. If regular, find neighbors $u,w$ of $v$ with same color. If $\{u,w\}$ not cutset, recurse. If cutset, color halves inductively, match $u,w$ colors via degree analysis.
+
+\subsection{Planar Graph Coloring}
+
+\textbf{Weak Bound (Six Colors):} If $G$ planar, then $\chi(G) \leq 6$.
+
+\textit{Proof:} Planar $\implies$ $\delta(G) \leq 5$. Induction on $|V|$. Pick $v$ with $\deg(v) \leq 5$. Color $G - v$ (planar, use IH). Then $v$ has $\leq 5$ neighbors, so one of 6 colors available.
+
+\textbf{Five Color Theorem:} If $G$ planar, then $\chi(G) \leq 5$.
+
+\textit{Proof:} Induction on $|V|$. Pick $v$ with $\deg(v) \leq 5$. Color $G - v$. If $\deg(v) < 5$, done. If $\deg(v) = 5$ and all neighbors different colors, use Kempe chains.
+
+\textbf{Kempe Chain:} For colors $a,b$, consider subgraph with only $a,b$ vertices. Can swap colors in connected component preserving coloring.
+
+\textit{Key Idea:} If Kempe chains $K_{red,green}$ and $K_{blue,orange}$ both contain two non-adjacent neighbors of $v$, they must cross, violating planarity.
+
+\textbf{Four Color Theorem:} If $G$ planar, then $\chi(G) \leq 4$.
+
+\textit{Note:} Proof very complex (computer-assisted).
+
+\subsection{Edge Coloring}
+
+\textbf{Edge Coloring:} Color edges so edges sharing vertex have different colors.
+
+\textbf{Edge Chromatic Number $\chi'(G)$:} Minimum colors for edge coloring.
+
+\textbf{Lower Bound:} $\chi'(G) \geq \Delta(G)$ (vertex of max degree needs different colors for all incident edges)
+
+\section{Key Formulas \& Quick Reference}
+
+\subsection{Edge Counts}
+
+\begin{tabular}{ll}
+$K_n$ & $|E| = \frac{n(n-1)}{2}$ \\
+$K_{a,b}$ & $|E| = ab$ \\
+$C_n$ & $|E| = n$ \\
+$P_n$ & $|E| = n-1$ \\
+Tree & $|E| = |V| - 1$ \\
+Forest ($c$ comp) & $|E| = |V| - c$ \\
+Planar & $|E| \leq 3|V| - 6$ \\
+Bipartite planar & $|E| \leq 2|V| - 4$ \\
+\end{tabular}
+
+\subsection{Degree \& Handshake}
+
+\begin{tabular}{ll}
+Handshake & $\sum \deg(v) = 2|E|$ \\
+Face Handshake & $\sum \text{Sides}(F) = 2|E|$ \\
+Odd vertices & Even count \\
+$K_n$ & $(n-1)$-regular \\
+$C_n$ & 2-regular \\
+Planar & $\delta(G) \leq 5$ \\
+\end{tabular}
+
+\subsection{Key Formulas}
+
+\begin{tabular}{ll}
+Euler & $|F| - |E| + |V| = 2$ \\
+Connected & $\delta(G) \geq \frac{n-1}{2}$ \\
+Hamiltonian & $\delta(G) \geq \frac{n}{2}$ \\
+Eulerian & Connected + all even deg \\
+Semi-Eulerian & Connected + $\leq 2$ odd deg \\
+Platonic & $|E| = \frac{2}{2/d + 2/s - 1}$ \\
+\end{tabular}
+
+\subsection{Counting \& Bounds}
+
+\begin{tabular}{ll}
+Labeled trees & $n^{n-2}$ \\
+Spanning trees of $K_n$ & $n^{n-2}$ \\
+$\omega(G) \leq \chi(G) \leq \Delta(G) + 1$ \\
+Brook's & $\chi(G) \leq \Delta(G)$ \\
+Planar coloring & $\chi(G) \leq 5$ (or 4) \\
+\end{tabular}
+
+\section{Problem-Solving Strategies}
+
+\subsection{Check if Eulerian}
+\begin{enumerate}
+\item Count odd-degree vertices
+\item If 0: Eulerian
+\item If 2: Semi-Eulerian
+\item If $>2$: Neither
+\item Check connectivity
+\end{enumerate}
+
+\subsection{Check if Hamiltonian}
+No easy test! Try:
+\begin{itemize}
+\item $\delta(G) \geq n/2$? (sufficient)
+\item Connected? (necessary)
+\item Bipartite with $|L| = |R|$? (necessary if bipartite)
+\item Has cut vertex? (usually not Hamiltonian)
+\end{itemize}
+
+\subsection{Check if Planar}
+\begin{enumerate}
+\item Check $|E| \leq 3|V| - 6$ (necessary if $|V| \geq 3$)
+\item If bipartite: $|E| \leq 2|V| - 4$
+\item Contains $K_5$ or $K_{3,3}$ (subdivision)? $\to$ non-planar
+\item Try to draw embedding
+\item Use Euler's formula: $|F| - |E| + |V| = 2$
+\end{enumerate}
+
+\subsection{Find Chromatic Number}
+\begin{itemize}
+\item Lower: $\omega(G) \leq \chi(G)$ (find largest clique)
+\item Upper: Greedy coloring gives $\chi(G) \leq \Delta(G) + 1$
+\item If planar: $\chi(G) \leq 4$
+\item If bipartite: $\chi(G) = 2$
+\item Try small values: $\chi = 1$ (no edges), $\chi = 2$ (bipartite)
+\end{itemize}
+
+\subsection{Find MST}
+\textbf{Kruskal:} Sort edges, add if no cycle
+
+\textbf{Prim:} Grow tree from vertex
+
+\subsection{Count Trees}
+\begin{itemize}
+\item Labeled trees on $n$: use $n^{n-2}$
+\item Spanning trees: Matrix-Tree Theorem
+\item Unlabeled: enumerate by hand (small $n$)
+\end{itemize}
+
+\subsection{Prove by Induction}
+\textbf{On $|E|$:}
+\begin{enumerate}
+\item Base: $|E| = 0$
+\item Add/remove edge, apply IH
+\item Consider cases: cycle created or not
+\end{enumerate}
+
+\textbf{On $|V|$:}
+\begin{enumerate}
+\item Base: $|V| = 1$ or $2$
+\item Remove vertex (often leaf)
+\item Apply IH, add vertex back
+\end{enumerate}
+
+\section{Common Theorems \& Techniques}
+
+\subsection{Extremal Arguments}
+
+\textbf{Longest Path:} Take maximal path $P$. Endpoints have special properties (all neighbors in $P$).
+
+\textbf{Minimum Degree:} Vertex $v$ with $\deg(v) = \delta(G)$ has all neighbors with $\deg \geq \delta(G)$.
+
+\subsection{Pigeonhole Principle}
+
+If $|S| + |T| > |U|$ and $S, T \subseteq U$, then $S \cap T \neq \varnothing$.
+
+Used in: Hamiltonian proof, bipartite proof.
+
+\subsection{Path/Cycle Relationships}
+
+\textbf{Walk $\to$ Path:} Remove loops to get path.
+
+\textbf{Odd Loop $\to$ Odd Cycle:} Remove internal repetitions.
+
+\textbf{Path in Tree:} Unique path between any two vertices.
+
+\section{Worked Examples}
+
+\subsection{Ex 1: Edge Count}
+
+\textbf{Q:} 5-regular graph with 8 vertices. How many edges?
+
+\textbf{A:} $\sum \deg(v) = 8 \times 5 = 40 = 2|E| \implies |E| = 20$
+
+\subsection{Ex 2: Is Eulerian?}
+
+\textbf{Q:} Graph with degree sequence $[2, 2, 3, 3, 4]$. Eulerian?
+
+\textbf{A:} Two odd-degree vertices. Semi-Eulerian (if connected), not Eulerian.
+
+\subsection{Ex 3: Tree Edges}
+
+\textbf{Q:} Forest with 12 vertices, 3 components. How many edges?
+
+\textbf{A:} $|E| = |V| - c = 12 - 3 = 9$ edges.
+
+\subsection{Ex 4: Cayley's Algorithm}
+
+\textbf{Q:} Tree with edges $(1,2), (2,3), (3,4), (3,5)$. Find Prüfer code.
+
+\textbf{A:} Leaves: $\{1, 4, 5\}$
+\begin{itemize}
+\item Remove 1, add neighbor 2: $[2]$
+\item Remove 4, add neighbor 3: $[2, 3]$
+\item Remove 5, add neighbor 3: $[2, 3, 3]$
+\end{itemize}
+Code: $[2, 3, 3]$
+
+\subsection{Ex 5: MST Weight}
+
+\textbf{Q:} Edges: $(A,B,5), (B,C,2), (C,A,3), (A,D,1), (C,D,4)$
+
+\textbf{A:} Kruskal (sort: 1, 2, 3, 4, 5):
+\begin{itemize}
+\item Add $(A,D,1)$
+\item Add $(B,C,2)$
+\item Add $(C,A,3)$ [connects all]
+\end{itemize}
+Total: $1 + 2 + 3 = 6$
+
+\subsection{Ex 6: Hamiltonian?}
+
+\textbf{Q:} Is $K_{3,3}$ Hamiltonian?
+
+\textbf{A:} Yes! $|L| = |R| = 3$. Cycle exists alternating sides:
+$$L_1 \to R_1 \to L_2 \to R_2 \to L_3 \to R_3 \to L_1$$
+
+\subsection{Ex 7: Is Graph Planar?}
+
+\textbf{Q:} Graph with 6 vertices and 12 edges. Planar?
+
+\textbf{A:} Check bound: $3|V| - 6 = 3(6) - 6 = 12$. So $|E| = 12 \leq 12$. Necessary condition satisfied, but not sufficient! Need more analysis. If all faces are triangles (equality case), could be planar.
+
+\subsection{Ex 8: Euler's Formula}
+
+\textbf{Q:} Planar graph with $|V| = 8, |E| = 12$. How many faces?
+
+\textbf{A:} $|F| = 2 - |V| + |E| = 2 - 8 + 12 = 6$ faces.
+
+\subsection{Ex 9: Chromatic Number}
+
+\textbf{Q:} Find $\chi(C_5)$.
+
+\textbf{A:} $C_5$ is odd cycle. Not bipartite, so $\chi > 2$. Try 3 colors: alternate around cycle until last vertex. Last vertex adjacent to first and fourth, which have different colors. Can use third color. $\chi(C_5) = 3$.
+
+\subsection{Ex 10: Planar Non-Planarity}
+
+\textbf{Q:} Is $K_5$ planar?
+
+\textbf{A:} $|V| = 5, |E| = 10$. Check: $3|V| - 6 = 9 < 10$. Violates necessary condition. Not planar.
+
+\section{Important Properties by Graph Type}
+
+\subsection{Complete Graph}
+
+\begin{itemize}
+\item Eulerian: iff $n$ odd
+\item Hamiltonian: always (for $n \geq 3$)
+\item Not bipartite (for $n \geq 3$)
+\item $n^{n-2}$ spanning trees
+\item $\chi(K_n) = n$, $\omega(K_n) = n$
+\item Planar: only $K_1, K_2, K_3, K_4$; $K_5$ non-planar
+\end{itemize}
+
+\subsection{Cycle}
+
+\begin{itemize}
+\item Eulerian: always
+\item Hamiltonian: always
+\item Bipartite: iff $n$ even
+\item No bridges, no cut vertices
+\item $\chi(C_n) = 2$ if $n$ even, $3$ if odd
+\item Always planar
+\end{itemize}
+
+\subsection{Complete Bipartite Graph}
+
+\begin{itemize}
+\item Eulerian: iff both $m, n$ odd
+\item Hamiltonian: iff $m = n$ (both $\geq 2$)
+\item Always bipartite, so $\chi = 2$
+\item $K_{3,3}$: non-planar
+\item $K_{2,n}$ always planar
+\end{itemize}
+
+\subsection{Trees}
+
+\begin{itemize}
+\item Not Eulerian (has leaves)
+\item Not Hamiltonian (unless $P_n$)
+\item Always bipartite, so $\chi = 2$
+\item Every edge is bridge
+\item $|E| = |V| - 1$
+\item Always planar
+\end{itemize}
+
+\subsection{Path}
+
+\begin{itemize}
+\item Semi-Eulerian: always (2 odd vertices)
+\item Hamiltonian: by definition
+\item Bipartite: always, $\chi = 2$
+\item Tree with exactly 2 leaves
+\item Always planar
+\end{itemize}
+
+\subsection{Planar Graphs}
+
+\begin{itemize}
+\item $|E| \leq 3|V| - 6$ (if $|V| \geq 3$)
+\item $\delta(G) \leq 5$
+\item $\chi(G) \leq 4$
+\item No $K_5$ or $K_{3,3}$ subdivisions
+\item $|F| - |E| + |V| = 2$ (Euler)
+\end{itemize}
+
+\section{Common Mistakes}
+
+\begin{itemize}
+\item \textbf{Eulerian vs Hamiltonian:} Edges vs vertices!
+\item \textbf{Trail vs Path:} Trail can repeat vertices
+\item \textbf{Circuit vs Cycle:} Circuit can repeat vertices
+\item \textbf{Subgraph vs Induced:} Induced has ALL edges
+\item \textbf{Tree edges:} $|V| - 1$, not $|V|$
+\item \textbf{Cayley:} $n^{n-2}$, not $n^n$ or $(n-1)!$
+\item \textbf{Bipartite:} Triangle ($K_3$) is NOT bipartite
+\item \textbf{Handshake:} Odd vertices come in pairs
+\item \textbf{Planar bound:} $|E| \leq 3|V| - 6$, not $3|V|$
+\item \textbf{Euler formula:} $|F| - |E| + |V| = 2$, order matters!
+\item \textbf{$K_5$ vs $K_{3,3}$:} Both non-planar
+\item \textbf{Chromatic:} $\omega(G) \leq \chi(G) \leq \Delta(G) + 1$
+\item \textbf{Block graph:} Always tree AND bipartite
+\item \textbf{Kempe chains:} Work for planar, use planarity!
+\item \textbf{Subdivision:} $K_5$ or $K_{3,3}$ subdivision $\implies$ non-planar
+\end{itemize}
+
+\section{Proof Writing Tips}
+
+\begin{enumerate}
+\item \textbf{State assumptions:} "Let $G = (V,E)$ be a connected graph..."
+\item \textbf{State goal:} "We will show that..."
+\item \textbf{Use theorems:} "By Handshake Lemma..."
+\item \textbf{Draw pictures:} For small cases
+\item \textbf{Check edge cases:} $|V| = 1, 2$
+\item \textbf{Both directions:} For "iff" proofs
+\item \textbf{End clearly:} "Therefore..." or "QED"
+\end{enumerate}
+
+\section{Notation Reference}
+
+\begin{tabular}{ll}
+$G = (V, E)$ & Graph \\
+$\deg(v)$ & Degree of $v$ \\
+$\delta(G)$ & Min degree \\
+$\Delta(G)$ & Max degree \\
+$N(v)$ & Open neighborhood \\
+$\ovl{N(v)}$ & Closed neighborhood \\
+$K_n$ & Complete graph \\
+$K_{m,n}$ & Complete bipartite \\
+$C_n$ & Cycle \\
+$P_n$ & Path \\
+$c(G)$ & Connected components \\
+$w(e)$ & Weight of edge \\
+$\chi(G)$ & Chromatic number \\
+$\omega(G)$ & Clique number \\
+$K_{c_1, c_2}$ & Kempe chain with colors $c_1$ and $c_2$ \\
+$\chi'(G)$ & Edge chromatic number \\
+$\kappa(u,v)$ & Min vertices to disconnect \\
+$\lambda(u,v)$ & Min edges to disconnect \\
+$F$ & Set of faces (planar) \\
+\end{tabular}
+
+\vfill
+\hrule
+\vspace{1mm}
+\begin{center}
+\textit{Good luck on your midterm! Study the theorems and practice proofs.}
+\end{center}
+
+\end{multicols}
+\end{document}

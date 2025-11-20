@@ -30,3 +30,37 @@ $$
 \chi'(G) := \text{minimum number of colors to find an edge coloring of } G
 $$
 > Related: [[Coloring#Definition (Chromatic Number)]]. 
+
+It is not hard to see that 
+$$
+\chi'(G) = \chi(L(G))
+$$
+where $L(G)$ is the line graph of the graph $G$. 
+
+# Edge Chromatic Number Bounds
+From [[Clique#Corollary (Chromatic Number Lower Bound)|corollary]], we have 
+$$
+\chi(L(G)) \geq \omega(L(G))
+$$
+maximally, if $G$ is a starfish graph, it's line graph is a complete graph. This gives us another (albeit weaker) lower bound:
+$$
+\chi(L(G)) \geq \omega(L(G)) \geq \Delta(G)
+$$
+For an upper bound, from [[Coloring#Lemma (Chromatic Upper Bound by Big Delta)|lemma]], 
+$$
+\chi'(G) = \chi(L(G)) \leq \Delta(L(G)) + 1
+$$
+> What is the degree of some vertex in the line graph? 
+
+Suppose we had some edge $e$ connecting two starfishes centered on $u,v$. Then 
+$$
+\deg_{L(G)}(e) 
+= \deg_{G}(u) - 1 + \deg_{G}(v) - 1 
+= \deg_{G}(u) + \deg_{G}(v) - 2
+\leq 2\Delta(G) - 2 
+$$
+which gives us:
+$$
+\chi'(G) = \chi(L(G)) \leq \Delta(L(G)) + 1 \leq 2(\Delta(G) - 1)
+$$
+> See [[Vizing's Theorem]].
