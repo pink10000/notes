@@ -83,3 +83,9 @@ $A, B$ are independent if $P(A \cap B) = P(A)P(B)$ or $P(A|B) = P(A)$.
 
 # 16 (11/7)
 - [[Miller-Rabin Primality Testing]]
+
+# 17 (11/12)
+- Review of [[Miller-Rabin Primality Testing]]. 
+
+# 18 (11/14)
+- 
