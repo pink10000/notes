@@ -199,9 +199,11 @@ For example, $R(C_{4}, C_{4})  = 6$. To prove the lower bound, we need to show a
 $$
 R(G, H) \leq R(|V_{G}|, |V_{H}|)
 $$
+Note that the RHS is shorthand for the [[#Ramsey's Theorem|Ramsey Number]] notation. It is equivalent to $R(K_{|V_{G}|}, K_{|V_{H}|})$.
+
 Proof: 
 
-Let $m = R(|V_{G}|, |V_{H}|)$. Any ... 
+Let $m = R(|V_{G}|, |V_{H}|)$. Any red-blue coloring of $K_{m}$ has either a monochromatic complete red graph on $|V_{G}|$ or monochromatic blue complete graph on $|V_{H}|$. These contain a red copy of $G$ or blue copy of $H$, by embedding $G$ in $K_{|V_{G}|}$ and likewise for $H$ and $K_{|V_{H}|}$. 
 
 # Theorem (Graph Ramsey Number: Tree, Complete)
 If $m,n$ are integers with $m-1$ dividing $n-1$ and $T_{m}$ is a [[Tree]] with $m$ vertices then 
