@@ -101,3 +101,13 @@ $$
 [^1]: Why? The justification in lecture was a little hand wavy, but there's probably a nice, clean optimization proof that shows why this is true. 
 
 This leads to [[Turan's Theorem]].
+
+# Bipartite Dichotomy
+If $H$ is not [[Bipartite Graph|bipartite]], then $\text{ex}(n, H)$ will be on the order of $n^{2}$. 
+
+Proof: 
+
+By [[Bipartite Graph#Theorem (Bipartite Cycles)|theorem]], if $H$ is not bipartite, then there is an odd cycle. However, we can construct complete bipartite $K_{n/2, n/2}$ which has $n^{2}/4$ edges. Thus $\text{ex}(n, H) \geq n^{2}/4$. 
+
+---
+If $H$ is bipartite, then $K_{n/2,n/2}$ is no longer valid. This means we'll need to drop some edges. In particular, instead of $n^{2}$, we have $n^{2-\vepsi}$ edges (sub quadratic). 

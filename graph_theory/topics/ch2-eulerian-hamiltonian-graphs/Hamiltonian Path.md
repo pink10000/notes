@@ -12,8 +12,6 @@ We use $\delta(G)$ from [[Degree#Definition (Minimum Degree of a Graph)]].
 A **Hamiltonian** [[Path]] or [[Cycle]] is a walk that visits each vertex, except the first and last vertex are the same (closed). A [[Graph]] is called a **Hamiltonian Graph** if it contains a Hamiltonian Cycle. 
 # Theorem (Hamiltonian Implies Connected)
 Graph $G$ is Hamiltonian only if it is [[Connectivity|connected]].
-
-
 # Explore (Minimum Edges For Hamiltonian)
 How many edges do we need to ensure that a graph is Hamiltonian? How big does [[Degree#Definition (Minimum Degree of a Graph)|the minimum degree of graph]] $G$, $\delta(G)$ need to be to ensure Hamiltonian? Suppose we had graph 
 $$
