@@ -2,8 +2,12 @@
 tags:
   - MATH_114
 ---
-# Random Sampling
 The goal of **random sampling** is to generalize *hard* random variables from *easy* RVs. This allows us to compute hard integrals by using sampling to solve deterministic problems.
+
+# Definition (Random Sampling RVs)
+Let $X \in \R$  be a random variable with $X \sim f, X \sim F$ the [[Probability Distribution Function|PDF]] and [[Cumulative Distribution Function|CDF]] respectively. We accomplish our goal of sampling from the PDF $f$ by producing independent and identically distributed (iid) RVs with PDF $f$. 
+
+In practice, sampling RVs in $\R$ means generating numbers with likelihood defined by $f$. 
 
 # Example 1 (Monte Carlo Estimation of Pi)
 Suppose we wanted to find the area of a unit circle in a plane. Let

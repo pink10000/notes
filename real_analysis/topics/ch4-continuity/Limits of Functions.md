@@ -120,7 +120,7 @@ For every $\vepsi > 0, \exists \delta > 0$ such that $\forall x \in A$, if $d(x,
 
 $(\impliedby)$ 
 Let $\vepsi > 0$. Choose $\delta$ as in the definition of limit. Suppose now that $x \in A, d(x, p) < \delta$. We have 2 cases:
-1. $x = p$. Then $d(x, p) < \delta$. Moreover, $d(f(x), f([])) = d(f(p), f(p)) = 0 < \delta$
+1. $x = p$. Then $d(x, p) < \delta$. Moreover, $d(f(x), f(p)) = d(f(p), f(p)) = 0 < \delta$
 2. $x \neq p$. Then $d(x, p) > 0$. By definition of limits, $d(f(x), f(p)) < \vepsi$. 
 
 ## Corollary (Sequential Characterization of Continuity) 
