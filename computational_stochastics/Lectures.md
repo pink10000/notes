@@ -19,8 +19,8 @@ $$
 Let $u(x) = \frac{1}{2}x^{2}$.  Then 
 $$
 \begin{aligned}
-u(x) = \frac{1}{2}x^{2} \\ 
-\frac{du}{dx} = x \\ 
+u(x) &= \frac{1}{2}x^{2} \\ 
+\frac{du}{dx} &= x \\ 
 \end{aligned}
 $$
 such that 
