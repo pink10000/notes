@@ -57,3 +57,8 @@ So when we calculate the position of the particle via $x(t)$, the $u'(t)$ term t
 - new frequency in a system
 > what does frequency mean?
 - new types of resonance/transport effects. 
+
+# Lecture 3 (1/9)
+Reference for this section is Rubinstein Ch.2 
+- [[Inversion]]
+- [[Transformation of Random Variables]]
