@@ -62,3 +62,9 @@ So when we calculate the position of the particle via $x(t)$, the $u'(t)$ term t
 Reference for this section is Rubinstein Ch.2 
 - [[Inversion]]
 - [[Transformation of Random Variables]]
+
+# Lecture 4 (1/12)
+Reference: Rubinstein Ch. 2, 2.4, 2.3.4
+- [[Box-Muller Method]]
+- [[Acceptance-Rejection]]
+

@@ -35,7 +35,6 @@ P(X \leq x)
 \end{aligned}
 $$
 which is sort of a "baby sampling algorithm". 
-
 ## Inversion Algorithm
 This gives us the following algorithm, 
 1. Input: CDF $F$ (target)
