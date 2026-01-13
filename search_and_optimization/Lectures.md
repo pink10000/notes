@@ -15,3 +15,7 @@ tags:
 - [[Gradient]]
 - [[Local Minima]]
 
+# Lecture 3 (1/12)
+- [[Gradient#Maximizing Function Value via Level Sets]]
+- [[Local Minima]]
+- [[First-Order Optimality Condition#Theorem (Local Minima gives Zero Gradient)]]

@@ -30,7 +30,7 @@ f(x + \Delta x)
 &= f(x) + \nabla f(x + t\Delta x)^{T} \Delta x  
 \end{aligned}
 $$
-for some $t \in (0, 1)$. The last line needs some more justification. Let 
+for some $t \in (0, 1)$. The last line needs some justification. Let 
 $$
 g(t) = f(x + t\Delta x) \quad\quad\quad [0, 1] \to \R
 $$
@@ -48,5 +48,24 @@ f(x + \Delta x) - f(x) = \nabla f(x + t\Delta x)^{T} \Delta x
 $$
 which is our desired result. 
 
-
 [^1]: See these [notes](https://links.uwaterloo.ca/amath731docs/meanvalue.pdf) for more information about the Generalized Mean Value Theorem for multivariate real-valued functions. 
+# Maximizing Function Value via Level Sets
+Suppose we wanted to maximize $f(x)$ via some tiny distance traveled $\Delta x$. In particular, we want to pick a direction for some magnitude $|\Delta x|$ such that 
+$$
+f(x + \Delta x) - f(x) > 0
+$$
+Visually, we can see that the space at which the $x + \Delta x$ provides any effort to this function is "half" of the directions we can go. Imagine in $\R^{3}$, a sphere of directions we can go from some arbitrary point on some curve. Half the sphere are directions that would advance our objective function.
+
+More precisely, via the [[#First-Order Taylor Expansion]]. we get 
+$$
+f(x + \Delta x) = f(x) + \nabla f(x)^{T} \Delta(x) + O(||\Delta x||_{2}^{2})
+$$
+the second term is positive. Conversely, if we wanted to perform *Gradient Descent*, we want to minimize $f$, and our second term is negative. 
+
+## Naive Algorithm for Gradient Ascent/Descent
+With the same picture, if we pick any direction $\Delta x$, and by picking its inverse $-\Delta x$, we have a $100\%$ chance to maximize $f$ by picking the better option. Unfortunately, this has the same pitfalls as Gradient Descent. In particular, it has no "bigger picture" of the space it inhabits. So we can stuck at a local minima, skip the global minima via too large $\Delta x$, or etc.
+> Also known as the Three-Point Algorithm. This kind of optimization is called **zero-order optimization**. We only evaluate things via $f$. In other words, we do zero derivatives to determine a better direction to travel. 
+
+This algorithm can perform better than Gradient Descent. 
+1. If there are places with no gradient. 
+2. If there are many local minimas. Consider in $\R^{2}$ the curve $x + \sin(x)$. Gradient descent can get stuck in these wells.  

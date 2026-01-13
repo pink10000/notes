@@ -14,4 +14,4 @@ Level sets are always orthogonal to [[Gradient|gradients]]. In particular, if $r
 $$
 \nabla f(x) \cdot r'(t) = \vec{0}
 $$
-where $r'(t)$ is the tangent direction along that level set. 
+where $r'(t)$ is the tangent direction along that level set. One important thing to note is that $\Delta f(x) \neq \vec{0}$.
