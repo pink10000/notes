@@ -129,4 +129,5 @@ which
 $$
 \implies f_\unl{Y}(\unl{y}) = f_{\unl{X}}(T^{-1}(\unl{y})) \cdot |J(\unl{y})|
 $$
+as desired
 

@@ -116,3 +116,4 @@ x = 3.2 | dashed | black
 (3.2, 0) | label: x | black
 0 <= y <= g(x) | purple
 ```
+
