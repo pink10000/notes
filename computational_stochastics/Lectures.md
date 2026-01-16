@@ -68,3 +68,6 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 - [[Box-Muller Method]]
 - [[Acceptance-Rejection]]
 
+# Lecture 5 (1/14)
+- [[Acceptance-Rejection]]
+

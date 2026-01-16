@@ -69,3 +69,14 @@ With the same picture, if we pick any direction $\Delta x$, and by picking its i
 This algorithm can perform better than Gradient Descent. 
 1. If there are places with no gradient. 
 2. If there are many local minimas. Consider in $\R^{2}$ the curve $x + \sin(x)$. Gradient descent can get stuck in these wells.  
+
+# Second-Order Taylor Expansion
+We can further expand the [[#First-Order Taylor Expansion]]. 
+$$
+\begin{aligned}
+f(x + \Delta x) 
+&= f(x) + \nabla f(x)^{T}\Delta x + \frac{1}{2}\Delta x^{T} \nabla^{2} f(x + \xi \Delta x)\Delta x  \\ 
+&= f(x) + \nabla f(x)^{T}\Delta x + \frac{1}{2}\Delta x^{T} \nabla^{2} f(x)\Delta x + O(||\Delta x||^{3}) \\
+\end{aligned}
+$$
+Note that the term $\nabla^{2}f(x + \xi \Delta x)$ is known as the [[Hessian]]. 
