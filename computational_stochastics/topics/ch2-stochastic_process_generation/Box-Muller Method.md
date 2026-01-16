@@ -58,10 +58,12 @@ R \sim F_{R}
 = 1 - \exp\left(-r^{2}/ 2\right)
 $$
 Let $U_{1}, U_{2} \sim U[0, 1]$ be two independent RVs. Then 
-$$\begin{aligned}
+$$
+\begin{aligned}
 2\pi U_{1} &\sim U[0, 2\pi] && \text{(which represents $\Theta$)} \\ 
 \left[-2 \ln(1 - U_{2}) \right]^{1/2} &\sim F_{R} && \text{(which represents $R$)}
-\end{aligned}$$
+\end{aligned}
+$$
 We can further simplify this; since we have a $1 - U_{2}$ term, and as $U_{2} \sim U[0, 1]$ then $1 - U_{2} \sim U[0, 1]$. 
 
 ---
