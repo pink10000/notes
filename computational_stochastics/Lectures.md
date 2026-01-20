@@ -70,4 +70,13 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 
 # Lecture 5 (1/14)
 - [[Acceptance-Rejection]]
+- [[Acceptance-Rejection#Theorem (Uniformity on Region $A$)]]
+- [[Acceptance-Rejection#Theorem (From Uniformity on $A$ to Target $f(x)$)]]
+- [[Acceptance-Rejection#Theorem (A-R Generates $Z sim f$)]]
 
+# Lecture 6 (1/16)
+- [[Acceptance-Rejection#Efficiency]]
+- [[Acceptance-Rejection#Modified A-R]]
+- [[Acceptance-Rejection#Example 1 (Sampling Standard Normal via A-R)]]
+- [[Inversion#Discrete Case]]
+- 

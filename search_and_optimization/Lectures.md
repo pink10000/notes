@@ -18,4 +18,10 @@ tags:
 # Lecture 3 (1/12)
 - [[Gradient#Maximizing Function Value via Level Sets]]
 - [[Local Minima]]
-- [[First-Order Optimality Condition#Theorem (Local Minima gives Zero Gradient)]]
+- [[Optimality Conditions#Theorem (Local Minima gives Zero Gradient)]]
+
+# Lecture 4 (1/14)
+- [[Gradient#Second-Order Taylor Expansion]]
+- [[Hessian]]
+- [[Definite Matrix]]
+- [[Optimality Conditions]]
