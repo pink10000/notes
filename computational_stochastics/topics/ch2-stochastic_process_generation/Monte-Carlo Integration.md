@@ -4,59 +4,18 @@ tags:
 aliases:
   - MC Integration
 ---
-- How do we evaluate high-dimensional integrals numerically?
-- E.g. consider $N$ particles $\unl{x}_{1}, \unl{x}_{2}, \dots, \unl{x}_{N} \in \R^{3}$. The [[Joint Distribution|Joint PDF]] is $f : \R^{3N} \to [0, \infty)$.
-- If we want to find the average properties among all particles, we'd have to do 
+# Motivation
+How do we evaluate high-dimensional integrals numerically? For example, consider $N$ particles $\unl{x}_{1}, \unl{x}_{2}, \dots, \unl{x}_{N} \in \R^{3}$. The [[Joint Distribution|Joint PDF]] is $f : \R^{3N} \to [0, \infty)$. If we wanted to find the average of some property $g$ among all particles, we'd have to do 
 $$
 \int_{\R^{3N}} g(x) f(x) d\unl{x}
 $$
-
-# Problem 1 (Importance Sampling)
-Consider 
-$$
-I = \int_{D} g(x) f(x) d\unl{x} 
-$$
-where 
-- $D \subseteq \R^{\ell}$ where $D$ is bounded, i.e. $D = [0, 1]^{\ell}$. 
-- $g : D \to \R$ is bounded and integrable (continuous)
-- $f : D \to \R$ is a [[Probability Distribution Function|PDF]] where $f \geq 0$ with $\int_{D} f(x) d\unl{x} = 1$. 
-
-Note that $I = \mathbb{E}_{f}[g(x)] = \E{g(x)}$ and 
-$$
-\begin{aligned}
-\sigma^{2} 
-&:= \var(g(x)) \\ 
-&= \E{g(x)^{2}} - \left[ \E{g(x)} \right]^{2} \\
-&= \int_{D} g(x)^{2} f(x) dx - I^{2} \\ 
-&= \int_{D}g(x)^{2}f(x) dx - 2I^{2} + I^{2} \\ 
-&= \int_{D} g(x)^{2} f(x) dx - \int_{D} 2I g(x) f(x) dx + \int_{D} I^{2} f(x)dx\\
-&= \int_{D} \left( g(x)^{2} - 2Ig(x) + I^{2} \right)f(x) dx \\
-&= \int_{D} (g(x) - I)^{2} f(x) dx 
-\end{aligned}
-$$
-Any integral on $D$ has the above form 
-$$
-\int_{D} h(x) dx = \int_{D} \frac{h(x)}{f(x)} f(x)dx = \mathbb{E}_{f}(g(X)) 
-$$
-for $g(x) = h(x)/f(x)$. This trick is called **Importance Sampling**. One simple choice we can do is 
-$$
-f(x) = \frac{1}{\text{vol}(D)}
-$$
-on $D$. For example, if we plug this is in, 
-$$
-g(x) = \frac{h(x)}{f(x)} = \frac{h(x)}{1/\text{vol}(D)} = \text{vol}(D) \cdot h(x)
-$$
-such that 
-$$
-I = \E{\text{vol}(D) \cdot h(X)} = \text{vol}(D) \cdot \E{h(X)}
-$$
-which is precisely what we want. 
-
+which is obviously expensive. 
 # Algorithm (Monte Carlo Integration)
 The goal is to evaluate
 $$
 I = \int_{D} g(x) f(x) dx 
 $$
+where $D \subseteq \R^{\ell}$ is bounded, $f$ is a [[Probability Distribution Function|PDF]] on $D$, and $g$ is integrable.
 1. Generate $X_{1}, \dots, X_{N} \sim f$ which are iid. 
 2. Set 
    $$
@@ -67,19 +26,20 @@ $$
 We want to know, 
 1. Does $I_{N}$ converge? As $N \to \infty, I_{N} \to I$? 
 2. What is the error? As $N \to \infty$ what is $|I_{N} - I|$? 
-
 The idea is to look at $\E{I_{N}}$ and $\var(I_{N})$. 
+> How "good" is $I_{N}$ for some $N$?
 # Proposition (MC Estimators Mean & Variance)
 Claim:
 $$
 \begin{aligned}
 \E{I_{N}} &= I \\
-\var(I_{N}) &= \frac{1}{N}\var(g(X)) \\
+\var(I_{N}) &= \frac{1}{N}\var(g(X)) 
+= \frac{1}{N} \left[ \int_{D} g(x)^{2} f(x) dx - I^{2} \right]
 \end{aligned}
 $$
 or that 
 1. $I_{N}$ is unbiased
-2. $X \sim g$
+2. $X \sim f$
 
 Proof: 
 
@@ -102,7 +62,7 @@ $$
 &= \frac{1}{N} \var(g(X))
 \end{aligned}
 $$
-as required. 
+as required. See [[Variance Reduction]] on how we can reduce the variance of the MC Estimator.
 
 # Theorem (Strong Consistency of MC Estimators)
 $$

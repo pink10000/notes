@@ -16,27 +16,27 @@ $$
 \frac{dx}{dt} = - \frac{du}{dx}
 \end{aligned}
 $$
-Let $u(x) = \frac{1}{2}x^{2}$.  Then 
+Let $u(x) = \frac{1}{2}x^{2}$.  Then
 $$
 \begin{aligned}
-u(x) &= \frac{1}{2}x^{2} \\ 
-\frac{du}{dx} &= x \\ 
+u(x) &= \frac{1}{2}x^{2} \\
+\frac{du}{dx} &= x \\
 \end{aligned}
 $$
-such that 
+such that
 $$
 \frac{dx}{dt} = -x
 $$
-Upon solving this ODE, we get 
+Upon solving this ODE, we get
 $$
 x(t) = x(0) \cdot e^{-t}
 $$
-So, as $t \to \infty, x \to 0$. 
+So, as $t \to \infty, x \to 0$.
 
 ## Example 2:
-We could have a double well 
+We could have a double well
 $$
-u(x) = \frac{1}{4} (x^{2} - 1)^{2} 
+u(x) = \frac{1}{4} (x^{2} - 1)^{2}
 $$
 ```desmos-graph
 	left=-2; right=2;
@@ -44,22 +44,22 @@ $$
 	---
     y=(1/4)(x^2 - 1)^2
 ```
-In the SDE case, given 
+In the SDE case, given
 $$
 dx = -u'(x)\,dt + b(t)\,dB_{t}
 $$
 In order, the terms are:
 - $dx$ is the change $x$
 - $u'(x)$ is the deterministic force
-- $b(t)dB_{t}$ is some "random" force. In particular, $dB_{t}$ is the Brownian increment, or "white noise". 
+- $b(t)dB_{t}$ is some "random" force. In particular, $dB_{t}$ is the Brownian increment, or "white noise".
 
-So when we calculate the position of the particle via $x(t)$, the $u'(t)$ term tells us how we move via the force, with some randomness via $b(t)dB_{t}$. This leads to 
+So when we calculate the position of the particle via $x(t)$, the $u'(t)$ term tells us how we move via the force, with some randomness via $b(t)dB_{t}$. This leads to
 - new frequency in a system
 > what does frequency mean?
-- new types of resonance/transport effects. 
+- new types of resonance/transport effects.
 
 # Lecture 3 (1/9)
-Reference for this section is Rubinstein Ch.2 
+Reference for this section is Rubinstein Ch.2
 - [[Inversion]]
 - [[Transformation of Random Variables]]
 
@@ -79,4 +79,11 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 - [[Acceptance-Rejection#Modified A-R]]
 - [[Acceptance-Rejection#Example 1 (Sampling Standard Normal via A-R)]]
 - [[Inversion#Discrete Case]]
-- 
+
+# Lecture 7 (1/21)
+- [[Monte-Carlo Integration]]
+- [[Variance Reduction]]
+
+# Lecture 8 (1/23)
+- [[Importance Sampling]]
+- [[Importance Sampling#Example 1]]
