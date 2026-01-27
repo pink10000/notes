@@ -87,3 +87,8 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 # Lecture 8 (1/23)
 - [[Importance Sampling]]
 - [[Importance Sampling#Example 1]]
+
+# Lecture 9 (1/26)
+- Review of previous $2$ lectures. 
+- [[Markov Chains]]. For the purposes of this class we only consider Discrete Time/State Homogeneous Markov Chains
+- [[Stochastic Process]]

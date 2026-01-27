@@ -66,17 +66,29 @@ for $X \sim f$ and $Y \sim \phi$. Some remarks:
    $$
    J_{N} = \frac{1}{N} \sum_{i=1}^{N} \frac{g(Y_{i})f(Y_{i})}{\phi(Y_{i})}.
    $$
-## Choosing $\phi$
-Pick $\phi$ to satisfy:
-- **Support**: $\phi(x) > 0$ anywhere $g(x)f(x) \neq 0$ (so the weight $f(x)/\phi(x)$ is well-defined).
-- **Computable**: easy to sample from.
-- **Low-variance weights**: avoid making $\phi(x)$ tiny where $|g(x)f(x)|$ is large (that creates huge weights and high variance).
+## Theorem 
+It's worth asking what is the optimal $\phi$ to minimize the variance of $J_{N}$. The variance 
+$$
+\var_{\phi}\left( 
+\frac{g(Y)f(Y)}{\phi(Y)}
+\right)
+$$
+is minimized at PDF $\phi^{*}$ given by 
+$$
+\phi^{*}(x) = \frac{
+|g(x)|\cdot f(x)
+}{
+\int_{D} |g(u)| f(u) \, du 
+}
+\geq 0
+$$
+Thus, the minimum variance is 
+$$
+\left( \int_{D} |g(y)| f(y) \, dy \right)^{2} - I^{2}
+$$
+Proof: 
 
-[[Variance Reduction]] means choosing $\phi$ such that
-$$
-\int_{D} \frac{g(x)^{2}f(x)^{2}}{\phi(x)}\, dx
-$$
-is small. The idea is to make $\phi(x)$ larger when $(g(x)f(x))^{2}$ is large. Why do we want that integral small? This comes from the **variance** formula. Let
+Let
 $$
 W := \frac{g(Y)f(Y)}{\phi(Y)}, \quad Y \sim \phi.
 $$
@@ -97,7 +109,16 @@ Therefore
 $$
 \var(J_N) = \frac{1}{N}\left(\int_D \frac{g(x)^2 f(x)^2}{\phi(x)}\,dx - I^2\right).
 $$
-Since $I^2$ does not depend on $\phi$, making $\int_D \frac{g^2 f^2}{\phi}$ small makes the estimator variance small.
+Since $I^2$ does not depend on $\phi$, making $\int_D \frac{g^2 f^2}{\phi}$ small makes the estimator variance small. Finally, the left term of the subtraction is minimized via Jensen's Inequality.
+## Remarks
+- $\phi^{*}$ is the optimal importance function 
+- If $g \geq 0$ on $D$ then $\phi^{*} = I^{-1} g(x)f(x)$ and so $\var_{\phi}$ is $0$. Intuitively, $|g(y)|= g(y)$, so the above is $0$. 
+- But this requires knowing $I$, which is already what we're trying to do. 
+- In general, $\phi^{*}$ involves knowing 
+  $$
+  \int_{D} |g(x)| f(x) \, dx
+  $$
+  which is similar to $I$, and practically, using $\phi^{*}$ is not possible. 
 # Example 1
 Consider $D = [0, 1] \subseteq \R, f(x) = 1$ on $D$ where $(f(x) = 0, x \not\in D)$ and $g(x) = 4\sqrt{1 - x^{2}}$ on $D$. 
 
