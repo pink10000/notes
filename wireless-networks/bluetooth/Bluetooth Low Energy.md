@@ -23,6 +23,7 @@ There are three main layers:
 	- **GAP**: Generic Access Profile. This is where we configure advertising. 
 	- **GATT**: Generic ATTribute Profile. This is where we configure connections between devices.
 - **HCI**: Host Controller Interface 
+	- In the chip there, is a CPU, BLE chip, microcontroller, etc. The HCI is so then the chip can talk to other components inside itself.
 - **Controller**: Communication 
 	- Link Layer: sending packets
 	- RF and PHY: sending bits

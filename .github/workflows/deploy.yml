@@ -1,0 +1,53 @@
+name: Deploy Quartz Site
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Builder (your fork)
+        uses: actions/checkout@v4
+        with:
+          repository: pink10000/quartz-site
+          path: builder
+
+      - name: Checkout Content (this repo)
+        uses: actions/checkout@v4
+        with:
+          path: builder/content
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: |
+          cd builder
+          npm install
+
+      - name: Build Quartz
+        run: |
+          cd builder
+          npx quartz build
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: builder/public
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

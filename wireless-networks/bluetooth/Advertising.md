@@ -87,3 +87,18 @@ Packets are lost due to (in roughly descending order):
 - retune period after each scanning interval 
 - dropped packets in the receive software
 - packet collisions 
+
+# Advertising Only Applications
+There are some devices that only do advertisements. 
+- Beacons: iBeacon, Eddystone (you have to run an application registered to listen to these devices to do something with them)
+- Tracking: Tile, Apple AirTag
+- Local communication: Apple Continuity 
+
+# Energy Costs
+Configuration 
+- nrf51822
+- Max Payload Size
+- Max transmit power
+- Connectable Advertisement
+- Sleep power $11 \; \mu W$.
+One packet per second will last $270$ days on a CR2032. One packet pet minute is $\approx 6$ years. 
