@@ -95,3 +95,7 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 
 # Lecture 10 (1/28)
 - [[Markov Chains]]
+
+# Lecture 11 (1/28)
+- [[Long-Run Markov Chains]]
+- [[Invariant Distribution]]
