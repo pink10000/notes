@@ -92,3 +92,6 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 - Review of previous $2$ lectures. 
 - [[Markov Chains]]. For the purposes of this class we only consider Discrete Time/State Homogeneous Markov Chains
 - [[Stochastic Process]]
+
+# Lecture 10 (1/28)
+- [[Markov Chains]]
