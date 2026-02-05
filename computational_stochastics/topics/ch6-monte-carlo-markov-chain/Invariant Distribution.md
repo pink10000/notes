@@ -88,7 +88,7 @@ $$
 $$
 which is precisely equal to $\pi(j) \cdot 1 = \pi(j)$. Thus it is independent. 
 # Solving For Stationary Distributions
-We can either:
+How do we find $\pi$? We can either:
 1. Solve $\pi P = \pi$ or 
 2. Diagonalize $P = U\Lambda U^{-1}$. 
 
