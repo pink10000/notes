@@ -11,7 +11,7 @@ P = \begin{pmatrix}
 $$
 and $\P(X_{1} = 0 \,|\, X_{0} = 0) = 3/4$ etc. Then 
 $$
-\lim_{n\to \infty} p^{n} = 
+\lim_{n\to \infty} P^{n} = 
 \begin{pmatrix}
 0.4 & 0.6 \\ 0.4 & 0.6
 \end{pmatrix}
@@ -26,15 +26,15 @@ Proof:
 
 Let $\pi_{0} = (a_{0}, a_{1}) = (\P(X_{0} = 0), \P(X_{0} = 1))$. Note that $a_{0} + a_{1} = 1$. Then 
 $$
-\pi_{n} = [\P(X_{n} = 0), \P(X_{n} = 1)] = \pi_{0}p^{n}
+\pi_{n} = [\P(X_{n} = 0), \P(X_{n} = 1)] = \pi_{0}P^{n}
 $$
 which implies that 
 $$
-\lim_{n\to \infty} \pi_{n} = \lim_{n \to \infty} \pi_{0} p^{n}
+\lim_{n\to \infty} \pi_{n} = \lim_{n \to \infty} \pi_{0} P^{n}
 $$
 from [[Markov Chains#Proposition (Stochastic Properties)]]. We get
 $$
-\lim_{n \to \infty} \pi_{0}p^{n}
+\lim_{n \to \infty} \pi_{0}P^{n}
 = (a_{0}, a_{1}) \begin{pmatrix}
 0.4 & 0.6 \\ 0.4 & 0.6 \\
 \end{pmatrix}
@@ -50,7 +50,7 @@ P = \begin{pmatrix}
 $$
 With $\P$ being defined as usual. Then 
 $$
-\lim_{n\to\infty} p^{n} = \begin{pmatrix}
+\lim_{n\to\infty} P^{n} = \begin{pmatrix}
 \pi \\ \pi \\ \pi
 \end{pmatrix}
 $$
@@ -79,8 +79,8 @@ Because the sum of the starting distribution must equal $1$, it does not matter 
    $$
    \begin{aligned}
    \pi = \lim_{n\to \infty} \pi_{n+1} 
-   &= \lim_{n\to\infty} \pi_{0} p^{n+1} \\
-   &= \lim_{n\to\infty} (\pi_{0} p^{n}) \cdot p \\
+   &= \lim_{n\to\infty} \pi_{0} P^{n+1} \\
+   &= \lim_{n\to\infty} (\pi_{0} P^{n}) \cdot P \\
    &= \pi P
    \end{aligned}  
    $$
