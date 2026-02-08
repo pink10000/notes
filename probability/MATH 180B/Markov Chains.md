@@ -48,7 +48,7 @@ $$
 \P(X_{0} = i_{0}) \prod_{k=1}^{n}\P(X_{k} = i_{k} \,|\,X_{0} = i_{0}, \dots, X_{k-1} = i_{k-1}) \\
 &= 
 \P(X_{0} = i_{0}) \prod_{k=1}^{n}\P(X_{k} = i_{k} \,|\, X_{k-1} = i_{k-1}) \\
-&= P(X_{0} = i_{0}) \prod_{k=1}^{n} p(i_{0}, i_{1})
+&= P(X_{0} = i_{0}) \prod_{k=1}^{n} p(i_{k-1}, i_{k})
 \end{aligned}
 $$
 by the chain rule, Markov Property, and time homogeneity in that order. Visually, this is a path through a graph. The probability of this path is the product of the edges crossed. 
