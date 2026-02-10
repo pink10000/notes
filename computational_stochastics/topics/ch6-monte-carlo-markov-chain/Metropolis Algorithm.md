@@ -92,4 +92,92 @@ P = \begin{bmatrix}
 0 & 1/2 & 1/2 & 0 \\
 \end{bmatrix}
 $$
-which is [[Symmetric Matrix|symmetric]]. 
+which is [[Symmetric Matrix|symmetric]]. Choose $X_{0} \in S$ given $X_{k} = (\sigma_{1}, \dots, \sigma_{m}) \in S$. Some notes, 
+- $J$ represents the interaction strength between particles. It can be treated as a constant. 
+- $h$ is the external magnetic field on the particles. We can treat it as a constant. 
+
+Algorithm:
+1. Choose a site $i$ for $1 \leq i \leq m$ uniformly at random among $1,2, \dots, m$. 
+2. Flip the $i$th site $\sigma_{i} \to -\sigma_{i}$ to obtain the proposal state:
+   $$
+   \hat{\sigma} = (\sigma_{1}, \dots, \sigma_{i-1}, -\sigma_{i}, \sigma_{i+1}, \dots, \sigma_{m}) \in S
+   $$
+   Note that $q(\sigma, \hat\sigma) = q(\hat\sigma, \sigma) = 1/m$. This shows $Q$ is symmetric. 
+3. Compute
+   $$
+   \begin{aligned}
+   \frac{\pi(\hat\sigma)}{\pi(\sigma)} 
+   &= \exp\left[ -\beta(H(\hat\sigma) - H(\sigma)) \right] \\
+   &= \exp(- \beta \Delta H)
+   \end{aligned}
+   $$
+   Recall that we do this to avoid the [[Long-Run Markov Chains#Remark (Discreteness)|partition function]].
+4. Three cases for $\Delta H$:
+	1. If $1 < i < m$, (we picked a particle in the middle of the chain) then 
+	   $$
+	   \begin{aligned}
+	   H(\hat\sigma) - H(\sigma) 
+	   &= -J(\sigma_{i-1}(-\sigma_{i}) - \sigma_{i}\sigma_{i+1}) + h\sigma_{i} 
+	   -\left[ -J(\sigma_{i-1}\sigma_{i} + \sigma_{i}\sigma_{i+1}) - h\sigma_{i} \right] \\
+	   &= 2J\sigma_{i}(\sigma_{i-1} + \sigma_{i+1}) + 2h\sigma_{i}
+	   \end{aligned}
+	   $$
+	2. If $i = 1$ (the left boundary), then 
+	   $$
+	   \begin{aligned}
+	   H(\hat\sigma) - H(\sigma) 
+	   &= -J(-\sigma_{1})\sigma_{2} + h\sigma_{1} - \left[ -J\sigma_{1} \sigma_{2} - h\sigma_{1} \right] \\
+	   &= 2J\sigma_{1} \sigma_{2} + 2h\sigma_{1} 
+	   \end{aligned}
+	   $$
+	3. If $i = m$ (the right boundary), similarly 
+	   $$
+	   \begin{aligned}
+	   H(\hat\sigma) - H(\sigma) = 2J \sigma_{m-1} \sigma_{m} + 2h\sigma_{m} 
+	   \end{aligned}
+	   $$
+	   Thus, 
+	   $$
+	   \Delta H = H(\hat\sigma) - H(\sigma) = \begin{cases}
+	   2 J \sigma_{i}(\sigma_{i-1} + \sigma_{i+1}) + 2h\sigma_{i} & 1 < i < m\\
+	   2 J \sigma_{1} \sigma_{2} + 2h \sigma_{1} & i = 1 \\
+	   2 J \sigma_{m-1} \sigma_{m} + 2h \sigma_{m} & i = m
+	   \end{cases}
+	   $$
+	4. We can then accept $\hat\sigma$ with probability
+	   $$
+	   \alpha 
+	   = \min \left( 1, \frac{\pi(\hat\sigma)}{\pi(\sigma)}  \right)
+	   = \min \left( 1, e^{-\beta \Delta H} \right)
+	   $$
+	5. Thus, 
+		1. If $\Delta H \leq 0$ then $\alpha = 1$ and set $X_{k+1} \leftarrow \hat\sigma$. (Here, the system lost energy, i.e. became more stable, so the second term is positive and thus greater than $1$. We will accept).
+		2. If $\Delta H > 0$ then $\alpha = \exp(-\beta \Delta H)$. (This is the opposite of above.) 
+			1. Generate $U \sim \mathcal{U}[0, 1]$. 
+			2. If $U \leq \exp(-\beta\Delta H)$, accept $\hat\sigma$ and $X_{k+1} \leftarrow \hat\sigma$
+			3. If $U > \exp(-\beta\Delta H)$, reject $\hat\sigma$ and $X_{k+1} \leftarrow \sigma$. 
+
+Why does it work?
+- In step 2, we do not calculate $H$ since it is computationally inefficient. However, we can calculate the change, $\Delta H$. Every term in $H(\sigma)$ cancels out **but the changed term**. This means we only need to find the sum of a few terms.
+- The Ising model only involves interactions with the nearest neighbors. This is why we see changes in $\sigma_{i-1}$ and $\sigma_{i+1}$, reducing the computations needed from $O(m)$ to $O(1)$. 
+
+# Theorem (Metropolis Satisfies Detailed Balance)
+1. The transition matrix $P = [p(i, j)]$ of the Metropolis Chain is 
+   $$
+   p(i, j) = \begin{cases}
+   q(i, j) \cdot \min\left(1, \frac{\pi(j)}{\pi(i)} \right) & i \neq j \\
+   1 - \sum_{k \in S \setminus\{i\}} q(i, k)\cdot \min\left(1, \frac{\pi(j)}{\pi(i)} \right) & i = j
+   \end{cases}
+   $$
+	1. The idea in case $1$ is that we propose moving from $i \to j$ with probability $q(i, j)$ in Metropolis, but we accept this movement $\alpha(i, j)$ times. This is just the probability of these two events happening together.
+	2. In case $2$, accounts for the probability of rejection. Indeed, $p(i, i)$ is the sum of chances we tried to move but failed.
+2. $\pi$ and $P$ satisfy [[Invariant Distribution#Definition (Detailed Balance)|detailed balance]]: 
+   $$
+   \pi(i) \cdot p(i, j) = \pi(j) \cdot p(j, i)
+   $$
+   for all $i,j \in S$. (Hence $\pi$ is a [[Invariant Distribution#Definition (Stationary or Invariant Distribution)|stationary distribution]].)
+3. If $\forall i, j \in S, q(i, j) > 0$ and $\forall i \in S, p(i, i) > 0$, then $\pi$ is unique, and 
+   $$
+   \lim_{n \to \infty} \pi_{0} P^{n} = \pi
+   $$
+Proof: Next Lecture.

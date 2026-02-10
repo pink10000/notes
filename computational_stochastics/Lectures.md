@@ -103,3 +103,7 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 # Lecture 12 (2/2)
 - [[Long-Run Markov Chains]]
 - [[Metropolis Algorithm]]
+
+# Lecture 13 (2/9)
+- [[Metropolis Algorithm#Example 1 (1D Ising Model)]]
+- [[Metropolis Algorithm#Theorem (Metropolis Satisfies Detailed Balance)]]
