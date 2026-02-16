@@ -180,4 +180,64 @@ Why does it work?
    $$
    \lim_{n \to \infty} \pi_{0} P^{n} = \pi
    $$
-Proof: Next Lecture.
+Proof: 
+
+$(1)$: For $i \neq j,$ 
+$$
+\begin{aligned}
+p(i, j) 
+&= \P(\text{propose } j  \mid i) \cdot \P(\text{accept }j \mid \text{proposed } j) \\
+&= q(i, j) \cdot \min\left( 1, \frac{\pi(j)}{\pi(i)}\right)
+\end{aligned}
+$$
+Then since $P$ is a stochastic matrix, for any state $i$, the sum $\sum_{j \in S} p(i, j) = 1$ by law of total probability. This implies 
+$$
+\begin{aligned}
+p(i, i) 
+&= 1 - \sum_{\substack{k \in S \\ k \neq i}} p(i, k)  \\
+&= 1 - \sum_{\substack{k \in S \\ k \neq i}} q(i, k) \cdot  \min\left( 1, \frac{\pi(k)}{\pi(i)}\right)
+\end{aligned}
+$$
+which represents the "rejection probability". The chain stays at state $i$ if either
+1. The proposal $q(i, i)$ suggests staying at $i$, 
+2. or if the the proposal $j \neq i$ was made, but was rejected with probability $1 - \alpha(i, j)$.
+
+$(2)$: We want to show that 
+$$
+\forall i, j \in S, 
+\pi(i) \cdot p(i, j) = \pi(j)\cdot p(j, i)
+$$
+Trivially, this is true for $i = j$. Suppose $i \neq j$. Then 
+$$
+\begin{aligned}
+\pi(i) \cdot p(i, j)
+&= \pi(i) \cdot q(i, j) \cdot \min\left( 1, \frac{\pi(j)}{\pi(i)}\right) \\
+&= q(i, j) \cdot \min(\pi(i), \pi(j)) \\
+&= q(j, i) \cdot \min(\pi(j), \pi(i)) \\ 
+&= \pi(j) \cdot q(j, i) \cdot \min\left( 1, \frac{\pi(i)}{\pi(j)}\right) \\
+&= \pi(j) \cdot p(j, i)
+\end{aligned}
+$$
+By symmetry, $q(i, j) = q(j, i)$. Thus Metropolis satisfies detailed balance, and $\pi$ is stationary.  
+
+$(3)$: The condition $q(i, j) > 0$ ensures the chain is [[Invariant Distribution#Definition (Reducible)|irreducible]] (any state can reach any other in one step). The condition $p(i, i) > 0$ ensures the chain is [[Invariant Distribution#Definition (Periodic)|aperiodic]]. An irreducible, aperiodic chain on a finite state space is [[Invariant Distribution#Definition (Regular Transition Matrices)|regular]]. By the [[Invariant Distribution#Fundamental Theorem of Markov Chains|FTMC]], a regular matrix has a unique stationary distribution $\pi$ and $\lim_{n \to \infty} \pi_0 P^n = \pi$.
+
+# Remark (Metropolis on Ising Model)
+Using Metropolis on the [[Ising Model]], we had 
+$$
+S = \{\sigma = (\sigma_{1}, \dots, \sigma_{m}), \sigma_{j} \in \{+1, -1\} \}
+$$
+where sign flips would give us 
+$$
+(\sigma_{1}, \dots, \sigma_{j}, \dots , \sigma_{m}) 
+\mapsto 
+(\sigma_{1}, \dots, -\sigma_{j}, \dots, \sigma_{m})
+$$
+which defines our proposal probability as 
+$$
+q(\sigma, \sigma') = \begin{cases}
+1/m & \sigma \to \sigma' \text{ is 1 flip} \\
+0 & \text{otherwise}
+\end{cases}
+$$
+We can show that $q$ gives a regular Markov Chain. The idea is that any $2$ states in $S$ are at most $m$ flips apart. 

@@ -136,3 +136,14 @@ $$
 (\lambda P)_{j} = \sum_{i} \lambda_{i} \cdot p(i, j) = \sum_{i} \lambda_{j} p(j, i) = \lambda_{j}
 $$
 for row $j$. 
+
+# Fundamental Theorem of Markov Chains
+If a [[Markov Chains|Markov Chain]] is a [[#Definition (Reducible)|irreducible]] and [[#Definition (Periodic)|aperiodic]] and has a [[#Definition (Stationary or Invariant Distribution)|stationary distribution]] $\pi$, then 
+1. $\pi$ is the **unique** stationary distribution
+2. The distribution of the state at time $n$ **converges** to $\pi$ as $n \to \infty$ regardless of the initial distribution $\pi_{0}$, or that 
+   $$
+   \lim_{n \to \infty} \pi_{0} P^{n} = \pi
+   $$
+**Remark on Regularity:** This theorem is the functional equivalent of the Regular MC Theorem. In finite state spaces, the conditions (irreducible + aperiodic) are exactly what define a regular transition matrix ($P^{k} > 0$ for some $k$).
+
+Proof: See [[#Theorem (Regular MC Gives Unique Stationary Distributions)]]. 
