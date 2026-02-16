@@ -1,6 +1,6 @@
 ---
 tags:
-  - MATH_114
+  - CSE_122
 ---
 
 # Collisions 

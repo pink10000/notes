@@ -103,7 +103,7 @@ Given IP `8.8.8.8`
 ```
 [ dest MAC addr | src MAC addr | ethertype | <-- data --> | crc checksum ]
 ```
-
+See [[Data Link Layer#Error Control|CRC]].
 ## Address Resolution Protocol
 - maps IP to MAC within a LAN (local area network)
 - used to find the MAC corresponding with the IP addr

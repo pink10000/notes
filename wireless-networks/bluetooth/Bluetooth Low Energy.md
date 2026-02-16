@@ -40,7 +40,7 @@ Although BLE runs on the same frequency as WiFi, there are techniques to avoid i
 **Gaussian Frequency-Shit Keyring** (GFSK) 
 - improvement on [[Signal Qualities#Frequency-shift Keyring (FSK)|FSK]] 
 - smoother transitions between bits $\to$ reduce nearby interference
-- lessens spectral leakage at the expense of some loss in intersymbol discriminability
+- lessens spectral leakage at the expense of some loss in [[Symbol|intersymbol]] discriminability
 	- i.e. reduce bandwidth at the cost of bit errors
 
 # Packet Structure 
