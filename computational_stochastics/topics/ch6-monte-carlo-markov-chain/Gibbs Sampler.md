@@ -31,7 +31,8 @@ Here we have a high dimensional state space. The goal is to sample from a distri
    $$
    \alpha_+ = \frac{\pi(\underline{\sigma}^{J, +1})}{\pi(\underline{\sigma}^{J, -1}) + \pi(\underline{\sigma}^{J, +1})}
    $$
-   Set $$
+   Set 
+   $$
    \alpha_- = \frac{\pi(\underline{\sigma}^{J, -1})}{\pi(\underline{\sigma}^{J, -1}) + \pi(\underline{\sigma}^{J, +1})}
    $$
    (Note: $\alpha_+ + \alpha_- = 1$). This is the relative probability of that specific spin being $+1$ or $-1$ conditioned on the fact that all the other spins are fixed. The partition function $Z$ cancels out in these fractions. 
