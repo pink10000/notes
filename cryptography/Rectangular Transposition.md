@@ -43,7 +43,7 @@ by using $31452$. It tells us to use
 - 5th, `M`
 - 2nd, `E`
 
-giving us the ciphertext
+giving us the [[Text#Definition (Plaintext, Ciphertext)|ciphertext]]
 ```
 EMTMETENOAQOXJN
 ```
