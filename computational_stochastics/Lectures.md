@@ -114,3 +114,12 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 
 # Lecture 15 (2/9)
 - Review for midterm
+
+# Lecture 16 (2/13)
+- Review on [[Metropolis Algorithm]]
+- [[Gibbs Sampler]]
+
+# Lecture 17 (2/19)
+- [[Gibbs Sampler#Remarks]]. $\leftarrow$ important!
+
+# Lecture 18 (2/20)

@@ -218,7 +218,7 @@ $$
 &= \pi(j) \cdot p(j, i)
 \end{aligned}
 $$
-By symmetry, $q(i, j) = q(j, i)$. Thus Metropolis satisfies detailed balance, and $\pi$ is stationary.  
+However, this is only true because we let $q(i, j) = q(j, i)$, i.e. the matrix $Q$ must be symmetric. Thus Metropolis satisfies detailed balance, and $\pi$ is stationary.  
 
 $(3)$: The condition $q(i, j) > 0$ ensures the chain is [[Invariant Distribution#Definition (Reducible)|irreducible]] (any state can reach any other in one step). The condition $p(i, i) > 0$ ensures the chain is [[Invariant Distribution#Definition (Periodic)|aperiodic]]. An irreducible, aperiodic chain on a finite state space is [[Invariant Distribution#Definition (Regular Transition Matrices)|regular]]. By the [[Invariant Distribution#Fundamental Theorem of Markov Chains|FTMC]], a regular matrix has a unique stationary distribution $\pi$ and $\lim_{n \to \infty} \pi_0 P^n = \pi$.
 
@@ -241,3 +241,17 @@ q(\sigma, \sigma') = \begin{cases}
 \end{cases}
 $$
 We can show that $q$ gives a regular Markov Chain. The idea is that any $2$ states in $S$ are at most $m$ flips apart. 
+
+# Metropolis-Hastings Algorithm
+We can run Metropolis with an asymmetric proposal matrix $Q$. The purpose of this is to relax the condition that $Q$ must be symmetric in [[#Theorem (Metropolis Satisfies Detailed Balance)]]. This allows us to correct the model over-sampling states frequently proposed by $Q$ regardless of the actual probability in the target distribution $\pi$.
+1. Given $X_{k} \in S$, choose $Y$ from $q(X_{k}, \cdot)$. 
+2. Accept $Y$ with probability
+$$
+\alpha = \min\left( 
+1, 
+\frac{\pi(Y)}{\pi(X_{k})} \cdot \frac{q(Y, X_{k})}{q(X_{k}, Y)}
+\right)
+$$
+The output is a Markov Chain of $X_{0}, X_{1}, \dots \in S$. 
+
+> Convergence is hard to prove. Heuristically, consider that $R(n) = \Cov(X_{n}, X_{0})$. So as $n \to \infty$, $R(n) \to 0$.
