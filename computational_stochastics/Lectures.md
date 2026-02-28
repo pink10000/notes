@@ -123,3 +123,13 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 - [[Gibbs Sampler#Remarks]]. $\leftarrow$ important!
 
 # Lecture 18 (2/20)
+- [[Stochastic Process]]
+- [[Stochastic Differential Equations]]
+- [[Stochastic Differential Equations#Brownian Motion and SDE Formulation]]
+
+# Lecture 19 (2/23)
+- [[Stochastic Differential Equations#Definition (Brownian Motion, Wiener Process)]]
+- [[Stochastic Differential Equations#Properties of Brownian Motion]]
+- [[Stochastic Differential Equations#Example 1]]
+
+# Lecture 20 (2/25)
