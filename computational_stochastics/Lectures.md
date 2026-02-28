@@ -133,3 +133,4 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 - [[Stochastic Differential Equations#Example 1]]
 
 # Lecture 20 (2/25)
+- [[Simulating Brownian Motion]]
