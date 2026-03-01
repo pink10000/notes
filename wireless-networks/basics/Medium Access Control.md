@@ -13,7 +13,7 @@ How does a network determine which transmitter gets to transmit? The wireless me
 	- First listen for a duration and determine if anyone is transmitting. If idle, transmit. If busy, wait and try again. 
 	- "Listen before send"
 	- Can be combined with slotting.
-	- There can be a hidden terminal so that both transmitters never detect each other's transmissions. A partial solution would be to send a *Request to Send (RTS)*. 
+	- There can be a **hidden terminal** so that both transmitters never detect each other's transmissions. A partial solution would be to send a *Request to Send (RTS)*. 
 	- The receiver will send a *Clear to Send (CTS)* to only one node at a time. 
 # Contention-Free Protocols
 The goal is to split up communication such that devices will not conflict. We can predetermine this or have it be reservation-based. 
@@ -31,3 +31,25 @@ The goal is to split up communication such that devices will not conflict. We ca
 	- Requires everyone to speak the same volume 
 # Capture Effect
 Two packets at once is not always a loss. We can see the difference in amplitude and detect either. 
+
+# Hidden Terminal Problem 
+In CSMA/CA, two devices wanting to contact another device may not see each other. Thus they will not have complete information if they can send or not. For example, 
+```
+           [Node A's Range]               [Node C's Range]
+          ,----------------.            ,--------------.
+         /                  \          /                \
+        /                    \        /                  \
+       |   (A)  SENDER       |_______|   (C)  SENDER     |
+       |    |                |       |    |              |
+       |  Can't see C        |  (B)  |  Can't see A      |
+       |  Hears 'Free'       | RECE- |  Hears 'Free'     |
+       |                     | IVER  |                   |
+       |   Sends -> B        | (AP)  |   Sends -> B      |
+        \      ^             |       |      ^           /
+         \_____|____________/_______/______|__________/
+               |                ||         |
+               |                ||         |
+          [Transmits]      COLLISION  [Transmits]
+                          (Data Loss)
+```
+> Awesome ASCII Venn Diagram!
