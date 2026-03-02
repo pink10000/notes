@@ -66,7 +66,7 @@ Evaluate the first moment by applying the expectation operator to the SDE.
 $$
 dX = u \cdot dt + \sqrt{2 D} \cdot dB
 $$
-Taking the [[Expectation]] yields $\E{dX} = u \,dt + \sqrt{2D} \cdot \E{dB}$. Since $\E{dB} = 0$, we isolate the deterministic component. The expectation operator commutes with the differential, generating an ordinary differential equation (ODE) for the mean
+Taking the [[Expectation]] yields $\E{dX} = u \,dt + \sqrt{2D} \cdot \E{dB}$. Since $\E{dB} = 0$, we can isolate the deterministic component. The expectation operator commutes with the differential, generating an ordinary differential equation (ODE) for the mean
 $$
 d\E{X} = u dt \implies \frac{d}{dt} \E{X} = u 
 $$
