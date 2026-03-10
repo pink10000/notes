@@ -134,3 +134,15 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 
 # Lecture 20 (2/25)
 - [[Simulating Brownian Motion]]
+- [[Stochastic Differential Equations#Ornstein-Uhlenbeck Process (OU)]]
+# Lecture 21 (2/27)
+- [[Stochastic Differential Equations#Moments of the OU Process]]
+- [[Ito's Lemma]]
+
+# Lecture 22 (3/2)
+- [[Ito's Lemma#Ito's Lemma]]
+- [[Ito's Lemma#ODE Case]]
+- [[Ito's Lemma#SDE Case]]
+- [[Ito's Lemma#Example 1 (Discrete-Time Step with Ito's Lemma)]]
+
+# Lecture 23 

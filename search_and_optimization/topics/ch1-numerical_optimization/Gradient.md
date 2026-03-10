@@ -20,7 +20,7 @@ which is essentially linear approximation but in $\R^{n}$.
 > f(x + \Delta x) = f(x) + \frac{d}{dx}[f(x)] \cdot \Delta x
 > $$
 
-The [[Taylor's Theorem|Taylor Expansion]] generalizes the tangent line into $n$ dimensions. The $O(||\Delta x ||_{2}^{2})$ term is essentially the remainder of the rest of the terms of the Taylor [[Series]]. As $\Delta x \to 0$, then the $O \to 0$. In **first-order optimization**, we assume $\Delta x$ is so small, that $\Delta x^{2}$ is essentially negligible. 
+The [[Taylor's Theorem|Taylor Expansion]] generalizes the tangent line into $n$ dimensions. The $O(||\Delta x ||_{2}^{2})$ term is essentially the remainder of the rest of the terms of the Taylor [[Series]]. As $\Delta x \to 0$, then the [[Big O Notation|big]] $O \to 0$. In **first-order optimization**, we assume $\Delta x$ is so small, that $\Delta x^{2}$ is essentially negligible. 
 
 From the previous equation, by the Multivariate [[Derivative#Theorem (Lagrange Mean Value Theorem)|MVT]][^1] we get 
 $$

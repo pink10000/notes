@@ -132,25 +132,29 @@ The Ornstein-Uhlenbeck (OU) process is defined by the stochastic differential eq
 $$
 dX=-\alpha Xdt+\sqrt{2D}dB
 $$
-with initial condition $X(0)=x_{0}$.
+with initial condition $X(0)=x_{0}$, and $\alpha, D, x_{0} \in \R$. Note that $D > 0$.
 
-## Euler's Method for OU Process
-Algorithm for discrete simulation:
-1. Set $\delta t>0$, $n\in\mathbb{Z}$, and $t_k=k\delta t$ for $k=0,1,2,\dots,n$.
-2. Set $X_0=x_0$.
-3. For $i=0$ to $n-1$:
-	1. Generate $Z\sim\mathcal{N}(0,1)$.
-	   $$
-	   X_{i+1}=X_i-\alpha X_i\delta t+\sqrt{2D\delta t}Z
-	   $$
-4. The sequence $X_{i}$ approximates the true continuous solution $X(t_{i})$.
+## Euler-Maruyama's Method for OU Process
+We want to simulate 
+$$
+dX = -\alpha X \,dt + \sqrt{2D} \,dB 
+\quad\quad\quad X(0) = x_{0}
+$$
+where $\alpha, D, x_{0} \in \R$ and $D> 0$ are constants. We can approximate $X(t)$ for $t \in [0, T]$ via 
+1. Set $T > 0, n \in \Z_{>0}, \delta t = T/n$. 
+2. Let $t_{k} = k \delta t$ with $k = 0,1,2, \dots, n$
+3. For $i = 0$ to $n - 1$, 
+	1. Generate $Z \sim \mathcal{N}(0, 1)$
+	2. Set $X_{i+1} = X_{i} - \alpha X_{i} \delta t + \sqrt{2D \delta t} \cdot Z$
+4. Output $X_{0}, X_{1}, \dots, X_{n}$
+We get that $X_{i} \approx X(t_{i})$. 
 
 ## Moments of the OU Process
-Evaluate the first moment by applying the expectation operator to the SDE.
+Evaluate the first [[Moments|moment]] by applying the expectation operator to the SDE.
 $$
 dX=-\alpha Xdt+\sqrt{2D}dB
 $$
-Taking the expectation $\mathbb{E}$ yields:
+Taking the [[Expectation]] $\mathbb{E}$ yields the following. The second term is zero since the differential operator commutes with the expectation and [[#Properties of Brownian Motion|property 2]]. 
 $$
 d\mathbb{E}[X]=-\alpha\mathbb{E}[X]dt
 $$
@@ -170,3 +174,107 @@ Substituting the expectation back provides the exact first moment:
 $$
 \mathbb{E}[X]=x_0e^{-\alpha t}
 $$
+> How can we solve for higher moments, e.g. $d\left(\E{X^{2}}\right) = \E{d(X^{2})}$? We use [[Ito's Lemma]] and Stochastic Calculus.
+
+# General Stochastic Differential Equations
+In $1D$, SDEs are equations of the form 
+$$
+dX = b(X, t)\, dt + \sigma(X, t)\, dB 
+\quad\quad\quad X(0) = x_{0}
+$$
+where $B(t)$ is [[#Brownian Motion and SDE Formulation|Brownian Motion]], $X(t) \in \R$ and constants $b(X, t), \sigma(X, t) \in \R$. We use the following terminology:
+- **Drift Term**: $b(X, t)\, dt$
+- **Diffusion Term**: $\sigma(X, t) \, dt$
+- **Time Homogeneous**: $b, \sigma$ is independent of $t$. Otherwise it is time "inhomogeneous". 
+- **Additive Noise**: $\sigma$ independent of $X$. 
+- **Multiplicative Noise**: $\sigma$ depends on $X$. 
+
+## Example 2
+Let particle $X(t)$ be in a force field $F(X)$. Then 
+$$
+dX = F(X) \, dt + \sqrt{2D} \, dB
+$$
+for some constant $D$ has *drift (deterministic force)* of $F(X)\, dt$ and a *diffusion (random kicks)* of $\sqrt{2D}\, dB$. This is time homogeneous (since $F(X)$ and $\sqrt{2D}$ do not depend on $t$) with additive noise ($\sqrt{2D}$ does not depend on $X$).
+
+# SDEs in Higher Dimensions
+The vector $\unl{B}(t) = (B_{1}(t), \dots, B_{m}(t)) \in \R^{m}$ is [[#Brownian Motion and SDE Formulation|Brownian Motion]] if all its components $B_{i}$ are BMs. An SDE for $\unl{X}(t) \in \R^{m}$ has the form 
+$$
+d\unl{X} = \unl{b}(\unl{X}, t) \, dt + \sigma(\unl{X}, t) \, d\unl{B}
+$$
+where $\unl{b}(\unl{X}, t) \in \R^{m}$ and in general, $\sigma(\unl{X}, t)$ can be an $m \times m$ matrix. If $\sigma \propto I_{m}$ then we can treat it as a scalar.
+
+## Example 3 (Euler-Maruyama for 2D Brownian)
+Suppose we had a Brownian particle on $2D$ with $\unl{X}(t) \in \R^{2}$ modeled as 
+$$
+d\unl{X} = \sqrt{2D} d\unl{B}
+\quad\quad\quad \unl{X}(0) = \unl{0} \in \R^{2}
+$$
+We can use the Euler-Maruyama method to discretize and simulate this. 
+1. Let $T, \delta t > 0, n = T/(\delta t)$ with $t_{k} = k \delta t$ for $k = 0, \dots, n$.
+2. For $i = 0$ to $n - 1$, 
+	1. Generate $Z_{1}, Z_{2} \sim \mathcal{N}(0, 1)$ iid. 
+	2. $\unl{X}_{i+1} = \unl{X}_{i} + \sqrt{\delta t}\binom{Z_{1}}{Z_{2}}$
+3. Output $\unl{X}$. 
+Note that the second term is a 2-column vector with $Z_{1}, Z_{2}$, not the combinatoric definition. 
+
+## Example 4 (Active Brownian Particle)
+Suppose we had an active Brownian particle with 
+- speed $v$ 
+- direction $\unl{n}_{\delta} = (\cos \theta, \sin \theta)$
+- $\theta$ diffuses 
+with the SDEs
+$$
+\begin{aligned}
+d\unl{X} &= u \unl{n}_{\theta}\, dt + \sqrt{2D_{T}}\, d\unl{B}_{T} \\
+d\theta &= \sqrt{2D_{K}} \, dB_{K}
+\end{aligned}
+$$
+The following is a diagram representing this system. 
+```tikz
+\begin{document}
+\begin{tikzpicture}
+    % Define parameters for geometry and placement
+    \def\R{1.2} % Circle radius
+    \def\Ang{35} % Vector angle (e.g., 35 degrees)
+    \def\L{1.8} % Vector length (extending past circle)
+    \def\ArcR{0.6} % Angle arc radius
+
+    % Draw the particle (the circle)
+    \draw (0,0) circle (\R);
+    \filldraw (0,0) circle (1.5pt); % Add the center point
+
+    % Label for position vector x(t) to the lower-left
+    \node at (-\R-0.6, -0.6) {$\underline{x}(t)$};
+
+    % Draw the horizontal dashed reference line
+    \draw[dashed] (0,0) -- (\R,0);
+
+    % Draw the orientation vector \underline{n}_{\theta}
+    \draw[->, thick] (0,0) -- (\Ang:\L) node[above right=-1pt] {$\underline{n}_{\theta}$};
+
+    % Draw the angle arc and label \theta(t)
+    \draw (0,0) -- (\ArcR,0) arc (0:\Ang:\ArcR);
+    \node at (\Ang/2:\ArcR+0.6) {$\theta(t)$}; % Label near the arc
+\end{tikzpicture}
+\end{document}
+```
+where 
+- $\unl{X}(t) \in \R^{2}$ and $\theta(t) \in \R$ 
+- constants $v, D_{K}, D_{T} \in \R$ 
+- $\unl{B}_{T}(t) \in \R^{2}$ is a 2D BM
+- $B_{K}(t) \in \R$ is a 1D BM
+
+We can use the [[Simulating Brownian Motion#Euler-Maruyama Method|Euler-Maruyama Method]] to simulate this. 
+1. Choose $T, \delta t > 0, n = T/(\delta t)$ and $\unl(X)_{0}, \theta_{0}$. 
+2. For $i = 0$ to $n - 1$,
+	1. Generate $Z_{1}, Z_{2}, Z_{3} \sim \mathcal{N}(0, 1)$ iid. 
+	2. Set
+$$
+\unl{X}_{i+1} 
+= \unl{X}_{i} + v\binom{\cos \theta_{i}}{\sin \theta_{i}}\delta t + \sqrt{2D_{T}\delta t} \binom{Z_{1}}{Z_{2}}
+$$
+	3. Set 
+$$
+\theta_{i+1} = \theta_{i} + \sqrt{2D_{K} \delta t} \cdot Z_{3}
+$$
+3. Output $\unl{X}, \theta$. 
