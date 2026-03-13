@@ -137,12 +137,27 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 - [[Stochastic Differential Equations#Ornstein-Uhlenbeck Process (OU)]]
 # Lecture 21 (2/27)
 - [[Stochastic Differential Equations#Moments of the OU Process]]
-- [[Ito's Lemma]]
+- [[Ito Calculus]]
 
 # Lecture 22 (3/2)
-- [[Ito's Lemma#Ito's Lemma]]
-- [[Ito's Lemma#ODE Case]]
-- [[Ito's Lemma#SDE Case]]
-- [[Ito's Lemma#Example 1 (Discrete-Time Step with Ito's Lemma)]]
+- [[Ito Calculus#Ito's Lemma]]
+- [[Ito Calculus#ODE Case]]
+- [[Ito Calculus#SDE Case]]
+- [[Ito Calculus#Example 1 (Discrete-Time Step with Ito's Lemma)]]
 
-# Lecture 23 
+# Lecture 23 (3/4)
+- [[Ito Calculus#Example 2 (Simple Ito Lemma)]]
+- [[Ito Calculus#Backwards Ito SDE]]
+- [[Ito Calculus#Stratanovich SDE]]
+- [[Ito Calculus#Remarks (Ito v.s Ito Backwards)]]
+
+# Lecture 24 (3/6)
+- [[Ito Calculus#Example 3 (Apply OU on Ito SDE)]]
+- [[Ito Calculus#Example 4 (Geometric BM)]]
+- [[Ito Calculus#Example 5 (Geometric BM with Log Expectation)]]
+- [[Ito Calculus#Example 6 (Arithmetic BM with Drift)]]
+- [[Stochastic Differential Equations#Applying Units]]
+- [[2D SDEs]]
+
+# Lecture 25 (3/9)
+- [[Numerics and Convergence]] 

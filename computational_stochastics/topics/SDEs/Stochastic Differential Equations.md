@@ -174,7 +174,7 @@ Substituting the expectation back provides the exact first moment:
 $$
 \mathbb{E}[X]=x_0e^{-\alpha t}
 $$
-> How can we solve for higher moments, e.g. $d\left(\E{X^{2}}\right) = \E{d(X^{2})}$? We use [[Ito's Lemma]] and Stochastic Calculus.
+> How can we solve for higher moments, e.g. $d\left(\E{X^{2}}\right) = \E{d(X^{2})}$? We use [[Ito Calculus]] and Stochastic Calculus.
 
 # General Stochastic Differential Equations
 In $1D$, SDEs are equations of the form 
@@ -278,3 +278,15 @@ $$
 \theta_{i+1} = \theta_{i} + \sqrt{2D_{K} \delta t} \cdot Z_{3}
 $$
 3. Output $\unl{X}, \theta$. 
+
+# Applying Units
+Suppose $X(t)$ has units length $[X] \sim L$. Given 
+$$
+dX = u(X) dt + \sqrt{2D} \,dB
+$$
+we get 
+- $[x] \sim L$, *length*
+- $[t] \sim T$ for *time* 
+- $[u] \sim L/T$, for *velocity*
+- $[B] \sim \sqrt{T}$ since $\E{B(t)^{2}} = t$ from [[#Properties of Brownian Motion|properties]]. This represents *stochastic fluctuations*.
+- $\sqrt{2D} \sim L/\sqrt{T}$ and $[D] \sim L^{2}/T$. $[D]$ represents rate of spreading. Recall this is the [[#General Stochastic Differential Equations|diffusion constant]].
