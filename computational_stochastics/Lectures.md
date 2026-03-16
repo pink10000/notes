@@ -161,3 +161,9 @@ Reference: Rubinstein Ch. 2, 2.4, 2.3.4
 
 # Lecture 25 (3/9)
 - [[Numerics and Convergence]] 
+
+# Lecture 26 (3/11)
+- [[Kolmogorov Forward Equation]]
+
+# Lecture 27 (3/13)
+- Finals review
