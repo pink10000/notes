@@ -16,60 +16,40 @@ f(a + \vepsi) = f(a)
 $$
 This comes from [[Taylor's Theorem]]. Similarly, we have [[Gradient#First-Order Taylor Expansion]] using [[Big O Notation]]. We rewrite it here to motivate the following lemma.
 
-# Ito's Lemma 
-Consider the 1D [[Stochastic Differential Equations|SDE]] for $X(t) \in \R$:
+# Ito's Lemma
+Consider the 1D SDE for $X(t)\in\mathbb{R}$:
 $$
-dX = 
-\underbrace{u(X) \, dt}_{O\left(d t\right)} + 
-\underbrace{\sigma(X) \, dB}_{O\left(\sqrt{dt}\right)}
+dX=u(X)dt+\sigma(X)dB
 $$
-Stochastic calculus differs from standard calculus. 
+Stochastic calculus differs from standard calculus. Recall that $dB\sim\sqrt{dt}\cdot Z \in O(\sqrt{dt})$ from the formulation and $\mathbb{E}[dB^{2}] = dt\implies dB^{2} \in O(dt)$ ([[Stochastic Differential Equations#Properties of Brownian Motion|from the variance]]). This implies $dX \in O(\sqrt{dt})$ because the noise term dominates the drift term as $dt\to 0$.
 
-Recall that 
-$$
-dB \sim \sqrt{dt}\cdot Z \sim O\left(\sqrt{dt}\right)
-$$
-from [[Stochastic Differential Equations#Brownian Motion and SDE Formulation|the formulation]] and 
-$$
-\E{dB^{2}} = dt \implies dB^{2} \sim O(dt), dB \sim O\left(\sqrt{dt}\right)
-$$
-from [[Stochastic Differential Equations#Properties of Brownian Motion|properties of Brownian Motion]]. This implies $dX = O\left(\sqrt{dt}\right)$. 
-> The idea here is that as the steps we take get smaller, i.e. $dt \to 0$, the noise $dB \sim \sqrt{dt}$ becomes larger in proportion with $dt$. For example, if $dt = 0.01$, then $dB \approx \sqrt{dt} = 0.1$, or $10$ times larger. The noise has a larger effect. 
-
-The goal for Ito's Lemma is, given function $f(X)$ and $dX$, we want to find an expression or $df$. The strategy is to use the [[#Taylor Series (Big O notation)|Taylor expansion]] of $f$ up to $O\left(dt^{3/2}\right)$ and treating $dB^{2} = dt$ since $dB^{2} = \E{dB^{2}} + \vepsi$, and the [[Expectation|expectation]] is $dt$. 
+The goal for Ito's Lemma is, given function $f(X)$ and $dX$, to find an expression for $df$. The strategy is to use the Taylor expansion of $f$ up to $O(dt)$ and treating $dB^2=dt$ (since the variance of $dB^2$ vanishes faster than its mean as $dt\to 0$).
 
 Consider the transformation of $f(X)$:
 $$
-\begin{aligned}
-df(X) 
-&= f(X + dX) - f(X) \\
-&= f'(X) \,dX + \frac{1}{2} f''(X) (dX)^{2} + \cdots 
-\end{aligned}
+df(X)=f(X+dX)-f(X)=f'(X)dX+\frac{1}{2}f''(X)(dX)^2+\dots
 $$
-via [[Derivative#Theorem (Cauchy Mean Value Theorem)|MVT]]. Next, we can find $dX$ and $(dX)^{2}$ to $O(dt)$.
+Next, we find $dX$ and $(dX)^2$ to $O(dt)$:
 $$
 \begin{aligned}
-dX &= u(X)\, dt + \sigma(X) \, dB \\
-(dX)^{2} 
-&= (u\, dt + \sigma \,dB)^{2} \\
-&= u^{2}(dt)^{2} + 2u\sigma(dt \, dB) + \sigma^{2}(dB)^{2} \\
-&= O\left(dt^{2}\right) + O\left(dt \cdot dt^{1/2}\right) + O(dt) \\
-&= O\left( dt^{3/2} \right)
+dX&=u(X)dt+\sigma(X)dB\\
+(dX)^2&=(udt+\sigma dB)^2\\
+&=u^2(dt)^2+2u\sigma(dtdB)+\sigma^2(dB)^2\\
+&=O(dt^2)+O(dt^{3/2})+O(dt)\\
+&=\sigma^2 dt+O(dt^{3/2})
 \end{aligned}
 $$
-We can substitute this to get 
-$$
-\begin{aligned}
-df(X) 
-&= f'(X) [ u\, dt + \sigma \, dB] 
-+ \frac{1}{2} f''(X) \left[ \sigma\, dt  + O\left( dt^{3/2} \right) \right]
-+ O\left( dt^{3/2} \right) \\
-&= \left(u(X)f'(X) +  \frac{1}{2} \sigma(X)^{2} f''(X) \right)\, dt + \sigma(X) f'(X)\, dB
-\end{aligned}
-$$
-Note that the $O\left( dt^{3/2} \right)$ term is omitted from the final expression because in the context of stochastic calculus, this is a differential. So as $dt \to 0$, the big $O$ approaches $0$, becoming irrelevant. 
 
-The final line is **Ito's Lemma**. 
+We substitute these back into the expansion, keeping only terms up to $O(dt)$:
+$$
+\begin{aligned}
+df(X)
+&=f'(X)[udt+\sigma dB]+\frac{1}{2}f''(X)[\sigma^2 dt+O(dt^{3/2})]+O(dt^{3/2})\\
+&=(u(X)f'(X)+\frac{1}{2}\sigma(X)^2 f''(X))dt+\sigma(X)f'(X)dB
+\end{aligned}
+$$
+
+Note that the $O(dt^{3/2})$ terms are omitted because as $dt\to 0$, they vanish significantly faster than the $dt$ and $dB$ terms. The final line is **Ito's Lemma**.
 
 ## Remarks (Ito's Lemma)
 As previously mentioned, this is the stochastic version of the chain rule:
