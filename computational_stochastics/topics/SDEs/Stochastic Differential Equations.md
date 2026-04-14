@@ -158,11 +158,11 @@ Taking the [[Expectation]] $\mathbb{E}$ yields the following. The second term is
 $$
 d\mathbb{E}[X]=-\alpha\mathbb{E}[X]dt
 $$
-This translates to an ordinary differential equation (ODE) for the expectation:
+This translates to an [[Ordinary Differential Equation]] (ODE) for the expectation:
 $$
 \frac{d}{dt}\mathbb{E}[X]=-\alpha\mathbb{E}[X]
 $$
-To solve this ODE, let $y(t)=\mathbb{E}[X(t)]$. The differential equation becomes:
+To solve this ODE, let $y(t)=\mathbb{E}[X(t)]$. The differentiawl equation becomes:
 $$
 \frac{dy}{dt}=-\alpha y
 $$
