@@ -15,7 +15,7 @@ Then, we take the logarithm of the dimensions
 $$
 \log[q_i] = m_{1i} \log \dimB_{1} + \cdots + m_{\ell i} \log \dimB_{\ell}
 $$
-giving us a change of basis formula
+giving us a change of [[Vector Space#Theorem (Basis)|basis]] formula
 $$
 \left(
   \log[q_1] \quad\cdots\quad \log[q_n]
@@ -34,7 +34,7 @@ $$
 $$
 where $\mathbf{M}$ is the $\ell \times n$ dimension matrix. The physical quantities involve only $k$ independent dimensions $\iff$ the rank of $\mathbf{M}$ is $k$. Using the [[Rank-Nullity Theorem]], the null space of $\mathbf{M}$ has dimension $p = n-k$. 
 
-Solving the equation $\mathbf{M} a_j = 0$ gives us the basis for the null space, size $p$. Indeed, 
+Solving the equation $\mathbf{M} a_j = 0$ gives us the [[Vector Space#Theorem (Basis)|basis]] for the null space, size $p$. Indeed, 
 $$
 a_1 = \begin{pmatrix}
   a_{11} \\
