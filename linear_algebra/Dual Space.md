@@ -289,3 +289,23 @@ $$
 p_{t+1} = \exp_{p_t}(-\eta \text{grad}_{p_t} L)
 $$
 and so on. In practice, this notation is never used because we always assume the parameter manifold $M$ is a perfectly flat Euclidean space $\R^n$. It's geometry is trivial, so the "straightest possible path" is just a straight line.
+
+# Theorem (Derivative and Pullback Commute)
+Let $\phi : M \to N$ be a map between manifolds, and let $f : N \to \R$ be a function on the target manifold. Then the following holds:
+$$
+\phi^*(df) = d(\phi^* f)
+$$
+
+# Theorem (Pushforward Distributes over Composition)
+Let $\phi : M \to N$ and $\psi : N \to P$ be maps between manifolds. Then the pushforward distributes over composition:
+$$
+(\phi_1 \circ \cdots \circ \phi_k)_* = (\phi_1)_* \cdots (\phi_k)_*
+$$
+This is the same as the chain rule for derivatives. 
+
+# Theorem (Pullback Distributes over Composition and Reverses Order)
+Let $\phi : M \to N$ and $\psi : N \to P$ be maps between manifolds. Then the pullback distributes over composition and reverses order:
+$$
+(\phi_1 \circ \cdots \circ \phi_k)^* = (\phi_k)^* \cdots (\phi_1)^*
+$$
+Because the pullback is the adjoint (transpose) of the pushforward, distributing it across a composition reverses the order of operations. This is why backpropagation goes in the reverse order of the forward pass.
