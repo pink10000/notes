@@ -134,7 +134,7 @@ $$
 $$
 Note that $A$ is the Jacobian matrix of $\mathbf{f}$ evaluated at the steady state $y_{\text{static}}$. Indeed, this allows us to analyze the stability of the steady state by looking at the eigenvalues of $A$. 
 
-For harder, more complex ODEs, we'll need [[Numerical Methods]] to solve them.
+For harder, more complex ODEs, we'll need [[Numerical Methods|Numerical Methods]] to solve them.
 ## Non-Autonomous Systems
 For non-autonomous systems, one can still track stable "quasi-static" states that depends on time $t$. These are points where $\mathbf{f}_t(y_{\text{static}}, t) = 0$. This approach requires the assumption that the function $f$ changes with respect to time $t$ at a much slower rate than the system takes to relax back to its steady state. 
 

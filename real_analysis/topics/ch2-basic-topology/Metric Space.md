@@ -3,7 +3,7 @@ tags:
   - MATH_140A
   - real_analysis_ch2
 ---
-# Definition
+# Definition (Metric)
 Let $X$ be a nonempty set. A **metric** on $X$ is a function 
 
 $$
