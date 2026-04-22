@@ -11,22 +11,22 @@ In physics, a **dimension** is a collection of measurements of one type of physi
 A dimension is a one-dimensional [[Vector Space|vector space]] over the field of real numbers. 
 
 # Definition (Unit, Physics)
-A **unit** for a dimension is a basis for the 1D vector space. A unit is a way to assign a numerical value to a physical quantity. Given any two elements of the same dimension $x, y \in \mathsfup{D}$ and $y \neq 0$, there exists a unique scalar $s \in \R$ so that $x = s y$. 
+A **unit** for a dimension is a basis for the 1D vector space. A unit is a way to assign a numerical value to a physical quantity. Given any two elements of the same dimension $x, y \in \mathsf{D}$ and $y \neq 0$, there exists a unique scalar $s \in \R$ so that $x = s y$. 
 
 # Multiplication of Dimensions
 Dimensions can be added together and multiplied by scalars, but cannot be added/subtracted from each other. We can however multiply dimensions together to get new dimensions. For example, speed is the product of length and inverse time.
 
-A dimension is denoted by sans serif font $\mathsfup{D}$. Each element $x \in \mathsfup{D}$ is a measurement. The *dimensionless dimension* $\R$ has a standard unit $1$. The bracket of a measurement in the dimension it is in is denoted by 
+A dimension is denoted by sans serif font $\mathsf{D}$. Each element $x \in \mathsf{D}$ is a measurement. The *dimensionless dimension* $\R$ has a standard unit $1$. The bracket of a measurement in the dimension it is in is denoted by 
 $$
-\mathsfup{D} = [x]
+\mathsf{D} = [x]
 $$
-For example, $[\text{kg}] = [5 \text{ kg}] = [\text{lb}] = \mathsfup{M}$. An example of a product is 
+For example, $[\text{kg}] = [5 \text{ kg}] = [\text{lb}] = \mathsf{M}$. An example of a product is 
 $$
 [x][y] = [xy]
 $$
 We can consider a collection of all dimensions that can be involved 
 $$
-\mathscr{D} = \{\R, \mathsfup{D}_1, \mathsfup{D}_2, \ldots\}
+\mathscr{D} = \{\R, \mathsf{D}_1, \mathsf{D}_2, \ldots\}
 $$
 which should be closed under multiplication, forming an [[Group#Definition (Abelian Group)|abelian group]]. 
 
@@ -35,21 +35,21 @@ In physics, the space of dimensions is a finitely generated [[Group#Definition (
 
 | Primary dimension |       Symbol        | SI Unit       |
 | :---------------- | :-----------------: | :------------ |
-| Mass              |   $\mathsfup{M}$    | kg (kilogram) |
-| Length            |   $\mathsfup{L}$    | m (meter)     |
-| Time              |   $\mathsfup{T}$    | s (second)    |
-| Temperature       | $\mathsfup{\Theta}$ | K (Kelvin)    |
-| Electric current  |   $\mathsfup{I}$    | A (Ampere)    |
-| Amount of light   |   $\mathsfup{C}$    | cd (candela)  |
-| Amount of matter  |   $\mathsfup{N}$    | mol (mole)    |
+| Mass              |   $\mathsf{M}$    | kg (kilogram) |
+| Length            |   $\mathsf{L}$    | m (meter)     |
+| Time              |   $\mathsf{T}$    | s (second)    |
+| Temperature       | $\mathsf{\Theta}$ | K (Kelvin)    |
+| Electric current  |   $\mathsf{I}$    | A (Ampere)    |
+| Amount of light   |   $\mathsf{C}$    | cd (candela)  |
+| Amount of matter  |   $\mathsf{N}$    | mol (mole)    |
 
 Every physical dimension takes the form of 
 $$
-\mathsfup{M}^{n_1} \mathsfup{L}^{n_2} \mathsfup{T}^{n_3} \mathsfup{\Theta}^{n_4} \mathsfup{I}^{n_5} \mathsfup{C}^{n_6} \mathsfup{N}^{n_7}
+\mathsf{M}^{n_1} \mathsf{L}^{n_2} \mathsf{T}^{n_3} \mathsf{\Theta}^{n_4} \mathsf{I}^{n_5} \mathsf{C}^{n_6} \mathsf{N}^{n_7}
 $$
 represented as a 7D vector of integers $(n_1, n_2, n_3, n_4, n_5, n_6, n_7) \in \Z^7$. Multiplication between dimensions corresponds to addition of the corresponding vectors. For example, consider the dimension of force. 
 $$
-[\text{force}] = \mathsfup{M} \mathsfup{L} \mathsfup{T}^{-2}
+[\text{force}] = \mathsf{M} \mathsf{L} \mathsf{T}^{-2}
 \quad\quad\quad
 (1, 1, -2, 0, 0, 0, 0)^T
 $$
@@ -64,13 +64,13 @@ $$
 \frac{1}{2} \rho v^2 + P + \rho g h = \text{constant}
 $$
 where 
-- $\rho$ is the density of the fluid, with dimension $\mathsfup{M} \mathsfup{L}^{-3}$,
-- $v$ is the speed of the fluid, with dimension $\mathsfup{L} \mathsfup{T}^{-1}$,
-- $P$ is the pressure of the fluid, with dimension $\mathsfup{M} \mathsfup{L}^{-1} \mathsfup{T}^{-2}$,
-- $g$ is the acceleration due to gravity, with dimension $\mathsfup{L} \mathsfup{T}^{-2}$,
-- $h$ is the height of the fluid, with dimension $\mathsfup{L}$.
+- $\rho$ is the density of the fluid, with dimension $\mathsf{M} \mathsf{L}^{-3}$,
+- $v$ is the speed of the fluid, with dimension $\mathsf{L} \mathsf{T}^{-1}$,
+- $P$ is the pressure of the fluid, with dimension $\mathsf{M} \mathsf{L}^{-1} \mathsf{T}^{-2}$,
+- $g$ is the acceleration due to gravity, with dimension $\mathsf{L} \mathsf{T}^{-2}$,
+- $h$ is the height of the fluid, with dimension $\mathsf{L}$.
 
-Thus, the dimension of each term (and consequently, the constant) is $\mathsfup{M} \mathsfup{L}^{-1} \mathsfup{T}^{-2}$. 
+Thus, the dimension of each term (and consequently, the constant) is $\mathsf{M} \mathsf{L}^{-1} \mathsf{T}^{-2}$. 
 
 # Dimensionless Equations
 The idea is to rescale the physical variables so that they are all dimensionless. The equation is then a relationship between dimensionless variables, leaving us as few parameters as possible. We obtain the same result when the dimensionless parameters matches, even if the original problem is **at vastly different scale**.
@@ -116,12 +116,12 @@ $$
 $$
 where
 We assume density and viscosity are constant.
-- Time and time derivative: $[t] = \mathsfup{T}$ and $\left[ \frac{\del}{\del t} \right] = \mathsfup{T}^{-1}$
-- Space and spatial derivatives: $[x] = \mathsfup{L}, [\nabla] = \mathsfup{L}^{-1}, [\nabla \cdot \nabla] = \mathsfup{L}^{-2}$
-- Velocity: $[u] = \mathsfup{L} \mathsfup{T}^{-1}$,
-- Density: $[\rho] = \mathsfup{M} \mathsfup{L}^{-3}$
-- Pressure: $[p] = \mathsfup{M} \mathsfup{L}^{-1} \mathsfup{T}^{-2}$,
-- Viscosity (stress per speed gradient): $[\mu] = \mathsfup{M} \mathsfup{L}^{-1} \mathsfup{T}^{-1}$
+- Time and time derivative: $[t] = \mathsf{T}$ and $\left[ \frac{\del}{\del t} \right] = \mathsf{T}^{-1}$
+- Space and spatial derivatives: $[x] = \mathsf{L}, [\nabla] = \mathsf{L}^{-1}, [\nabla \cdot \nabla] = \mathsf{L}^{-2}$
+- Velocity: $[u] = \mathsf{L} \mathsf{T}^{-1}$,
+- Density: $[\rho] = \mathsf{M} \mathsf{L}^{-3}$
+- Pressure: $[p] = \mathsf{M} \mathsf{L}^{-1} \mathsf{T}^{-2}$,
+- Viscosity (stress per speed gradient): $[\mu] = \mathsf{M} \mathsf{L}^{-1} \mathsf{T}^{-1}$
 
 To create a dimensionless equation, the physical variables are rescaled using a characteristic length $L$ and a characteristic speed $U$. For example, in flow past an object, $L$ could be the diameter of the object and $U$ could be the background fluid speed. 
 - $x^* = \frac{x}{L}$
