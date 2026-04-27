@@ -18,45 +18,33 @@ An architecture with one memory access path has no coherence problem. (Single co
 The main difficulty is solving the **memory coherence problem**: how to maintain a consistent view of memory across all processors.
 
 ```mermaid
-graph TD
-    %% Compute Nodes (CPU and Memory)
-    subgraph ComputeNode1
-        C1[CPU 1]
-        M1[Memory 1]
-        C1 --- M1
+flowchart TD;
+    subgraph Node1 [Compute Node 1]
+        CPU1[CPU 1] --- Mem1[Memory 1]
     end
     
-    subgraph ComputeNode2
-        C2[CPU 2]
-        M2[Memory 2]
-        C2 --- M2
+    subgraph Node2 [Compute Node 2]
+        CPU2[CPU 2] --- Mem2[Memory 2]
     end
         
-    subgraph ComputeNodeN
-        CN[CPU N]
-        MN[Memory N]
-        CN --- MN
+    subgraph NodeN [Compute Node N]
+        CPUN[CPU N] --- MemN[Memory N]
     end
 
-    %% Mapping Managers
     MM1[Mapping manager]
     MM2[Mapping manager]
-    MMN[Mapping manager]
+    MM3[Mapping manager]
 
-    %% Shared Resource
     SVM[Shared virtual memory]
 
-    %% Bidirectional memory to manager links
-    M1 <--> MM1
-    M2 <--> MM2
-    MN <--> MMN
+    Mem1 <--> MM1
+    Mem2 <--> MM2
+    MemN <--> MM3
 
-    %% Dashed links to Shared virtual memory
     MM1 -.-> SVM
     MM2 -.-> SVM
-    MMN -.-> SVM
+    MM3 -.-> SVM
 ```
-
 There are two design choices that influence the implementation of shared virtual memory:
 - Granularity of the memory units (page size)
   - Larger page size means less overhead for maintaining coherence, but higher chance for contention.
