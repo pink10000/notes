@@ -1,3 +1,8 @@
+---
+tags:
+  - MATH_180A
+---
+
 # Definition
 A discrete probability distribution for a random variable which takes the value 1 with probability $p$ and the value 0 with probability $q = 1 - p$. It represents a single experiment with a binary outcome (success/failure). It is denoted as $X \sim \text{Bernoulli}(p)$ or $\text{Be}(p)$.
 # Probability Mass Function (PMF)

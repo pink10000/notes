@@ -13,8 +13,8 @@ tags:
 # Using *cryptography* 
 - does not reveal much information:
 	- Alice does not know:
-		- whether Bob recieved the message
-		- when Bob recieved the message
+		- whether Bob received the message
+		- when Bob received the message
 		- how many times
 		- whether the message is secrete
 	- Bob does not know:
@@ -78,8 +78,8 @@ where $||$ is the concatenation symbol.
 ### Transport Layer Security (TLS)
 1. client says "hi" to server
 2. server says "hi" to client + sends public key
-3. cluent verifies the public key
-4. client ecrypts a key to "server" with public key of server
+3. client verifies the public key
+4. client encrypts a key to "server" with public key of server
 5. client sends certificate (public key)
 6. server verifies the client public key
 7. client says they finished
@@ -87,13 +87,13 @@ where $||$ is the concatenation symbol.
 9. begin exchanging messages
 
 - **Authenticity?** 
-	- Is the server who they say thay are? Yes
+	- Is the server who they say they are? Yes
 	- Is the client who they say that are? No
 - **Confidentiality?** 
 	- no one but client/server can read the messages sent between them
 - **Integrity?**
 	- no one can alter messages between client and server without being detected
-- We depend on that **crytography** works, and that the CAs are reliable and the services are secure. 
+- We depend on that **cryptography** works, and that the CAs are reliable and the services are secure. 
 
 # Certificate Authorities
 - which CA can issue a certificate for `mycompany.com`? (any, but who is legit?)

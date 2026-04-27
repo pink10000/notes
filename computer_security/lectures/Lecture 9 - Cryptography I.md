@@ -121,7 +121,7 @@ Each participant has a **public and private key**.
 
 ### **Common Asymmetric Algorithms**  
 - **RSA**: Based on the difficulty of factoring large integers.
-- **DSA and ElGamal**: Rely on the difficulty of discrete logarithms.
+- **DSA and Elgamal**: Rely on the difficulty of discrete logarithms.
 
 ---
 

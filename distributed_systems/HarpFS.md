@@ -82,7 +82,7 @@ When either the primary or backup node fails, the witness is *promoted* and act 
 ## View Changes
 A view change selects the members of the new view and makes sure the members of the new view have the most up-to-date data. User operations are not processed during view changes. A view change is a two-phase process. The node that starts it acts as the **coordinator**.
 
-In phase 1, the cooridnate communicates with the other group members. If a group member agrees to form a new view (it will always agree unless another view change is in progress), it stops processing operations and sends the coordinator whatever state the coordinator does not have. The coordinator will try to form the initial state for the new view, guaranteeing that the new view reflects all commited operations. 
+In phase 1, the coordinate communicates with the other group members. If a group member agrees to form a new view (it will always agree unless another view change is in progress), it stops processing operations and sends the coordinator whatever state the coordinator does not have. The coordinator will try to form the initial state for the new view, guaranteeing that the new view reflects all committed operations. 
 
 In phase 2, the coordinator successfully configured the new view state, and has written the new view number to its local disk. It when then send a message to the responding nodes to inform them of the new state and the new view member. When the responding nodes receive the message, they will write the new view number, establishing the new view, and resume processing operations.
 

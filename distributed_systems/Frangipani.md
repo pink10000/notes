@@ -119,6 +119,7 @@ The recovery demon (daemon)[^2] then gets control of the log and processes it.
 - Only one RD can execute at a time. 
 
 The logging and recovery schemes assumes a disk write failure leaves a disk sector with old state or new state (but never a combination of both). If a sector is damaged such that reading gives a [[Data Link Layer#Error Control|CRC]] error, Petal's built-in replication can recover it. 
+
 [^2]: We'll call this RD for now.
 
 # Lock Service for Synchronization

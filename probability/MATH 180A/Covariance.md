@@ -1,3 +1,9 @@
+---
+tags:
+  - MATH_180A
+  - MATH_180B
+---
+
 # Definition (Covariance)
 Covariance is a measure of the [[Joint Distribution|joint]] variability of two random variables. It indicates the direction of the linear relationship between the variables. 
 
