@@ -51,7 +51,7 @@ represented as a 7D vector of integers $(n_1, n_2, n_3, n_4, n_5, n_6, n_7) \in 
 $$
 [\text{force}] = \mathsf{M} \mathsf{L} \mathsf{T}^{-2}
 \quad\quad\quad
-(1, 1, -2, 0, 0, 0, 0)^T
+(1, 1, -2, 0, 0, 0, 0)^{\top}
 $$
 The 7D vector representation of the dimension of a dimensionless number is the zero vector.
 

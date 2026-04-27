@@ -77,9 +77,9 @@ $$
 Vectors are labeled with an upper index $u^i$ and covectors are labeled with a lower index $\alpha_j$. We can also use the bra-ket notation, where the vector $\vec{u}$ is written as a "ket" $|\vec{u}\rangle$ and the covector $\alpha$ is written as a "bra" $\langle \alpha|$. The dual pairing is then written as $\langle \alpha | \vec{u} \rangle$. There is also Penrose graphical notation. 
 
 # Definition (Adjoint Linear Map)
-For each [[#Definition (Linear Map)|linear map]] $A: U \to V$, there is a linear map called its **adjoint** $A^T: V^* \to U^*$ defined by 
+For each [[#Definition (Linear Map)|linear map]] $A: U \to V$, there is a linear map called its **adjoint** $A^{\top}: V^* \to U^*$ defined by 
 $$
-\langle A^T \beta | \vec{u} \rangle = \langle \beta | A\vec{u} \rangle
+\langle A^{\top} \beta | \vec{u} \rangle = \langle \beta | A\vec{u} \rangle
 $$ 
 for all $\vec{u} \in U$ and $\beta \in V^*$. The adjoint map is also denoted as $A^*$. 
 
@@ -220,7 +220,7 @@ The **pullback operator** $\phi^*$ for covectors is the [[#Definition (Adjoint L
 $$
 \begin{aligned}
 \phi^* : T^*N &\to T^*M \\
-\phi^*(\beta_{\phi(p)}) &= (d\phi|_p)^T(\beta_{\phi(p)})
+\phi^*(\beta_{\phi(p)}) &= (d\phi|_p)^{\top}(\beta_{\phi(p)})
 \end{aligned}
 $$
 The defining property is the dual pairing: $\langle \phi^* \beta | u \rangle = \langle \beta | \phi_* u \rangle$.
@@ -266,7 +266,7 @@ L : \R^{H' \times W' \times C_{\text{out}}} \to \R
 $$
 The differential of the loss function $dL$ is a [[#Definition (Covector)|covector]], belonging to the [[#Definition (Cotangent Space)|cotangent space]] $T^*_{\phi(x)} \R^{H' \times W' \times C_{\text{out}}}$. It is a linear functional waiting to be fed a perturbation vector to tell us how the loss changes. To compute the gradient with respect to the input $x$, we do not invert the matrix. Instead, we use the [[#Definition (Pullback Operator for Covectors)|pullback]] of the convolutional layer, $\phi^*$. The pullback is the adjoint of the pushforward
 $$
-\phi^* \beta = (d \phi)^T \beta
+\phi^* \beta = (d \phi)^{\top} \beta
 $$
 In the specific context of a CNN, the adjoint of a convolution operation is mathematically equivalent to a transposed convolution (also known as a deconvolution). This is why the backpropagation step in a CNN involves a transposed convolution. During backpropagation, the loss covector $\beta$ is pulled back through the layers by applying a transposed convolution using the same kernel weights. This mathematically mirrors the equation 
 $$

@@ -5,7 +5,7 @@ tags:
 # General Idea
 In calculus, we take [[Derivative|derivatives]] of functions of a few variables. In *calculus of variations*, we take derivatives of functions of functions (also called *functionals*). The main purpose of this is to formulate the optimization problem over function spaces and derive its optimality condition ([[KKT Condition]]).
 
-These optimality conditions are often differential equations, called [[Euler-Lagrange Equations]], and most physical equations arise as Euler-Lagrange equations of some optimization problem. That way, we can "design one optimal functional" instead of "modeling forces". 
+These optimality conditions are often differential equations, called Euler-Lagrange Equations, and most physical equations arise as Euler-Lagrange equations of some optimization problem. That way, we can "design one optimal functional" instead of "modeling forces". 
 
 # Example 1
 Let
@@ -119,7 +119,7 @@ $$
 $$
 for a mass matrix $M \in \R^{3N \times 3N}$ (stores the mass of every particle) and a force model $f: \R^{3N} \to \R^{3N}$. The kinetic energy is 
 $$
-K(y, v) = \frac{1}{2} v^T M v
+K(y, v) = \frac{1}{2} v^{\top} M v
 $$
 The potential energy $U(y)$ is a function of positions $U : \R^{3N} \to \R$, so that 
 $$
@@ -137,7 +137,7 @@ $$
 \mathcal{S}(y) := \int_{t=0}^T L\left(y(t), \dot{y}(t)\right) dt
 $$
 where $L(y, v) := K(y, v) - U(y)$ is called the *Lagrangian* of the system with
-- kinetic energy $K(y, v) = \frac{1}{2} v^T M v$
+- kinetic energy $K(y, v) = \frac{1}{2} v^{\top} M v$
 - potential energy $U(y)$ such that $\left.-\frac{\partial U}{\partial y}\right|_y = f(y)$
 
 Proof: 
@@ -152,8 +152,8 @@ Since the kinetic energy $K$ does not depend on the position $y$, we have $\frac
 $$
 \begin{aligned}
 -\frac{\del U}{\del y} - \frac{d}{dt} \left( \frac{\del K}{\del v} \right) &= 0 \\
-f(y) - \frac{d}{dt} \frac{1}{2} \nabla_v (v^T Mv)  &= 0 \\
-\frac{d}{dt} \frac{1}{2} (M + M^T)v &= f(y) \\
+f(y) - \frac{d}{dt} \frac{1}{2} \nabla_v (v^{\top} Mv)  &= 0 \\
+\frac{d}{dt} \frac{1}{2} (M + M^{\top})v &= f(y) \\
 \frac{d}{dt} \frac{1}{2} (M + M)v &= f(y) \\
 \frac{d}{dt} Mv &= f(y)
 \end{aligned}
@@ -296,11 +296,11 @@ where the last line is because of the Euler-Lagrange equation.
 
 For
 $$
-L = \frac{1}{2} \dot{y}^T M \dot{y} - U(y)
+L = \frac{1}{2} \dot{y}^{\top} M \dot{y} - U(y)
 $$
 this time-independent quantity is the total energy of the system
 $$
-E = \frac{1}{2} \dot{y}^T M \dot{y} + U(y)
+E = \frac{1}{2} \dot{y}^{\top} M \dot{y} + U(y)
 $$
 Time-independence of the Lagrangian implies the *Law of Conservation of Energy*.
 
@@ -485,7 +485,7 @@ m_1 &  \\
 \end{bmatrix}
 = 
 \underbrace{
-  -\mathbf{d}^T
+  -\mathbf{d}^{\top}
   \begin{bmatrix}
   k_1 \\
   & \ddots \\
@@ -503,7 +503,7 @@ m_1 &  \\
 \mathbf{x}_{|\mathcal{V}|} \\
 \end{bmatrix}
 $$
-where the left side is global Newton's Second Law $F = ma$ and the right side is the restorative spring forces. Note that $\mathbf{K}(\mathbf{dx})$ here is Hooke's Law (forces on linear springs). The $\mathbf{d}^T$ is actually the [[Dual Space#Definition (Adjoint Linear Map)|adjoint linear map]] (recall that the transpose is the adjoint of a linear map with respect to the standard inner product) acting as the discrete gradient. The multiplication of $\mathbf{d}^T (\mathbf{K} \mathbf{dx})$ sums up all the converging spring tensions onto their shared nodes, calculating the net force on each node.
+where the left side is global Newton's Second Law $F = ma$ and the right side is the restorative spring forces. Note that $\mathbf{K}(\mathbf{dx})$ here is Hooke's Law (forces on linear springs). The $\mathbf{d}^{\top}$ is actually the [[Dual Space#Definition (Adjoint Linear Map)|adjoint linear map]] (recall that the transpose is the adjoint of a linear map with respect to the standard inner product) acting as the discrete gradient. The multiplication of $\mathbf{d}^{\top} (\mathbf{K} \mathbf{dx})$ sums up all the converging spring tensions onto their shared nodes, calculating the net force on each node.
 
 It's particularly important to mention the [[Laplacian Matrix|Graph Laplacian]] shown in the diagram. The final system becomes 
 $$

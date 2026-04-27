@@ -14,7 +14,7 @@ $$
 and that $\nabla f$ gives the [[Gradient]] of $f$. The **Hessian Matrix** denoted as $\mathbf{H}f$ is defined as $\nabla^{2}f$ or from a linear algebra perspective, $\nabla \nabla^{T}f$. In particular, 
 $$
 \mathbf{H}f
-= \nabla \nabla^Tf
+= \nabla \nabla^{\top}f
 = \begin{pmatrix} 
 \frac{\partial}{\partial x_1} \\ \vdots \\ \frac{\partial}{\partial x_N} \end{pmatrix} \begin{pmatrix} \frac{\partial f}{\partial x_1} & \ldots & \frac{\partial f}{\partial x_N} 
 \end{pmatrix} 

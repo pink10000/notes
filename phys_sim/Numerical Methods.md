@@ -16,7 +16,7 @@ $$
 \dot{a} = 1 - av - \sin(a)
 \end{cases}
 $$
-Let $y = [x, v, a]^T$. The ODE becomes $\dot{y} = \mathbf{f}(y)$. 
+Let $y = [x, v, a]^{\top}$. The ODE becomes $\dot{y} = \mathbf{f}(y)$. 
 
 ## Forward Euler Method
 We can discretize time into time-frames. 

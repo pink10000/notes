@@ -37,14 +37,14 @@ B \in \left(
   V \xrightarrow{\text{ linear}} V^*
 \right)
 \implies 
-B^T \in \left(
+B^{\top} \in \left(
   V^{**} \xrightarrow{\text{ linear}} V^*
 \right)
 $$
-where $V^{**}$ is simply $V$. So, $B, B^T$ are of the same type. 
+where $V^{**}$ is simply $V$. So, $B, B^{\top}$ are of the same type. 
 
 # Definition (Symmetric Bilinear Forms)
-A bilinear form $B$ is **symmetric** if $B = B^T$. This is the same as $B(u)(v) = B(v)(u)$ or $B_{ij} = B_{ji}$.
+A bilinear form $B$ is **symmetric** if $B = B^{\top}$. This is the same as $B(u)(v) = B(v)(u)$ or $B_{ij} = B_{ji}$.
 
 ## Theorem (Symmetric Bilinear Forms and Quadratic Forms)
 There is a one-to-one correspondence between symmetric bilinear forms and quadratic forms. 

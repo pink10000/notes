@@ -246,7 +246,7 @@ Let the configuration space be all center of mass and rotation.
 $$
 M = \{ (\mathbf{c}_{\text{world}}, \theta) \in \R^2 \times \mathbb{S}^1 \}
 $$
-Here, $\mathbf{c}_{\text{world}} = [c_1, c_2]^T$ is the position of the center of mass in the world frame, and $\theta$ is the rotation angle. We see that $\mathbf{R}^\theta$ is the rotation matrix and $\mathbf{d}_{\text{body}}$ is the vector from the center of mass to the corner in the body frame. The corner of the box is 
+Here, $\mathbf{c}_{\text{world}} = [c_1, c_2]^{\top}$ is the position of the center of mass in the world frame, and $\theta$ is the rotation angle. We see that $\mathbf{R}^\theta$ is the rotation matrix and $\mathbf{d}_{\text{body}}$ is the vector from the center of mass to the corner in the body frame. The corner of the box is 
 $$
 \mathbf{x} = \mathbf{c}_{\text{world}} + \mathbf{R}^{\theta} \mathbf{d}_{\text{body}}
 $$

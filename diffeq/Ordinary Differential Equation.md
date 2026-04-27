@@ -9,7 +9,7 @@ F_t \left( y(t), \dot{y}(t), \ddot{y}(t), \ldots, y^{(n)}(t) \right) = 0
 \quad\quad\quad
 \text{for all } t \in [0, T] 
 $$
-To solve an ODE means finding the specific trajectory $y(t)$ that satisfies this constraint for all moments in time, given a specific starting state. In particular, $y(t) = [y_1(t), y_2(t), \ldots, y_m(t)]^T$. 
+To solve an ODE means finding the specific trajectory $y(t)$ that satisfies this constraint for all moments in time, given a specific starting state. In particular, $y(t) = [y_1(t), y_2(t), \ldots, y_m(t)]^{\top}$. 
 
 ## Classification by Order
 We can classify ODEs by their **order**, which is the highest derivative that appears in the equation. If $k=1$, we call the ODE a first order ODE. If $k=2$, we call it a second order ODE, and so on.
