@@ -1,3 +1,8 @@
+---
+tags:
+  - meta
+---
+
 # Notes Collection
 
 Welcome to my notes! 
