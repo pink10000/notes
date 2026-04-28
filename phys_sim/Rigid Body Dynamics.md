@@ -438,3 +438,77 @@ Recall that the [[Lagrangian Mechanics#Definition (The Lagrangian)|Lagrangian]] 
 $$
 \int_{0}^{T} \frac{1}{2} \Omega(t)^\top \bI_{\text{body}} \Omega(t) \, dt
 $$
+
+## Theorem (Angular Momentum is Conserved in World Coordinate)
+The conservation of angular momentum depends on which coordinate system we use. The **world coordinate angular momentum** is defined as 
+$$
+\mathbf{1} := \bI_{\text{world}} \omega
+$$
+We say that the world coordinate angular momentum is conserved if $\mathbf{1}$ is constant over time. In particular,
+$$
+\frac{d}{dt} \mathbf{1} = \bzero
+$$
+Since both $\bI_{\text{world}}$ and $\omega$ are [[## Inertia Tensor in Kinetic Energy|dependent on time]], we can apply the product rule to get
+$$
+\begin{aligned}
+\bzero &= \frac{d}{dt} \mathbf{I}_\text{world} \omega \\
+&= \dot{\bI}_{\text{world}} \omega + \bI_{\text{world}} \dot{\omega} \\
+\end{aligned}
+$$
+The goal is to manipulate the first term so that is equal to one of the [[#Equations of Motion for Rigid Bodies|World-Frame Formulation]] equations of motion. Indeed, we can compute the product rule again 
+$$
+\begin{aligned}
+\dot{\bI}_{\text{world}}
+&= \frac{d}{dt} (\bR \bI_{\text{body}} \bR^\top) \\
+&= \dot{\bR} \bI_{\text{body}} \bR^\top + \bR \bI_{\text{body}} \dot{\bR}^\top \\
+\end{aligned}
+$$
+Recall that $\bI_{\text{body}}$ is time independent, so its derivative is $\bzero$. By equation 1 of the World-Frame Formulation, we can substitute $\dot{\bR} = [\omega \times] \bR$ to get
+$$
+\begin{aligned}
+\dot{\bR} \bI_{\text{body}} \bR^\top + \bR \bI_{\text{body}} \dot{\bR}^\top 
+&= ([\omega \times] \bR) \bI_{\text{body}} \bR^\top + \bR \bI_{\text{body}} (\bR^\top [-\omega \times]) \\
+&= [\omega \times] \bI_{\text{world}} - \bI_{\text{world}} [\omega \times] \\
+\end{aligned}
+$$
+Thus
+$$
+\dot{\bI}_{\text{world}}\omega = [\omega \times] \bI_{\text{world}} \omega - \bI_{\text{world}} [\omega \times] \omega
+$$
+Since $[\omega \times] \omega$ is equivalent to $\omega \times \omega$ (via [[Skew-Symmetric Matrix#Relation to Cross Product|theorem]]), and $\omega \times \omega = \bzero$ (by anti-commutative property of the cross product), we get
+$$
+\dot{\bI}_{\text{world}}\omega = [\omega \times] \bI_{\text{world}} \omega
+$$
+Substituting back into the product rule, we get
+$$
+\bzero = [\omega \times] \bI_{\text{world}} \omega + \bI_{\text{world}} \dot{\omega}
+$$
+which is exactly the second equation of the World-Frame Formulation. Therefore using the world coordinate angular momentum conserves angular momentum.
+
+## Theorem (Angular Momentum is Not Conserved in Body Coordinate)
+Imagine we are an ant glued to the rigid body flying around in empty space. Since we have the world frame angular momentum, translating it to the body frame is just a rotation. The **angular momentum in the body frame** is defined as 
+$$
+\bL := \bI_{\text{body}} \Omega
+$$
+Recall this is similar to the classical definition of angular momentum, $L = I \omega$ where $I$ is the moment of inertia and $\omega$ is the angular velocity. From how we derived the [[#Applying the Lagrangian to Rigid Bodies|integrand]], we know kinetic energy wrt to the body is 
+$$
+K = \frac{1}{2} \Omega^{\top} \bI_{\text{body}} \Omega 
+$$
+Thus, 
+$$
+\begin{aligned}
+\frac{dK}{d\Omega} &= \bI_{\text{body}} \Omega \\
+&= \bL \\
+\end{aligned}
+$$
+We can reuse from [[#Theorem (Angular Momentum is Conserved in World Coordinate)|before]] that 
+$$
+\begin{aligned}
+\mathbf{1} 
+&= \bI_{\text{world}} \omega \\ 
+&= (\bR \bI_{\text{body}} \bR^{\top})(\bR \Omega) \\ 
+&= \bR \bI_{\text{body}} \Omega \\ 
+&= \bR \bL
+\end{aligned}
+$$
+and so $\bL = \bR^{\top}\mathbf{1}$. And since $\bR$ (and thus $\bR^{\top}$) is dependent on time, angular momentum is not conserved. 
