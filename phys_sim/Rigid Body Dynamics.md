@@ -83,8 +83,7 @@ Q = \SE(3) = \left\{
 \right\}
 = \{(\mathbf{R}, \mathbf{c}) \}
 $$
-Here, $\mathbf{R}$ is a rotation matrix and $\mathbf{c}$ is a translation vector. $\SE(3)$ represents the [[Euclidean Group#Definition (Special Euclidean Group)|special Euclidean group]], which is the group of all rigid transformations in three-dimensional space. 
-
+Here, $\mathbf{R}$ is a rotation matrix in the [[Special Orthogonal Group|special orthogonal group]] $\SO(3)$ and $\mathbf{c}$ is a translation vector. $\SE(3)$ represents the [[Euclidean Group#Definition (Special Euclidean Group)|special Euclidean group]], which is the group of all rigid transformations in three-dimensional space.
 Each element $\bq \in (\bR, \bc) \in Q$ is a transformation that maps a position in the body coordinate to a position in the world coordinate. For example, 
 ```tikz
 \usepackage{amsmath}
@@ -444,13 +443,13 @@ $$
 ## Theorem (Angular Momentum is Conserved in World Coordinate)
 The conservation of angular momentum depends on which coordinate system we use. The **world coordinate angular momentum** is defined as 
 $$
-\mathbf{1} := \bI_{\text{world}} \omega
+\bl := \bI_{\text{world}} \omega
 $$
-We say that the world coordinate angular momentum is conserved if $\mathbf{1}$ is constant over time. In particular,
+We say that the world coordinate angular momentum is conserved if $\bl$ is constant over time. In particular,
 $$
-\frac{d}{dt} \mathbf{1} = \bzero
+\frac{d}{dt} \bl = \bzero
 $$
-Since both $\bI_{\text{world}}$ and $\omega$ are [[## Inertia Tensor in Kinetic Energy|dependent on time]], we can apply the product rule to get
+Since both $\bI_{\text{world}}$ and $\omega$ are [[#Inertia Tensor in Kinetic Energy|dependent on time]], we can apply the product rule to get
 $$
 \begin{aligned}
 \bzero &= \frac{d}{dt} \mathbf{I}_\text{world} \omega \\
@@ -506,11 +505,65 @@ $$
 We can reuse from [[#Theorem (Angular Momentum is Conserved in World Coordinate)|before]] that 
 $$
 \begin{aligned}
-\mathbf{1} 
+\bl 
 &= \bI_{\text{world}} \omega \\ 
 &= (\bR \bI_{\text{body}} \bR^{\top})(\bR \Omega) \\ 
 &= \bR \bI_{\text{body}} \Omega \\ 
 &= \bR \bL
 \end{aligned}
 $$
-and so $\bL = \bR^{\top}\mathbf{1}$. And since $\bR$ (and thus $\bR^{\top}$) is dependent on time, angular momentum is not conserved. 
+and so $\bL = \bR^{\top}\bl$. And since $\bR$ (and thus $\bR^{\top}$) is dependent on time, angular momentum is not conserved. 
+
+# Numerical Methods for Rigid Body Simulation
+We'll use the [[#Equations of Motion for Rigid Bodies|World-Frame Formulation]] equations of motion to simulate the rigid body dynamics. 
+
+Current methods such as [[Numerical Methods#Forward Euler Method|forward Euler]] or [[Numerical Methods#Runge-Kutta Method (RK4)|RK4]] do not respect rotation matrices[^4]. 
+
+[^4]: Why? 
+
+## Simple First-Order Method
+Here is an example of a simple first-order method based on conservation of angular momentum.
+
+**Input**: Initial $\mathbf{R}, \omega, \mathbf{I}_{\text{body}}, \Delta t$
+1. Compute world-space moment of inertia: $\mathbf{I}_{\text{world}} = \mathbf{R} \mathbf{I}_{\text{body}} \mathbf{R}^\top$
+2. Compute world-space angular momentum: $\bL = \mathbf{I}_{\text{world}} \omega$ (this is conserved if no external torques)
+3. For each frame:
+   a. Update angular velocity: $\omega \leftarrow \bI_{\text{world}}^{-1} \bL$
+   b. Update rotation: $\mathbf{R} \leftarrow \text{Rotation}(\Delta t |\omega|, \frac{\omega}{|\omega|}) \mathbf{R}$ (angle-axis rotation)
+   c. Recompute world-space moment of inertia: $\mathbf{I}_{\text{world}} = \mathbf{R} \mathbf{I}_{\text{body}} \mathbf{R}^\top$
+   d. Render the object using $\mathbf{R}$ as the orientation matrix.
+4. End
+
+## Buss' Augmented Second-Order Method
+From `Samuel Buss 2001 "Accurate and Efficient Simulation of Rigid Body Dynamics"`, (link to [paper](https://mathweb.ucsd.edu/~sbuss/ResearchWeb/accuraterotation/paper.pdf)). This method provides better accuracy for large time steps.
+
+**Input**: Initial $\mathbf{R}, \omega, \mathbf{I}_{\text{body}}, \Delta t$
+1. Compute world-space moment of inertia: $\mathbf{I}_{\text{world}} = \mathbf{R} \mathbf{I}_{\text{body}} \mathbf{R}^\top$
+2. Compute world-space angular momentum: $\bL = \mathbf{I}_{\text{world}} \omega$ (conserved)
+3. For each frame:
+   a. Update angular velocity: $\omega \leftarrow \mathbf{I}_{\text{world}}^{-1} \bL$
+   b. Compute angular acceleration term: $\alpha = -\mathbf{I}_{\text{world}}^{-1} (\omega \times \bL)$
+   c. Compute effective angular velocity: $\bar{\omega} = \omega + \frac{\Delta t}{2} \alpha + \frac{(\Delta t)^2}{12} (\alpha \times \omega)$
+   d. Update rotation: $\mathbf{R} \leftarrow \text{Rotation}(\Delta t |\bar{\omega}|, \frac{\bar{\omega}}{|\bar{\omega}|}) \mathbf{R}$
+   e. Recompute world-space moment of inertia: $\mathbf{I}_{\text{world}} = \mathbf{R} \mathbf{I}_{\text{body}} \mathbf{R}^\top$
+   f. Render the object using $\mathbf{R}$ as the orientation matrix.
+4. End
+
+The idea is that we use Dynkin's formula and Baker-Campbell-Hausdorff formula to derive a more accurate effective angular velocity $\bar{\omega}$ that accounts for the non-commutativity of rotations (i.e. $e^\bA e^\bB \neq e^{\bA + \bB}$). Instead, 
+$$
+e^\bA e^\bB = \exp\left( 
+  \bA + \bB + \frac{1}{2} [\bA, \bB] + \frac{1}{12} [\bA, [\bA, \bB]] + \frac{1}{12} [\bB, [\bB, \bA]] + \cdots
+\right)
+$$
+where $[\bA, \bB] = \bA \bB - \bB \bA$. Indeed, this means that 
+$$
+\left[
+  [a \times], [b \times]
+\right]
+= 
+\left[ (a \times b) \times \right]
+$$
+giving us line (3c) of the algorithm. 
+> [!idea] 
+> This is similar to RK2.
+

@@ -17,7 +17,7 @@ The **special Euclidean group** $\SE(n)$ is the subgroup of $E(n)$ consisting of
 $$
 \SE(n) = \left\{ (\mathbf{R}, \mathbf{c}) \mid \mathbf{R} \in \SO(n), \mathbf{c} \in \R^n \right\}
 $$
-where $\SO(n) = \{ \mathbf{R} \in O(n) \mid \det(\mathbf{R}) = 1 \}$ is the special orthogonal group.
+where $\SO(n) = \{ \mathbf{R} \in O(n) \mid \det(\mathbf{R}) = 1 \}$ is the [[Special Orthogonal Group]].
 
 ## Matrix Representation
 Elements of $\SE(n)$ are often represented using homogeneous coordinates as $(n+1) \times (n+1)$ matrices:

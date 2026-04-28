@@ -21,5 +21,5 @@ A group $G$ is called **free** if it has a basis, which is a subset $B \subseteq
 # Examples
 - [[linear_algebra/Euclidean Group|Euclidean Group]] $E(n)$: The group of isometries of $\R^n$.
 - [[linear_algebra/Euclidean Group#Definition (Special Euclidean Group)|Special Euclidean Group]] $\SE(n)$: The group of orientation-preserving isometries of $\R^n$.
-- Orthogonal Group $O(n)$: The group of $n \times n$ orthogonal matrices.
-- Special Orthogonal Group $\SO(n)$: The group of $n \times n$ orthogonal matrices with determinant $1$.
+- [[Special Orthogonal Group|Orthogonal Group]] $O(n)$: The group of $n \times n$ orthogonal matrices.
+- [[Special Orthogonal Group|Special Orthogonal Group]] $\SO(n)$: The group of $n \times n$ orthogonal matrices with determinant $1$.
