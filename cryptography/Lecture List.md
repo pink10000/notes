@@ -88,4 +88,34 @@ $A, B$ are independent if $P(A \cap B) = P(A)P(B)$ or $P(A|B) = P(A)$.
 - Review of [[Miller-Rabin Primality Testing]]. 
 
 # 18 (11/14)
-- 
+- [[Order]]
+- [[Diffie-Hellman]]
+
+# 19 (11/17)
+- Review of [[Diffie-Hellman]]
+- [[Elgamal]]
+- [[Order#Order of a Power]]
+- [[Quadratic Residue]]
+
+# 20 (11/19)
+- [[Quadratic Residue#Legendre Symbol]]
+- [[Quadratic Residue#Theorem (Euler's Criterion)]]
+- Intro to [[Elliptic Curves Over the Reals]]
+
+# 21 (11/21)
+- Quiz 5
+
+# 22 (11/24)
+- [[Elliptic Curves Over the Reals]]
+- Example curve: $y^2 = x^3 + 17$
+- Point addition by secants and tangents
+
+# 23 (11/26)
+- [[Elliptic Curves Over the Reals#Order of a Point]]
+- [[Elliptic Curves Mod a Prime]]
+- Elliptic curve discrete logarithm problem
+- [[Elliptic Curve Diffie-Hellman]]
+- [[RSA]] 
+
+# 24 (12/05)
+- Quiz 6

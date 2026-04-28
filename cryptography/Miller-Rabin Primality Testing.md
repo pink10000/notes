@@ -19,6 +19,9 @@ If $n$ is not a strong probable [[Prime Number|prime]] to base $a$, then $a$ is 
 If $n = 2$, it is a prime. Otherwise, if $n$ is even, output not a prime. Otherwise, we repeat for $k$total random bases $a$ for $2 \leq a \leq n - 2$. If we end without showing that $a$ is a witness, then $n$ is a prime. 
 
 If the number of times this is repeated is $k > 1$, the probability of being a prime is $\leq 1/4^{k}$. 
+
+In practice, the powers $a^d \bmod n, a^{2d} \bmod n,$ and so on are computed using [[Binary Exponentiation]].
+
 ## Example 1 
 Check that $221$ is a strong probable prime to the base $174$. 
 1. $n = 221, a = 174$. 
