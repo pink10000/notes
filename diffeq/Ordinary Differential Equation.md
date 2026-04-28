@@ -1,6 +1,9 @@
 ---
 tags:
   - MATH_20D
+aliases:
+  - ODE
+  - ODEs
 ---
 # Definition (Ordinary Differential Equation)
 An **Ordinary Differential Equation (ODE)** is a mathematical equation that relates a function of a *single independent variable* (in physics, almost always time, $t$) to its derivatives. Formally, for a state vector $y:[0,T] \rightarrow \mathbb{R}^m$, an ODE specifies a constraint of the form
