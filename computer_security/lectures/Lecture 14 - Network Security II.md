@@ -157,3 +157,4 @@ What does the destination see? `IAMBED`, `IAMBAD`, `IAMBD`, depends on the host.
 - Attacker stays anonymous
 - Responses may be extremely large, and so it can DOS the victim's server
 
+This lecture continues the attacker model and packet-level behavior from [[Lecture 13 - Network Security I]].

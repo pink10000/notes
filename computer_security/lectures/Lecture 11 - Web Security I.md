@@ -112,3 +112,5 @@ $$\begin{aligned}
 	- Deciding to send cookies is determined by the "file path". In general, you do not have access to previous domains. 
 	- `login.site.com` $\neq$ `other.site.com`
 	- not fine grain
+
+These browser trust boundaries are the setup for concrete attacks in [[Lecture 12 - Web Security II]].

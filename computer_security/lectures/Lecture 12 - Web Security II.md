@@ -40,3 +40,5 @@ Sec-Fetch-Dest: {audio,document,font,script,..}
 - has direct identification of request context `Site`, `Mode`, `Dest`
 - built-in resistance to spoofing `Site`
 - usually only for newer browsers
+
+This lecture assumes the browser model and SOP rules from [[Lecture 11 - Web Security I]].

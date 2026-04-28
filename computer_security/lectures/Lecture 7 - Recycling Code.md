@@ -93,3 +93,5 @@ Here, we are about to return to `bar`, but then transfers control to the system 
 - needs reliable DEP
 
 do not validate all data=dependent 
+
+This lecture is the exploitation sequel to [[Lecture 3 - Stack Overflow]] and [[Lecture 5 -  Buffer Overflow 2]], and it naturally connects to the defenses in [[Lecture 8 - System Security I]].

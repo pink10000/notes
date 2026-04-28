@@ -9,6 +9,8 @@ tags:
 ## **Overview and Context**  
 In the previous class, we covered isolation and privilege levels to implement **privilege separation**, **least privilege**, and **complete mediation**. The primary goal was to **protect sensitive information** so that it is inaccessible across trust boundaries.
 
+This is a failure mode of the protections from [[Lecture 8 - System Security I]]: the boundary is enforced functionally, but information can still leak indirectly.
+
 - **Trust Boundary**: The assumption is that we understand the trust boundaries within a system and can identify access points.
 
 ---

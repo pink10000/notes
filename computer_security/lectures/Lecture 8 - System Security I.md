@@ -86,3 +86,5 @@ $$
 $$
 \text{Virtual Address} \to \text{Intermediate Physical Address}\to \text{Physical Address}
 $$
+
+This lecture shifts from memory corruption exploits like [[Lecture 7 - Recycling Code]] toward system-enforced isolation, and it sets up leakage failures such as [[Lecture 9 - Side Channels]].

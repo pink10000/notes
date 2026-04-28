@@ -123,7 +123,7 @@ See [[Data Link Layer#Error Control|CRC]].
 - Attacker can impersonate any other host 
 - mitigate with **static ARP tables** (impractical, but better for small, fixed networks)
 - **Port Binding**: restrict MAC/IP on single port at a time
-- depend on higher level host auth to save you (SSH/TLS)
+- depend on higher level host auth to save you (SSH/TLS), which in turn relies on public-key cryptography such as [[RSA|RSA]] or [[Diffie-Hellman|Diffie-Hellman]]
 
 ## IP Spoofing Attacks
 - no auth in Link or Internet layers
@@ -149,3 +149,5 @@ See [[Data Link Layer#Error Control|CRC]].
 6. *S* responds with RST, revealing value of `x`
 	1. If `id=x+2`, then *S* sent an RST to *V*, meaning the port was open
 	2. If `id=x+1`, then the port was closed
+
+This lecture introduces the protocol-level assumptions that the defenses and attacks in [[Lecture 14 - Network Security II]] build on.

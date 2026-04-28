@@ -89,3 +89,5 @@ free(); // not always 200
 	- use safe libraries
 	- is *slower*
 - static checking (range analysis)
+
+This lecture continues the bug classes from [[Lecture 4 - Buffer Overflow Code Patterns]] and motivates exploit techniques such as [[Lecture 7 - Recycling Code]].

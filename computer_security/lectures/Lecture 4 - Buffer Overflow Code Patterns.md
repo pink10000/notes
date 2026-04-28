@@ -149,3 +149,5 @@ int main() {
 	- write, what, where
 	- pointer, back pointer, forward pointer
 	- if hacker can get access to the address of the <INSERT THINGS HERE>
+
+These concrete bug patterns build directly on [[Lecture 3 - Stack Overflow]], and the heap exploitation side continues in [[Lecture 5 -  Buffer Overflow 2]].

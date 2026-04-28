@@ -29,6 +29,8 @@ tags:
 - Alice and Bob know each other's public keys
 - Alice and Bob establish a secure "pipe" (ssh, https)
 
+This assumes an underlying public-key cryptosystem such as [[RSA|RSA]] or a key exchange such as [[Diffie-Hellman|Diffie-Hellman]].
+
 ### Getting Public Keys
 - Alice and Bob need a way to exchange public keys
 - Alice $\to$ unencrypted message to Bob
@@ -86,6 +88,8 @@ where $||$ is the concatenation symbol.
 8. server says they finished
 9. begin exchanging messages
 
+Conceptually, this is a hybrid cryptosystem: public-key tools establish trust and a shared secret, and then symmetric encryption carries the bulk traffic. Compare with [[Diffie-Hellman|Diffie-Hellman]] and [[RSA|RSA]].
+
 - **Authenticity?** 
 	- Is the server who they say they are? Yes
 	- Is the client who they say that are? No
@@ -138,3 +142,5 @@ where $||$ is the concatenation symbol.
 	- improve reliability and availablity
 - CDNs need to convince client they are reprensenting *their* client
 - 
+
+This lecture extends the primitives from [[Lecture 9 - Cryptography I]] into PKI, certificates, and deployment in protocols such as TLS.

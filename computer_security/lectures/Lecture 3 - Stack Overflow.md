@@ -102,5 +102,6 @@ will overwrite the stack.
 - set return address to the shellcode
 - eliminate `0x00` which is the null terminating character 
 
+This is the conceptual starting point for [[Lecture 4 - Buffer Overflow Code Patterns]] and the mitigation ideas in [[Lecture 6 - Countermeasures and Mitigations]].
 
 

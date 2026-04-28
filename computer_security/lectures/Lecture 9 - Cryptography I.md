@@ -44,7 +44,7 @@ $$c = m \oplus r$$
 - **Perfect Secrecy**: Every plaintext is equally probable given the ciphertext.
 - **Drawbacks**: Requires a unique key of the same length as the message for each communication.
 
-Given a shared key, that is completely random, you can encode messages into numbers, and perform modulo arithmetic to get a completely random ciphertext.
+Given a shared key, that is completely random, you can encode messages into numbers, and perform [[Modulus|modulo arithmetic]] to get a completely random ciphertext.
 
 ---
 
@@ -120,14 +120,14 @@ Each participant has a **public and private key**.
 - **Private Key**: Used to decrypt messages or create signatures.
 
 ### **Common Asymmetric Algorithms**  
-- **RSA**: Based on the difficulty of factoring large integers.
-- **DSA and Elgamal**: Rely on the difficulty of discrete logarithms.
+- **[[RSA|RSA]]**: Based on the difficulty of factoring large integers.
+- **DSA and [[Elgamal|Elgamal]]**: Rely on the difficulty of discrete logarithms.
 
 ---
 
 ## **Combining Symmetric and Asymmetric Cryptography**  
 - **Hybrid Approach**: Use asymmetric cryptography to establish a symmetric session key, which is then used for efficient encryption of message data.
-  - **Example**: Encrypt the message with a symmetric key, encrypt the key with the recipient’s public key, and send both.
+  - **Example**: Encrypt the message with a symmetric key, encrypt the key with the recipient’s public key, and send both. This is the practical motivation behind protocols such as [[Diffie-Hellman|Diffie-Hellman]] and public-key encryption systems like [[RSA|RSA]].
 
 ### **Signing and Verification in Practice**  
 - **Signing**: Hash the message, then sign the hash using the sender’s private key.
@@ -139,3 +139,5 @@ Each participant has a **public and private key**.
 ### Key Points  
 - Cryptographic mechanisms for **confidentiality** and **integrity** are separate and need careful selection.
 - **Use established libraries** and avoid implementing cryptography independently due to complexity and risk.
+
+This is the foundation for the trust and deployment questions in [[Lecture 10 - Cryptography II]].

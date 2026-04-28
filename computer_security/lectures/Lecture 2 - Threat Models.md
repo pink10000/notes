@@ -9,13 +9,14 @@ tags:
 
 ## Confidentiality
 - Protection of Information, secrecy
-	- Like encryption 
+	- Like [[RSA|encryption]] 
 - prevention of **eavesdropping**, **copying**, **intercepting**
 
 ## Integrity (and Authenticity)
 - Making sure there is no unauthorized modification of information, process, or function
 	- Cannot change email
 	- bank account does not change unless you deposit/withdraw
+	- often enforced cryptographically using signatures, MACs, or [[Elgamal|public-key authentication primitives]]
 - prevention of **modification**, **corruption**, **tampering**
 
 ## Availability
