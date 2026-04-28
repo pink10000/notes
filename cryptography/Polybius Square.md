@@ -13,7 +13,7 @@ G 4 F 6 G 7 I
 V 9 J 0 K L Q
 X S U V X Y Z
 ```
-Then, for some [[Text|plaintext]], replace each letter with the $(\text{row}, \text{ column})$ index where it is placed. So 
+Then, for some [[Cryptographic Text|plaintext]], replace each letter with the $(\text{row}, \text{ column})$ index where it is placed. So 
 ```
 Plaintext: WAR
 W -> FF

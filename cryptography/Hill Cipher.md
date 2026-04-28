@@ -20,10 +20,10 @@ The determinants in order are $6, 13, 6, 5$. Then, using [[Affine Cipher#Definit
 
 # Method (Hill Cipher)
 Our key is an invertible $2 \times 2$ matrix. 
-1. Break [[Text#Definition (Plaintext, Ciphertext)|plaintext]] into pairs of $2$ letters
+1. Break [[Cryptographic Text#Definition (Plaintext, Ciphertext)|plaintext]] into pairs of $2$ letters
 2. Encode the pair of $2$ letters as a $2 \times 1$ column vector
 3. Encrypt by multiplying the Key on the left
-4. Use alphabet-number correspondence to get [[Text|ciphertext]]. 
+4. Use alphabet-number correspondence to get [[Cryptographic Text|ciphertext]]. 
 5. Decrypt is the same but with the inverse matrix.
 
 ## Example 2 

@@ -12,7 +12,7 @@ We can use this to break [[Vignere Cipher]].
 The largest possible $\text{IC}$ is $26$. This is if $N_{\alpha} = N$ for some $\alpha$, but $N_{\alpha'} = 0$ for any $\alpha' \neq \alpha$. This text must be monographic (composed entirely of a single letter). 
 
 # Theorem (Sufficient Length for Text)
-Let $N$ be the length of some [[Text]] and for each letter $\alpha$, let $N_\alpha$ be the number of times $\alpha$ occurs in this text. Let
+Let $N$ be the length of some [[Cryptographic Text]] and for each letter $\alpha$, let $N_\alpha$ be the number of times $\alpha$ occurs in this text. Let
 $$
 p_{\alpha} = N_{\alpha} / N
 $$

@@ -5,9 +5,20 @@ tags:
 Based on [paper](https://dl.acm.org/doi/pdf/10.1145/75104.75105). The goal is to implement shared virtual memory on loosely coupled multiprocessors. 
 
 # Definition (Memory Coherence)
-A memory is **coherent** if the value of a memory location is the same for all processors at any given time. In other words, the value returned by a read operation is always as the value written by the most recent write operation to that location. 
+Given a memory model and a set of possible instructions that execute at any point in time, we say that the memory model is **coherent** if the instructions execute in an ordering that is consistent with all viewers of the model (i.e. processors) at any given time. In other words, the value returned by a read operation is always as the value written by the most recent write operation to that location. 
 
 An architecture with one memory access path has no coherence problem. (Single computer, single threaded/single processor).
+
+If our model is not coherent, we have to worry about cache coherence, invalidation, and other issues. 
+
+# Definition (Strict Consistency Model)
+This is one example of a memory model. In a **strict consistency model**, instructions for a provided CPU always execute in the order they were issued via some global clock. The load returns the value of the last (according to the global wall clock) store. 
+
+This is a very strong consistency model, and it is not practical for distributed systems
+> [!info] Global Clock
+> A global clock would require all machines/processors to be perfectly synchronized to some time source, which is not possible in practice due to network latency, clock drift, and other factors.
+
+One way to implement a strict consistency model is to have a total ordering system for all memory operations, but this can lead to significant performance bottlenecks.
 
 # Definition (Shared Virtual Memory)
 **Shared virtual memory** is a shared memory abstraction that allows processes running on different processors to access the same virtual memory address space. The idea is to allow processes to run on different processors in parallel. 
@@ -50,6 +61,11 @@ There are two design choices that influence the implementation of shared virtual
   - Larger page size means less overhead for maintaining coherence, but higher chance for contention.
   - Smaller pages means more overhead for maintaining coherence, but lower chance for contention.
 - Coherence Strategy.
+
+# Definition (Sequential Consistency)
+A memory model is **consistent** when any data load returns the value of the last (some possible total ordering of instructions) store. This is a *relaxed* version of the [[#Definition (Strict Consistency Model)|strict consistency model]]. 
+
+In general, the programmer does not necessarily need strict control over the ordering of instructions, but they do need to be able to reason about the ordering of instructions. 
 
 # Definition (Locality of Reference)
 **Locality of reference** is the principle that programs tend to access a relatively small portion of their address space at any given time. This is a key principle that allows for efficient caching and memory management. There are two types of locality:

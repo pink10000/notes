@@ -18,5 +18,3 @@ A system is **highly available** if it can continue to operate even when some of
 
 # Definition (External Consistency)
 **External consistency** is a property of a distributed system that ensures that the results of operations are consistent with what the user/client expects, i.e. they follow the real-time order of operations. 
-
-READ ABOUT IVY
