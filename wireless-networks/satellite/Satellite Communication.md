@@ -4,7 +4,7 @@ tags:
 ---
 # Satellite Communication (SATCOM)
 - True global connectivity 
-- Cellular is dependent on someone building a cell tower near the area you want to communicate on
+- [[Cellular]] is dependent on someone building a cell tower near the area you want to communicate on
 	- Remote areas are out of luck!
 - Satellites are like moving cell towers
 
@@ -39,15 +39,17 @@ tags:
 
 # Path Loss and Latency to Orbit
 - Distance contributes significantly to signal strength loss
-- Need higher frequency. But higher frequency $\implies$ smaller antenna $\implies$ less energy connected $\implies$ weaker signal
+- Need higher frequency. But higher frequency $\implies$ smaller antenna $\implies$ less energy connected $\implies$ weaker signal. This is part of the same signal-budget story discussed in [[Signal Qualities]].
 - Being at an angle on the horizon increases total distance and path loss.
 - Speed of light gives
 	- LEO: $\approx 30\!-\!50$ ms
 	- MEO: $\approx 125\!-\!325$ ms
 	- GEO: $\approx 600\!-\!800$ ms
 - Huge coverage areas share bandwidth among many users
-	- Cellular solution can apply here by providing "cells of coverage" on the ground.
+	- [[Cellular]] ideas can apply here by providing "cells of coverage" on the ground.
 - Moving satellites lead to many handoffs. They move at around $7$ km/s.
+
+Compared with [[Wide Area Networks]], satellite systems push coverage much farther but pay for it with more latency, more shared bandwidth, and higher deployment complexity.
 
 # Cost Considerations
 - Costs have dropped a lot in the last few years

@@ -30,6 +30,8 @@ $$
 - Propagation degrades RF signals (logarithmic)
 - Physical obstacles, interference, reflections 
 
+At very long ranges, this becomes one of the central design constraints in [[Satellite Communication]], where orbit distance directly increases path loss and latency.
+
 # Signal Frequency and Analysis
 - Which channel the signal is sent on
 - sum of sinusoids can be reversed

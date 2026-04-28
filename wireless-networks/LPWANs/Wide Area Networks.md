@@ -21,6 +21,8 @@ Such a technology needs
 - low power (deploy on batteries)
 - does not need high throughput (sensor data is relatively small)
 
+Another way to get wide-area coverage is [[Satellite Communication]], though with very different cost, latency, and deployment tradeoffs.
+
 # Low Power WANs (LPWANs)
 - Uses unlicensed 900 MHz
 - Higher power transmissions ($\sim 20$ dBm or $100$ mW)
@@ -70,6 +72,7 @@ $$
 - [[Sigfox]] has poor bit flux at longer ranges, so it became less used. Additionally, it suffers from poor throughput capacity. It cannot meet application needs like [[#Example 2]].
 - LTE and 2G dominates bit flux charts
 - [[LoRaWAN]] in the middle. It can meet application needs (it's bit flux is higher than the electric meter), but only by using 50% of the 915 MHz unlicensed band spectrum.
+- Satellite systems trade even larger coverage areas for higher latency and tighter shared-capacity constraints; see [[Satellite Communication|Satellite Communication]].
 
 # Coexistence
 In general, **coexistence** defines the requirement for multiple independent wireless networks to operate simultaneously within the same physical space and frequency spectrum.  

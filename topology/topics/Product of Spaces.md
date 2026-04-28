@@ -133,6 +133,8 @@ Finally, we observe that $\phi$ and $\pi_{X}|_{\Gamma_{f}}$ are indeed mutually 
 
 > Warning: We cannot do all proofs in this way. In particular, dealing with continuity of maps out of a product usually requires working with a basis. So with this, we can talk about maps *into* a product, not *out*.
 
+This graph map is a standard example of an [[Embedding]] of $X$ into $X \times Y$.
+
 ## Example 2 
 The [[Diagonal Map]] $X \to \prod_{i \in I} X$ (the space itself, not a typo) maps $x \mapsto (x)_{i \in I}$ is continuous because if $B$ is a [[Base#Definition (Base/Basis)|basis]] element for $\prod X$, then $B$ is of the form $\prod U_{i}$ where $U_{i}$ are open in $X$, but finitely many of them are equal to $X$. 
 

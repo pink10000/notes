@@ -48,3 +48,5 @@ x &\mapsto (\cos 2\pi x, \sin 2 \pi x)
 \end{aligned}
 $$
 This map is a continuous bijection, but its inverse is not. In particular, the $f$ is not an *open map*. 
+
+An [[Embedding]] is weaker than a homeomorphism onto the whole codomain, but stronger than merely being a continuous injection: it must be a homeomorphism onto its image.

@@ -18,6 +18,9 @@ $$
 (A, \tau_{A}) \xhookrightarrow{i} (X, \tau_{X})
 $$
 which is continuous. In fact, $\tau_{A}$ is the *smallest* topology on $A$ for which this inclusion map is continuous. 
+
+This canonical inclusion is the basic model for an [[Embedding]]: an embedding is a map whose image carries the same topology as the source via the subspace topology.
+
 ## Lemma (Subspace Continuity by Canonical Inclusion) 
 Given $A \subseteq X$ is a subspace, and $Z$ is a third space, then a map 
 $$
@@ -121,5 +124,4 @@ Proof:
 The same as the Gluing Lemma but using $f^{-1}(\text{closed sets})$. Take note of the finiteness condition. 
 
 > These lemmas are similar to how we prove a piecewise function is continuous. We break up the cases, just like how we break up $X$ to $U_{i}$ and prove continuity on each $U_{i}$. 
-
 

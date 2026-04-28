@@ -2,7 +2,7 @@
 tags:
   - CSE_122
 ---
-Cellular provides the only reliable global coverage available today. 
+Cellular provides the only reliable global coverage available today. For truly remote regions without terrestrial tower deployment, compare with [[Satellite Communication]].
 
 # Evolution of Cellular Network Technologies
 - 1948: First commercial phone 
@@ -21,6 +21,8 @@ A **cell** is *spatial* division of coverage via cell towers.
 - needs logic to support handoff of a user between towers (harder for operators)
 	- there will be some overlap... so who gets the user?
 - How often does handoff happen? Depends on the size of the cells. 
+
+This same idea reappears in [[Satellite Communication]], where satellites effectively act like moving cells covering portions of the Earth.
 # 1G
 - AMPS - Advanced Mobile Phone Service (circa 1983)
 - 1G is defined by analog voice channels and established digital control channel (handles the handoffs)

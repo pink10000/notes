@@ -3,4 +3,4 @@ tags:
   - MATH_154
   - MATH_154_Lecture
 ---
-Structure of Connected Graphs
+Structure of [[Connectivity|connected]] [[Graph|graphs]] 
