@@ -34,6 +34,7 @@ $$
 \end{aligned}
 $$
 [^1]: Why?
+
 The kinetic and potential energy on $(\mathbf{q}, \dot{\mathbf{q}})$ by [[Dual Space#Definition (Pullback Operator for Functions)|pulling back]] the energies from 3D space
 $$
 K(\mathbf{q}, \dot{\mathbf{q}}) =
@@ -354,7 +355,7 @@ The moment of inertia is [[Definite Matrix#Definition (Positive Definite Matrix)
 
 Proof:
 
-WLOG, we can choose[^1] the basis that diagonalizes the inertia tensor, such that
+WLOG, we can choose[^3] the basis that diagonalizes the inertia tensor, such that
 $$
 \bI = \begin{bmatrix}
 \lambda_1 & 0 & 0 \\
@@ -362,7 +363,8 @@ $$
 0 & 0 & \lambda_3
 \end{bmatrix}
 $$
-[^1]: TODO: show that we can always choose such a basis.
+
+[^3]: TODO: show that we can always choose such a basis.
 Let 
 $$
 i_x = \int \frac{|x|^2}{2} \,dm
