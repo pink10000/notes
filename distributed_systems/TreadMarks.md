@@ -25,7 +25,9 @@ In a sequentially consistent memory model, modifications to shared memory must b
 However, RC can be implemented more efficiently. The requirement that shared memory updates must become visible to all processors immediately is *relaxed*.
 
 # Lazy Release Consistency (LRC)
-**Lazy release consistency (LRC)** is a memory consistency model that further relaxes the requirements of [[#Release Consistent Memory Model|RC]] by postponing the propagation of shared memory updates until the time of the acquire. 
+**Lazy release consistency (LRC)** is a memory consistency model that further relaxes the requirements of [[#Release Consistent Memory Model|RC]] by **postponing the propagation**[^1] of shared memory updates until the time of the next acquire. 
+
+[^1]: This is really important here. LRC is specifically about what the processor does with the new computed page. It can either send it to the system (Eager Release Consistency) or wait until another processor wants that data (LRC). This wait is specifically postponing the propagation.
 
 LRC divides the execution into *intervals*, denoted by the *interval index*. Each time a process executes a `release` or `acquire` operation, a new interval begins and the interval index is incremented. Intervals are [[Partial Order|partially ordered]] by the *happens-before* relation.
 

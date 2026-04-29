@@ -3,87 +3,132 @@ tags:
   - CSE_223B
 ---
 From [paper](https://dl.acm.org/doi/10.1145/121133.121169).
-
-# Harp File System
-**Harp** is a distributed file system that is designed to be a drop-in replacement for [[Networked File Systems|NFS]]. It consists of a set of [[Replication|replicas]] that are homogeneous (equal to terms of power, privilege, function, etc.) and can fail independently. It is designed to be [[Networked File Systems#Definition (High Availability|highly available]] and can tolerate failures as long as at least one replica is alive. 
-
-It uses a **replicated state machine** approach, where all operations are replicated on all machine, living in the RPC part of the NFS. 
-
-# Design Considerations
-- Harp does not have total consistency inside the system (too expensive). 
-- How many failures $f$ should we be able to tolerate? We cannot tell the exact number of failures.
-- No node can "know" about any other node. It can only send messages. 
-- Asynchronous. Things will eventually happen. In particular, if $(n - f)$ are "alive", then we must proceed.
-
-In the worst case scenario, if we have $f$ failures, then at minimum we need $f + 1$ replicas. 
-- How does the client talk to the remaining node? (single point of failure)
-- We can't possibly care, since we do not want to change the client. We need more than $f + 1$.
-
-Given that we have two kinds of operations, reads and writes, then at any time, we can have a certain number of read nodes and a certain number of write nodes. How can we guarantee that at least one node is both a read and a write node (Venn diagram)? If we can make write nodes and read nodes have enough count, then we guarantee that least one overlap (non zero intersection). Thus, at minimum, writes nodes need to be $n/2 + 1$ and read nodes are $n/2 + 1$. By Pidgeonhole principle, $1$ node must be both. Any larger is more than sufficient.
-
-In a harp, it uses a [[Quorum]]-based approach to ensure consistency and [[Networked File Systems#Definition (High Availability|highly available]]. All quorums are the same size (although in practice, this does not need to be true). 
-
-At each point in time, there is a **view** of the system moving through certain configurations of quorums (the state it is in). Inside a view, there is a quorum of nodes that are alive. When a node fails, the system moves to a new view with a new quorum. The primary node is responsible for replicating data to the backup nodes. 
-
-How does every node learn about new data? 
-> [!info]
-> The primary node replicates it out to the backup nodes, and the backup nodes acknowledge that they have received the data and appended it to a volatile *write-ahead-log* (for performance). The primary node can only know that the backup nodes have received the data via the acknowledgment message. If the primary node dies before receiving the acknowledgment, then the client will try again on the new view, which is not a new problem since NFS already does retransmissions.
-
-What happens if the power goes out? 
-> [!info] 
-> Harp uses a Uninterruptible Power Supply (UPS) to flush the log to disk, ensuring that data is not lost. 
-
-# Write Ahead Log
-The **write-ahead-log** is a log stored in volatile memory that contains a sequence of **event records**; each record describes an operation and records at higher indices describe more recent events. There are four indices in the Harp log:
-- **Commit Point** ($\text{CP}$): most recently committed event record index
-- **Application Point** ($\text{AP}$): most recently applied event record index to disk
-- **Lower Bound** ($\text{LB}$): pointer to the most recent event record index that has been received by all backup nodes 
-
-To carry out a modification operation, 
-1. The primary creates an event record, appends it to its log, and then sends it to the backup nodes.
-2. The backup node logs will append them to its log and sends an acknowledgment back to the primary node.
-	1. The `ack` contains $n$, the index where all entries up to $n$ have been received .
-3. The primary receives the acknowledgment, commits the operation by advancing its $\text{CP}_p$.
-4. The primary sends its $\text{CP}_p$ to the backup nodes, which then advance their $\text{CP}_{b}$ to match the $\text{CP}_p$.
-
-But the data is not written to disk yet. A separate **apply process** is responsible for processing the committed operations to the file system and writing them to disk. It maintains a counter called the **application point** ($\text{AP}$), that records its progress. The Unix file system is the process of actually writing the data to disk. The apply process will only apply the changes to the file system once they have been committed, keeping track of the $\text{LB}$ pointer. 
-
-Primaries and backups keep track of the $\text{GLB}$ or global lower bound pointer by exchanging messages of the $\text{LB}$ pointer. All nodes discard any event record with an index less than $\text{GLB}$, since they know that all nodes have received it and committed it to disk. In general, the following invariant is maintained:
+# Harp File System Overview
+- Harp is a highly available, reliable, persistent file system intended to be used within a file service in a distributed network, such as [[Networked File Systems|NFS]].
+- It is accessed via the Virtual File System (VFS) interface, sitting as a layer between the NFS server code and the low-level Unix file system.
+- Harp guarantees strong semantics: every file operation is executed atomically, meaning it either completes entirely or has no effect, in spite of concurrency and failures.
+- The system masks failures by performing a failover algorithm to remove an inaccessible server from service and reorganize the remaining nodes.
+# Architecture and Replication
+- Each group will have a **designated primary** and $n$ **designated backups**. Some will be witnesses.
+- Harp utilizes a variation of the primary copy replication technique, where client calls are directed to a single *primary* server.
+- The primary communicates with backup servers and waits for their response before replying to the client for modification operations.
+- To tolerate $n$ server failures, Harp requires a total of $2n+1$ servers.
+- However, it only stores $n+1$ actual copies of the files on disk.
+- The remaining $n$ servers act as "witnesses" to ensure a majority vote during network partitions, without storing full disk copies.
+- A typical three-member replica group consists of exactly one designated primary, one designated backup, and one designated witness.
+# Performance and The Write-Ahead Log
+- Harp achieves high performance by trading slower disk accesses for faster network communication.
+- Modifications are recorded in a volatile **write-ahead log** in memory, rather than being synchronously written to disk.
+- Each server is equipped with a small uninterruptible power supply (UPS).
+- If a power failure occurs, the UPS provides enough time for the server to safely flush the volatile log to the physical disk, preventing data loss.
+# Log Pointers
+The log contains event records that are processed strictly in sequential order.    
+- **CP (Commit Point):** The index of the most recently committed event record.
+- **AP (Application Point):** The index of the most recently applied event record that an asynchronous background process has sent to the Unix file system.
+- **LB (Lower Bound):** The largest index where all events up to and including the LB have had their effects securely recorded on the local disk.
+- **GLB (Global Lower Bound):** The lower bound on what a server knows about the current LB for both itself and its partner.
+Servers safely discard log entries with indices less than or equal to their GLB. The system continuously maintains the invariant: 
 $$
-\text{GLB} \leq \text{LB} \leq \text{AP} \leq \text{CP} \leq \text{top of log}
+GLB\le LB\le AP\le CP\le \text{top of log}
 $$
+The primary and backup keep
+- file system 
+- log
+But the witness only keeps the log, even if promoted.
+# Normal Operation Flow
+- To carry out a modification, the primary appends an event record to its log and sends the data to the backup.
+- The backup appends the data to its log in order and replies with an acknowledgment message.
+- Upon receiving the acknowledgment, the primary advances its CP, officially committing the operation, and replies to the client.
+- The primary includes its CP in subsequent messages to the backup, allowing the backup to advance its own CP to match.
+- An independent apply process writes the committed operations to the disk in the background.
+# External Consistency for Reads
+- Non-modification operations, such as file reads, are processed entirely at the primary to improve response times.
+- To prevent external consistency violations during a network partition, Harp utilizes loosely synchronized clocks.
+- Backups send a promised time to the primary, calculated as the backup's current clock time plus a small delay.
+- This promised time represents a guarantee from the backup not to start a new view until that specific time has elapsed.
+- The primary can safely process reads without contacting the backup as long as its current time is less than the promised time[^1].
+- Harp guarantees that writes in the new view happen after all reads in older views[^2].
 
-When a server recovers from failure, the log is used to bring it up to date. The server will then redo all the committed operations that have not been applied to disk.
+[^1]: Technically, it should be $t_{p} > t_{b} + \delta - \varepsilon$ where $\varepsilon$ is the clock skew. This is just an extra buffer since different machines are never perfectly in sync.
 
-> $\text{AP}$ and $\text{LB}$ were used at this point in time because SSDs had not been invented yet, and the disk was very slow. 
-
-# Maintaining External Consistency 
-Suppose there were a network partition where the primary and backup are now separated, and the backup forms a new [[#Design Considerations|view]] with the witness of this quorum. If the old primary processes a non-modification operation, the result may not reflect a write operation that has already been committed. 
-
-This does not compromise the file system state, but it can lead to a loss of [[Networked File Systems#Definition (External Consistency)|external consistency]]. In Harp, this is highly unlikely by using loosely synchronized clocks. Each message from the backup to the primary contains a time equal to the backup's clock time $+ \delta$ where $\delta$ is a few hundred milliseconds. The backup essentially promises the primary to not start a new view until $\delta$ has passed. The old primary can process read operations without communicating with the backup only if $t_{p} > t_{b} + \delta$[^1]. When a new view starts, the new primary cannot process and modification operations (writes) until its clock is greater than $t_{b} + \delta$. Harp guarantees[^2] that writes in the new view happen after all reads in older views. 
-
-[^1]: Technically, it should be $t_{p} > t_{b} + \delta - \vepsi$ where $\vepsi$ is the clock skew. This is just an extra buffer since different machines are never perfectly in sync. 
-[^2]: The authors claim that this violated when clocks get out of sync, which is "highly unlikely". 
-
-# Views 
-A **view** is a configuration of the system that contains a set of nodes that are alive. When a node fails, the system moves to a new view with a new quorum. The primary node is responsible for replicating data to the backup nodes.
-
-A view has a unique *view number* that is monotonically increasing (later views have larger numbers). When a view is formed, it contains at least two group members, the primary and the backup. The view also contains a witness (not in the quorum!) that functions similarly to a backup node, but 
-1. does not store data nor 
-2. does it discard log data nor
-3. does not monitor the quorum (and thus never starts view changes).
-It's primary role is to witness the failure of the primary and/or backup nodes and to help form a new view. 
-
-When either the primary or backup node fails, the witness is *promoted* and act as a backup node. It is later *demoted* back to a witness when the view changes with a new primary and backup. When it promotes, it receives all log records for committed operations and appends them to its log. It retains all log records (and writes them to a non-volatile storage) until it is demoted. 
-
-> [!info] 
-> There is a chance that a view with a witness in the promoted state for a very long time may have a very large log, where it may no longer be practical. The best solution may be to reconfigure the system and changing the group membership. 
-
+[^2]: The authors claim that this is violated when clocks get out of sync, which is "highly unlikely".
+# Views and Witnesses
+- A view is the result of a reorganization within the group, uniquely identified by a monotonically increasing view number that is kept on disk.
+- A valid view must contain at least two active members: one acting as primary and one acting as backup.
+- If a primary or backup fails, the designated witness is promoted to act as the backup in the newly formed view.
+- A promoted witness receives and logs all committed operations but cannot apply them because it lacks a copy of the file system.
+- Promoted witnesses store older parts of their logs on non-volatile devices, like tape drives, and never discard log entries while promoted.
+- The witness has a purely passive role; it does not monitor other members and never initiates a view change itself.
 ## View Changes
-A view change selects the members of the new view and makes sure the members of the new view have the most up-to-date data. User operations are not processed during view changes. A view change is a two-phase process. The node that starts it acts as the **coordinator**.
+View changes are initiated by a designated **primary or backup that detects a loss** of communication or finishes recovering from a crash. The node initiating the change acts as the coordinator for a two-phase protocol.
+- **Phase 1:** The coordinator asks other members to form a view, causing them to halt normal operations and send any missing state data to the coordinator.
+- The coordinator uses this data to form the initial state for the new view, guaranteeing it reflects all committed operations from previous views.
+- **Phase 2:** The coordinator writes the new view number to disk and transmits the new state to the participating nodes.
+- The other nodes write the new view number to disk, at which point a **promoted** witness is demoted if both the designated primary and backup have successfully rejoined the view.
+- A promoted witness is just like a backup. Except
+	- Since it has no copy of the file system, it cannot apply committed operations.
+	- It never discards entries from its log.
 
-In phase 1, the coordinate communicates with the other group members. If a group member agrees to form a new view (it will always agree unless another view change is in progress), it stops processing operations and sends the coordinator whatever state the coordinator does not have. The coordinator will try to form the initial state for the new view, guaranteeing that the new view reflects all committed operations. 
+# Example 1 
+**Setup:**
+Consider a Harp system configured to share files across five servers: $A, B, C, D, E$.
+- The system is configured with $n=2$ (tolerates up to 2 failures).
+- Initial view: Server $A$ is the designated primary. Servers $B,C$ are designated backups. Servers $D,E$ are designated witnesses.
+- Let `*` represent primary, `!` represent backup, `_` represent witness
 
-In phase 2, the coordinator successfully configured the new view state, and has written the new view number to its local disk. It when then send a message to the responding nodes to inform them of the new state and the new view member. When the responding nodes receive the message, they will write the new view number, establishing the new view, and resume processing operations.
+**Scenario A: $C$ crashes. While $C$ is still down, $A$ becomes partitioned from $B, D, E$.**
+```
+(A* B! C! D_ E_)1 -> (C) (A* B! D! E_)2 -> (C) (A) (B* D! E!)3
+```
+- Can the set of currently live servers form a new view and continue serving client requests? 
+	- Yes. The partition containing $B$, $D$, and $E$ has 3 active servers. This satisfies the $n+1$ majority requirement to form a new view out of the $2n+1$ total servers.
+- Which nodes make up the view and which are promoted or demoted? 
+	- The new view consists of $B$, $D$, and $E$. Server $B$ is promoted to primary. Because $n+1$ copies are required to allow information to survive $n$ failures, both designated witnesses ($D$ and $E$) must be promoted to act as backups.
+- What data needs to be sent to the new nodes, and from which server?
+	- $B$ (acting as the new primary) will send all log entries to the newly promoted backups ($D$ and $E$) during phase 2 of the view change protocol.
 
-The witness then demotes. 
+**Scenario B: $C$ reboots to join $A$.**
+```
+(C) (A) (B* D! E!)3 -> (AC) (B* D! E!)3
+```
+- Can the set of currently live servers form a new view and continue serving client requests?
+	- No. Servers $A$ and $C$ only constitute 2 servers, which does not meet the $n+1$ (3 servers) majority quorum required to form a view. 
+- Which nodes make up the view and which are promoted or demoted?
+  - None.
+- What data needs to be sent to the new nodes, and from which server?
+  - None.     
+    
+**Scenario C: $B$ crashes, and reboots in the partition with $A, C$. Its disk was lost.**
+```
+(AC) (B* D! E!)3 -> (AB'C) (DE)
+```
+- Can the set of currently live servers form a new view and continue serving client requests?
+	- No. Although the group $\{A,B,C\}$ contains 3 servers (a numerical majority), they cannot form a view. 
+	- A new view must reflect all committed operations from previous views. Because server $B$ suffered a media failure, the Harp protocol strictly requires it to bring itself up to date by communicating with the primary of the current view, and then with the witness. 
+	- Since $B$ is partitioned from $D$ and $E$ (the members of the most recent valid view), it cannot retrieve the required state. Without intact state from the most recent view, the coordinator's attempt to form the initial state for the new view will fail.
+- Which nodes make up the view and which are promoted or demoted?
+	- None. Because $B$ cannot complete its mandatory recovery steps, it remains in an incomplete recovery state and cannot participate as a voting member.
+- What data needs to be sent to the new nodes, and from which server?
+	- None. Copying $A$ and $C$'s older data to $B$ would permanently erase any operations that were committed while $B$, $D$, and $E$ were active together. The system halts to protect data consistency, and the servers must wait until the partition heals.
+
+**Scenario D: $C$ crashes again rebooting in the partition with $D,E$, the disk intact.**
+```
+(AB'C) (DE) -> (AB') (C* D! E!)4
+```
+- Can the set of currently live servers form a new view and continue serving client requests?
+	- Yes. 
+- Which nodes make up the view and which are promoted or demoted?
+	- $\{C, D, E\}$. $C$ was backup, now it is primary. $D,E$ promote to backups.
+- What data needs to be sent to the new nodes, and from which server?
+	- $C$ needs to get info from either $D,E$ and update to GLB. 
+
+**Scenario E: The partition is healed and all five nodes can reach other again.**
+```
+(AB') (C* D! E!)4 -> (A* B! C! D_ E_)5
+```
+- Can the set of currently live servers form a new view and continue serving client requests?
+	- Yes
+- Which nodes make up the view and which are promoted or demoted?
+	- All of them. They return to their designated roles. 
+- What data needs to be sent to the new nodes, and from which server?
+	- $D,E$ have the newest data. $B$ needs to get the file $C$ since it is the designated backup. (It cannot get from $D,E$ because they are promoted designed witnesses and do not store the file system). $A$ and $B$ can update their log from $C,D,E$. 
