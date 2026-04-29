@@ -23,6 +23,7 @@ In an effort for [[Memory Coherence#Definition (Memory Consistency)|memory consi
 
 # Algorithm
 In Ivy, one node is designated the **manager**. The manager is responsible for keeping track of the ownership of pages. Any page has an authoritative copy, which is always held by the owner of the lock for that page. If the owner dies (fails), and there is no existing copy, the writes are lost. The core of Ivy is the **fault handler**[^1], which is responsible for handling page faults by fetching the page from the current owner and transferring ownership to the requesting node over the network.
+
 [^1]: Ivy lives in the kernel.
 
 We have a few scenarios.

@@ -7,16 +7,16 @@ Based off of this [paper](https://dl.acm.org/doi/pdf/10.1109/TNET.2002.808407).
 # Chord Overview
 The question on peer-to-peer (different machines talking to each other) is how to find something after we stored it. The goal is to efficiently find the location of the node that stores a desired data item. **Chord** is a protocol to map keys to nodes in a peer-to-peer network and also handles network changes (nodes joining and leaving).
 
-> Effectively a distributed HashMap<Key, Node>, but with nodes instead of buckets. This is hard because the set of things to be stored and the number of nodes is unknown and can change at all times.
+> Effectively a distributed `HashMap<Key, Node>`, but with nodes instead of buckets. This is hard because the set of things to be stored and the number of nodes is unknown and can change at all times.
 
 # Consistent Hashing
 Consistent hashing is a technique to assign keys to nodes in a distributed system such that the assignment is resilient to changes in the system (e.g., nodes joining or leaving). The main idea is to hash both the keys and the nodes into the same identifier space, and then assign each key to the node that is closest to it in the identifier space. This way, when a node joins or leaves, only a small number of keys need to be reassigned.
 
 Consider a $2^m$ id space, giving us $[0, 2^m - 1]$ range of integer identifiers. We have a hash function $H(x) \to [0, 2^m - 1]$ that takes in any string and maps it to an integer in this range. A good hash function should be evenly distributed and should not be easily reversible (i.e., it should be a cryptographic hash function). 
 
-Imagine a large circle with $2^m$ nodes on it labeled from $0$ to $2^m - 1$. Each node is responsible for the keys that hash to a value between itself and the next node in the circle. For example, if we have nodes at positions $u$ and $v$ (where $u < v$), then the node at position $u$ is responsible for all keys that hash to values in the range $[u, v)$, i.e. 
+Imagine a large circle with $2^m$ nodes on it labeled from $0$ to $2^m - 1$. Each node is responsible for the keys that hash to a value between itself and the next node in the circle. For example, if we have nodes at positions $u$ and $v$ (where $u < v$), then the node at position $v$ is responsible for all keys that hash to values in the range $(u, v]$, i.e. 
 $$
-\forall x \in \text{Keys}, \text{ if } H(x) \in [u, v) \text{ then } x \text{ is stored at node } u
+\forall x \in \text{Keys}, \text{ if } H(x) \in (u, v] \text{ then } x \text{ is stored at node } v
 $$ 
 
 <!-- When a new node joins the system, it takes over responsibility for some of the keys from its successor node. When a node leaves the system, its successor node takes over responsibility for its keys. This way, only a small number of keys need to be reassigned when nodes join or leave, making the system scalable and efficient. -->

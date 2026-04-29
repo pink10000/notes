@@ -147,8 +147,7 @@ Here is how the clerk and the LS use the table:
 
 Clerks and LSes use asynchronous messages: `request`, `grant`, `revoke`, and `release`. 
 
-How do the LSes detect failures/network partitions/etc? 
->[!info] Heartbeats
+>[!faq] How do the Lock Services detect failures/network partitions/etc? 
 > Timely exchange of heartbeats and a majority consensus is used to tolerate network partitions. 
 
 # Scalability 
