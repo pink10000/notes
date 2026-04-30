@@ -92,7 +92,7 @@ Consider a Harp system configured to share files across five servers: $A, B, C, 
 (C) (A) (B* D! E!)3 -> (AC) (B* D! E!)3
 ```
 - Can the set of currently live servers form a new view and continue serving client requests?
-	- No. Servers $A$ and $C$ only constitute 2 servers, which does not meet the $n+1$ (3 servers) majority quorum required to form a view. 
+	- No. Servers $A$ and $C$ only constitute 2 servers, which does not meet the $n+1$ (3 servers) majority [[Quorum]] required to form a view. 
 - Which nodes make up the view and which are promoted or demoted?
   - None.
 - What data needs to be sent to the new nodes, and from which server?
