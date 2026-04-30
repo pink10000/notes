@@ -7,7 +7,7 @@
 - [[Topological Continuity]]
 - [[Subspace Topology]]
 - [[Topological Homeomorphisms]]
-- [[Product Product of Spaces]]
+- [[Product of Spaces]]
 - [[Embedding]]
 
 ---
