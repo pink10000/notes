@@ -1,6 +1,6 @@
 ---
 tags:
-  - CSE_291G
+  - CSE_223B
 ---
 Frangipani is a scalable distributed file system. From [paper](https://dl.acm.org/doi/epdf/10.1145/269005.266694). 
 
