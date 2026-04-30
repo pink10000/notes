@@ -17,10 +17,15 @@ graph LR
 
 Acquire and release accesses correspond to the synchronization primitives of locks, but other mechanisms can be implemented on top of it as well. 
 
+Sometimes this is called **Eager Release Consistency**, since data is shared on `release` execution. 
+
 ## Sequentially Consistent (SC) Memory
 In a sequentially consistent memory model, modifications to shared memory must become visible to all processors immediately. Programs written for SC produce the same results on RC memory provided that 
 1. all synchronization operations use system-provided synchronization primitives, and
 2. there is a release-acquire pair between conflicting accesses to shared memory.
+
+>[!info] Example of Sequentially Consistent
+> The [[Ivy System]] is one example of using SC semantics.
 
 However, RC can be implemented more efficiently. The requirement that shared memory updates must become visible to all processors immediately is *relaxed*.
 

@@ -50,5 +50,8 @@ A centralized manager can become a bottleneck and create high latency if it is p
 
 However, because ownership changes dynamically, the manager for a given page is constantly moving. Any node could be the owner at any given time, making the page harder to track. Nodes can then have a "Probable Owner" hint to help route requests to the current owner. They point from one node to the next, creating a chain of probable owners (like [[Chord]]!). If this chain is broken, a broadcast is used to find the current owner.
 
+# Issues
+Ivy suffers from [[False Sharing]]. Two nodes might want to write to two separate variables in the same page, so the write lock will have to bounce between them to update the variable. 
+
 ---
 Thank you to Samvrit for lending me his notes for Ivy.
