@@ -198,3 +198,8 @@ $$
 E = \frac{1}{2} \dot{y}^{\top} M \dot{y} + U(y)
 $$
 Time-independence of the Lagrangian implies the *Law of Conservation of Energy*.
+
+# Definition (Continuous Symmetry)
+A physical system has a **continuous symmetry** if there exists a continuous transformation of the system that leaves the Lagrangian (and thus action) invariant. 
+
+Imagine a particle moving through empty space on a wire. Moving the entire experiment to the left (or any translation) changes the coordinates, but not the physical behavior.

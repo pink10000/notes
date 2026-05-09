@@ -32,11 +32,11 @@ Let $h$ denote the discrete timestep. A discrete [[Lagrangian Mechanics#Definiti
 $$
 L_{h} : Q \times Q \to \R
 $$
-approximating the total action between two positions. For example, consider the trapezoidal rule. Suppose the original problem is 
+approximating the total action between two positions. The continuous Lagrangian is Kinetic Energy minus Potential Energy: 
 $$
 L(\bq, \dot{\bq}) = \frac{m}{2} |\dot{\bq}|^2 - U(\bq) 
 $$
-Then the discrete Lagrangian is
+Since we simulate this, time is broken up into steps of size $h$. The discrete Lagrangian via the [trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) (from Calculus 1!) is:
 $$
 \begin{aligned}
 L_h (\bq_i, \bq_{i+1}) 
@@ -50,16 +50,16 @@ So, the discrete [[Lagrangian Mechanics#Least Action Principle|total action of a
 $$
 S_{h} (\bq_0, \ldots, \bq_N) = \sum_{k=0}^{N-1} L_h (\bq_k, \bq_{k+1})
 $$
+or the sum of all the discrte Lagrangian segments. Remember, we want to find the minimum of these segments.
+
 > [!note] Functional
 > Recall that this is the *total action functional* seen in [[Calculus of Variations#Euler-Lagrange Equation|here]] but discretized (approximating a curve with $N$ small segments)!
-
-The trapezoidal rule is really about integrating the potential energy using the trapezoidal rule and integrating the kinetic energy using the midpoint rule (from Calculus 1!).
 
 By the discrete [[Lagrangian Mechanics#Theorem (Least Action Principle)|least action principle]], $\frac{\del S_{h}}{\del \bq_k} = 0$ for all $k$. We can derive this similar to how we showed the LAP. Let 
 $$
 S = \sum_{k=0}^{N-1} L_h (\bq_k, \bq_{k+1}) 
 $$
-Then,
+Then to apply LAP, we need to find a stationary point where small pertubations to the path do not change the total action. We need to find the first *variation* (the derivative via multivariable chain rule) denoted as $\mathring{S}$ and setting it to $0$. 
 $$
 \mathring{S} 
 = \sum_{k=0}^{N-1} D_1 L_h (\bq_k, \bq_{k+1}) \cdot \mathring{\bq}_k 
@@ -74,8 +74,11 @@ $$
 \mathring{S}
 = \sum_{k=1}^{N-1} \left( D_1 L_h (\bq_k, \bq_{k+1}) + D_2 L_h (\bq_{k-1}, \bq_k) \right) \cdot \mathring{\bq}_k = 0
 $$
-
-So, taking the first derivative of $L_h$ with respect to $\bq_k, \bq_{k+1}$ gives us
+But for this to equal $0$, the inside terms must equal $0$ exactly. 
+$$
+D_{1} L_h (\bq_k, \bq_{k+1}) + D_2 L_h (\bq_{k-1}, \bq_k) = 0
+$$
+We can now compute the first derivative of $L_h$ with respect to $\bq_k, \bq_{k+1}$ gives us
 $$
 \begin{aligned}
 D_1 L|_{\bq_k, \bq_{k+1}}
@@ -160,7 +163,7 @@ Therefore, if $f_1$ is locally invertible[^2], we can solve for the next pair $(
 $$
 (\bq_k, \bq_{k+1}) = f_1^{-1} \circ f_2 (\bq_{k-1}, \bq_k)
 $$
-[^2]:: Here, "locally invertible" means that near a regular point, the phase-space data $(\bq_k, \bp_k)$ uniquely determines a nearby next configuration $\bq_{k+1}$. For the mechanical discrete Lagrangians used in this note, this holds whenever the discrete Lagrangian is regular, which is typically true for sufficiently small timestep $h$.
+[^2]: Here, "locally invertible" means that near a regular point, the phase-space data $(\bq_k, \bp_k)$ uniquely determines a nearby next configuration $\bq_{k+1}$. For the mechanical discrete Lagrangians used in this note, this holds whenever the discrete Lagrangian is regular, which is typically true for sufficiently small timestep $h$.
 
 Thus the discrete EL equation gives an update map on $Q \times Q$, and through the maps $f_1, f_2$ it also induces the corresponding update on phase space $T^*Q$. We can visualize this as
 ```tikz
@@ -240,3 +243,105 @@ m \frac{\bq_{k+1} - \bq_k}{h} = \frac{\bp_{k+1} + \bp_k}{2} \\
 \end{cases}
 $$
 which is the implicit midpoint method. It is **implicit** because $\bq_{k+1}$ appears on both sides, so we cannot write a simple rule for it like in [[#Störmer-Verlet Method]]. 
+
+# Discrete Liouville Theorem 
+Marching on $q \times p$ space preserves the enclosed area of the marched loop. In particular, the area is a section on the graphs we see above. This means that all possible positions and momentum are conserved as the system evolves over time. 
+
+The path the system takes between all the points may change, but the area of the path is preserved (even if the shape is complex). This geometric property is called **symplecticity** and is a consequence of the variational principle. This is precisely why variational integrators are better than generic ODE solvers: they preserve the underlying geometric structure of the system, which leads to better long-term stability and accuracy in simulations.
+
+# Discrete Noether's Theorem
+If the discrete Lagrangian has a [[Lagrangian Mechanics#Definition (Continuous Symmetry)|continuous symmetry]], 
+$$
+(\forall \bq_1, \bq_2 \in Q)
+\quad\quad
+\left\langle D_1 L(\bq_1, \bq_2) \mid \bX \right\rangle + \left\langle D_2 L(\bq_1, \bq_2) \mid \bX \right\rangle = 0
+$$
+then $\langle \bp_k|\bX\rangle$ is conserved (constant independent of $k$). 
+
+For example, if we let a particle move along a wire in empty space and then translate the entire system, the Lagrangian is invariant to this translation. Mathematically, let $\bv$ be a constant vector representing the direction of symmetry, and let $\bq_k$ be the start and $\bq_{k+1}$ be the end of a discrete segment. The translation is by some amount $\vepsi$ along $\bv$ is $\bq \mapsto \bq + \vepsi \bv$.
+
+```tikz
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\begin{document}
+\begin{tikzpicture}[>=stealth, scale=1.3]
+
+% Define original points
+\coordinate (qk)  at (0.2, 0.7);
+\coordinate (qk1) at (3.2, 1.4);
+
+% Define translated points (shifted by dx = +2.5, dy = -1.5)
+\coordinate (tqk)  at (2.7, -0.8);
+\coordinate (tqk1) at (5.7, -0.1);
+
+% Draw original wire (gray)
+\draw[thick, gray] (-0.5, -0.5) to[out=70, in=180] (2, 2) to[out=0, in=135] (4, 0.5);
+\node[gray, above] at (2, 2) {Original Wire};
+
+% Draw translated wire (gray, dashed)
+\draw[thick, gray, dashed] (2.0, -2.0) to[out=70, in=180] (4.5, 0.5) to[out=0, in=135] (6.5, -1.0);
+\node[gray, below] at (4.5, 0) {Translated Wire};
+
+% Motion segment on original wire (blue)
+\draw[->, ultra thick, blue] (qk) to[out=75, in=180] (2, 2) to[out=0, in=145] (qk1);
+\filldraw[blue] (qk) circle (2.5pt) node[left, xshift=-4pt] {$\mathbf{q}_k$};
+\filldraw[blue] (qk1) circle (2.5pt) node[above right, yshift=2pt] {$\mathbf{q}_{k+1}$};
+
+% Motion segment on translated wire (purple)
+\draw[->, ultra thick, purple] (tqk) to[out=75, in=180] (4.5, 0.5) to[out=0, in=145] (tqk1);
+\filldraw[purple] (tqk) circle (2.5pt) node[left, xshift=-4pt] {$\mathbf{q}_k + \varepsilon\mathbf{v}$};
+\filldraw[purple] (tqk1) circle (2.5pt) node[right, xshift=4pt] {$\mathbf{q}_{k+1} + \varepsilon\mathbf{v}$};
+
+% Translation vectors (orange)
+\draw[->, thick, dashed, orange] (qk) -- (tqk) node[midway, left] {$\varepsilon\mathbf{v}$};
+\draw[->, thick, dashed, orange] (qk1) -- (tqk1) node[midway, right] {$\varepsilon\mathbf{v}$};
+
+\end{tikzpicture}
+\end{document}
+```
+
+Because the Lagrangian is invariant to this translation, we have its derivative with respect to $\vepsi$ must be $0$. 
+$$
+\frac{d}{d\vepsi} L(\bq_k + \vepsi \bv, \bq_{k+1} + \vepsi \bv) = 0
+$$
+By the chain rule, this is equivalent to
+$$
+D_1 L(\bq_k, \bq_{k+1}) \cdot \bv + D_2 L(\bq_k, \bq_{k+1}) \cdot \bv = 0
+$$
+Indeed, this is true for all $\bv$ and $k$ because of the symmetry.  
+
+We can show this is true for momentum. Recall from earlier that the discrete momentum entering the current step $\bp_k$ and leaving the current step $\bp_{k+1}$[^3] are
+$$
+\begin{aligned}
+\bp_k &= -D_1 L(\bq_k, \bq_{k+1}) \\
+\bp_{k+1} &= D_2 L(\bq_k, \bq_{k+1})
+\end{aligned}
+$$
+[^3]: The negative sign is from the original Discrete Euler-Lagrange equation as described previously.
+
+Substituting into the symmetry condition gives us
+$$
+\begin{aligned}
+\langle -\bp_k | \bv \rangle + \langle \bp_{k+1} | \bv \rangle &= 0 \\
+\langle \bp_{k+1} | \bv \rangle &= \langle \bp_k | \bv \rangle
+\end{aligned}
+$$
+Indeed, momentum along the direction of symmetry $\bv$ is conserved across all steps $k$.
+
+> [!info] Idea
+> This [article](https://math.ucr.edu/home/baez/noether.html) gives a nice intuitive explanation of Noether's theorem and how the ideas from [[Lagrangian Mechanics]] are used to show symmetry. 
+
+# Definition (Time Reversal Symmetry)
+In classical physics, the equations of motion are invariant under time reversal. If our discrete integrator satisfies the property that 
+$$
+L(q_1, q_2) = -L(q_2, q_1)
+$$ 
+then we say it is **time-reversal symmetric**. Indeed, the [[#Störmer-Verlet Method]] is time-reversal symmetric. 
+$$
+\begin{aligned}
+\bq_{k+1} &= 2\bq_k - \bq_{k-1} + \frac{h^2}{m} \bF(\bq_k) && \text{forward} \\
+\bq_{k-1} &= 2\bq_k - \bq_{k+1} + \frac{h^2}{m} \bF(\bq_k) && \text{reverse}
+\end{aligned}
+$$
