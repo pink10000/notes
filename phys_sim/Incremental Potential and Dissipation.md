@@ -629,15 +629,15 @@ We have some laws of friction:
 
 % External Force (f_ext, horizontal-left)
 \draw[->, darkred, ultra thick] (0, 0) -- (-2.2, 0);
-\node[anchor=south, scale=1.4, darkred] at (-2.0, 0.1) {$\boldsymbol{f}_{ext}$};
+\node[anchor=south, scale=1.4, darkred] at (-2.0, 0.1) {$\mathbf{f}_{ext}$};
 
 % Gravitational Force (mg, vertical-down)
 \draw[->, darkred, ultra thick] (0, 0) -- (0, -2.5);
-\node[anchor=west, scale=1.4, darkred] at (0.1, -1.8) {$m\boldsymbol{g}$};
+\node[anchor=west, scale=1.4, darkred] at (0.1, -1.8) {$m\mathbf{g}$};
 
 % Contact Force (f_c, slanted upward-left, inside the cone)
 \draw[->, darkred, ultra thick] (0, 0) -- (110:2.8);
-\node[anchor=south east, scale=1.4, darkred] at (110:2.8) {$\boldsymbol{f}_c$};
+\node[anchor=south east, scale=1.4, darkred] at (110:2.8) {$\mathbf{f}_c$};
 
 % --- Cone Label ---
 % Placed along the right edge of the cone
