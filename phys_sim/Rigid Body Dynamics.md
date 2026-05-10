@@ -146,6 +146,7 @@ $$
 {\color{#7d4baf} a_1} \\ {\color{#7d4baf} a_2} \\ {\color{#7d4baf} a_3} \\ 1
 \end{bmatrix}
 $$
+To be more preicse, $Q = \SE(3) \times \R^{3}$. 
 ## Tangent Vectors in Rigid Bodies
 How can we describe a [[Dual Space#Definition (Tangent Space)|tangent vector]] $\dot{\bq} \in T_{\bq}Q$? 
 

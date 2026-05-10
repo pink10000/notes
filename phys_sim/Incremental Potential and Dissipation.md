@@ -479,7 +479,7 @@ $$
 To study a dissipative system, we often consdier a **quasi-static regime**, where inertia is negligible. In this case, the system is in balance with potential force and external force at all times. So,
 $$
 \begin{aligned}
-\xcancel{$\bM \frac{\bv_{\text{new}} - \bv_{\text{old}}}{\Delta t}} 
+\xcancel{\bM \frac{\bv_{\text{new}} - \bv_{\text{old}}}{\Delta t}} 
 &= - \frac{\partial U}{\partial \bq} - \frac{\partial R}{\partial \bv} \\
 % 
 \frac{\del R}{\del \bv} &= - \frac{\del U}{\del \bq} + \bf_{\text{ext}} \\
