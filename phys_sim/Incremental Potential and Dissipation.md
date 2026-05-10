@@ -2,7 +2,7 @@
 tags:
   - CSE_291G
 ---
-[]()# Dissipative Systems
+# Dissipative Systems
 Hamilton's [[Lagrangian Mechanics#Theorem (Least Action Principle)|least action principle]] always gives us conservative forces. 
 $$
 \left(

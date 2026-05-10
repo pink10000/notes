@@ -317,7 +317,7 @@ $$
 $$
 For a continuous object, we can replace the summation with an integral:
 $$
-\bI_{\text{body}} \iiint_{\ba \in \text{body}} \left(
+\bI_{\text{body}} = \iiint_{\ba \in \text{body}} \left(
   |\ba|^2 I - \ba \ba^\top
 \right) \, dm_{\ba}
 $$
@@ -410,10 +410,10 @@ $$
 The equations of motion for a rigid body can be described as follows. Let
 - $\bR$ be the rotation matrix representing the orientation of the rigid body
 - $\bc$ be the translation vector representing the position of the center of mass of the rigid body
-- $\omega$ be the world coordinate angular velocity
-- $\Omega$ be the body coordinate angular velocity
-- $\bI_{\text{body}}$ be the inertia tensor in the body coordinate
-- $\bI_{\text{world}}$ be the inertia tensor in the world coordinate 
+- $\omega$ be the **world** coordinate angular velocity
+- $\Omega$ be the **body** coordinate angular velocity
+- $\bI_{\text{body}}$ be the inertia tensor in the **body** coordinate
+- $\bI_{\text{world}}$ be the inertia tensor in the **world** coordinate 
 
 In total, 
 $$
@@ -429,7 +429,7 @@ $$
 \text{World-Frame Formulation}:
 \begin{cases}
 \dot{\bR} &= [\omega \times] \bR \\
-\bI_{\text{world}} \dot{\omega} &= -\omega \times (\bI_{\text{body}} \omega) \\
+\bI_{\text{world}} \dot{\omega} &= -\omega \times (\bI_{\text{world}} \omega) \\
 \bI_{\text{world}} &= \bR \bI_{\text{body}} \bR^\top \\
 m \ddot{\bc} &= -\frac{\del U}{\del \bc}
 \end{cases}

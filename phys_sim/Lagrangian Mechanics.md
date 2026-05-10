@@ -66,7 +66,7 @@ $$
 The least action principle (or stationary-action principle) works for any conservative system made of particles.
 - Elastic body
 - Fluid
-- Rigid boy
+- [[Rigid Body Dynamics|Rigid body]]
 There are systems with non-conservative (dissipative) forces, such as viscosity, heat, friction. 
 
 # Why is this useful?
