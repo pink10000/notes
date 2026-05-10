@@ -140,7 +140,7 @@ d\tilde{\mathcal{E}} = 0
 \text{ where }
 \tilde{\mathcal{E}} = \mathcal{E} + \lambda \mathcal{L} = \int_{a}^{b} (f + \lambda) \sqrt{1 + f'^2} dx
 $$
-We want to minimize $\tilde{\mathcal{E}}$. By applying Noether's theorem of time independence (in this case, "time" is just the $x$-axis), we have that 
+We want to minimize $\tilde{\mathcal{E}}$. By applying [[Lagrangian Mechanics#Noether's Theorem of Time Independence|Noether's theorem of time independence]] (in this case, "time" is just the $x$-axis), we have that 
 $$
 \frac{\del L}{\del f'} f' - L = c 
 $$
