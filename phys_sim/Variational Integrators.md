@@ -221,7 +221,7 @@ Thus the discrete EL equation gives an update map on $Q \times Q$, and through t
 ```
 The $q \times p$ space corresponds to the axes in the [[#Variational Integrators|image]].
 
-# VI via Midpoint Rule
+# Variational Integrators via Midpoint Rule
 The midpoint rule is a variational integrator where the discrete Lagrangian is
 $$
 L_h(\bq_{0}, \bq_{1}) 

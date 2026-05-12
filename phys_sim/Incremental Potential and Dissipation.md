@@ -436,7 +436,7 @@ $$
 \end{document}
 ```
 
-# Adding Dissipation
+# Adding Viscous Dissipation
 Recall the backward Euler update on conservative systems:
 $$
 \bq^{(n+1)} = \argmin_{\bq \in \R^m} \left(
@@ -496,7 +496,7 @@ For quadratic $R$, this determines a "terminal velocity" that the system will ev
 
 Traditionally, for solving a general force, we solve some kind of relation between $\bf, \bq, \bv$. Here, $\bf_{\text{ext}}$ is an ireversible force that is *not* a function of $\bq$. 
 
-## Dry Friction 
+# Dry Friction 
 ```tikz
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -647,7 +647,7 @@ We have some laws of friction:
 \end{document}
 ```
 
-The force $\bf_{c}$ at contact lies in a **friction cone** (in the [[Dual Space#Definition (Dual Space)|dual space]] at contact). 
+The force $\bf_{c}$ at contact lies in a **friction cone** (in the [[Dual Space#Definition (Dual Space)|dual space]] at contact, or the [[KKT Condition#Definition (Tangent Cone)|tangent cone]]). 
 - At each point of contact, we have an outward normal ([[Dual Space#Definition (Covector)|covector]]) $\bn$. 
 - The relative velocity between contact should satisfy $\langle \bn | \bv \rangle \geq 0$. 
 - The normal ($\bf^{\perp}$) and tangent part ($\bf^{||}$) of the contact force, and tangent velocity ($\bv^{||}$) should satisfy the following relations:
