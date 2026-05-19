@@ -20,7 +20,7 @@ $$
 Note, 
 - $A \neq \emptyset, 0 \in A$
 - $A$ is bounded above. Indeed, $z > x + 1 \implies z^{n} \geq z > x \implies z \not\in A \implies x + 1$ is an upper bound. 
-Then, $y := \sup(A)$ exists by the [[Fields#Theorem (Completeness of $ mathbb{R}$)|Completeness Axiom]]. Note $y \geq 0$. We claim $y^n = x$. 
+Then, $y := \sup(A)$ exists by the [[Field#Theorem (Completeness of $ mathbb{R}$)|Completeness Axiom]]. Note $y \geq 0$. We claim $y^n = x$. 
 
 Suppose for the sake of contradiction, that $y^{n} \neq x \implies y^{n}> x \vee y^{n} < x$.
 

@@ -5,7 +5,7 @@ tags:
   - MATH_140A
 ---
 - [[Ordered Sets]]
-- [[Fields]]
+- [[Field]]
 - The Real Field
 
 # Notation

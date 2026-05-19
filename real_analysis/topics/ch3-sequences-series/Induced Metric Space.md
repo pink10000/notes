@@ -78,7 +78,7 @@ TODO
 
 
 # Lemma (Bounded)
-Let $A \subset \R$ be nonempty and bounded. Then by the [[Fields#Theorem (Completeness of $ mathbb{R}$)|Axiom of Completeness]] we have that $\sup(A) \in \ovl{A}$ and $\inf(A) \in \ovl{A}$.
+Let $A \subset \R$ be nonempty and bounded. Then by the [[Field#Theorem (Completeness of $ mathbb{R}$)|Axiom of Completeness]] we have that $\sup(A) \in \ovl{A}$ and $\inf(A) \in \ovl{A}$.
 [[Supremum]] and [[Infimum]]
 
 Proof:

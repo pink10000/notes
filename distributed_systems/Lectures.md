@@ -43,7 +43,16 @@ Rust tutorial.
 - [[Frangipani]]
 
 # Lecture 8 (4/28)
+- [[Frangipani]]
 
+# Lecture 9 (4/30)
+- Midterm 
+
+# Lecture 10 (5/5)
+- [[Two Phase Commit]]
+
+# Lecture 11 (5/7)
+- Group Communication 
 
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 

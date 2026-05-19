@@ -21,7 +21,7 @@ Suppose for the sake of contradiction, that AP fails. This means $\forall n \in 
 $$
 A := \{nx \mid n \in \mathbb{N} \}
 $$
-It is clear $y$ is a upper bound for $A$, and $A$ is bounded above. Then, $A \neq \emptyset$ as $x \in A, 2x \in A$. This, by the [[Fields#Theorem (Completeness of $ mathbb{R}$)|Completeness Axiom]], the $\sup(A)$ exists. Let $a := \sup(A)$. Hence, 
+It is clear $y$ is a upper bound for $A$, and $A$ is bounded above. Then, $A \neq \emptyset$ as $x \in A, 2x \in A$. This, by the [[Field#Theorem (Completeness of $ mathbb{R}$)|Completeness Axiom]], the $\sup(A)$ exists. Let $a := \sup(A)$. Hence, 
 $$\forall n \in \mathbb{N}, nx \leq a$$
 
 In particular, 

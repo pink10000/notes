@@ -72,7 +72,7 @@ Let $f$ be a monotonically increasing function on $(a,b)$. Then $\forall x \in (
 2. $f(x-) \leq f(x) \leq f(x+)$. Moreover, $x < y \implies f(x+) \leq f(y-)$. 
 
 Proof:
-We show that $f(x+)$ exists and satisfied $f(x) \leq f(x+)$.  Let $A = \{f(t) \mid x < t < b\}$.  We note that $A$ is nonempty. So, $\forall t \in (x, b)$ since $f$ is monotonically increasing, $f(x) \leq f(t)$, so it is bounded below. Thus, $\inf A = \ell$ exists by [[Fields#Theorem (Completeness of $ mathbb{R}$)|Completeness Axiom]]. 
+We show that $f(x+)$ exists and satisfied $f(x) \leq f(x+)$.  Let $A = \{f(t) \mid x < t < b\}$.  We note that $A$ is nonempty. So, $\forall t \in (x, b)$ since $f$ is monotonically increasing, $f(x) \leq f(t)$, so it is bounded below. Thus, $\inf A = \ell$ exists by [[Field#Theorem (Completeness of $ mathbb{R}$)|Completeness Axiom]]. 
 
 Claim $\ell = f(x+)$. 
 Let $\vepsi > 0$. 
