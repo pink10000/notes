@@ -3,62 +3,47 @@ tags:
   - CSE_291G
 ---
 # Background
-**Continuum mechanics** is the study of deformable bodies, in contrast to [[Rigid Body Dynamics|rigid bodies]], which cannot deform. 
+**Continuum mechanics** is the study of the physics of continuous materials. Unlike [[Rigid Body Dynamics|rigid body dynamics]], where bodies are assumed to be undeformable, continuum mechanics models materials that can change shape, such as:
+- **Solids:** Rubber, cloth, hair, elastic rods.
+- **Fluids:** Air, water, honey.
+- **Complex Materials:** Slime, Oobleck, plasma.
 
-The following are examples of deformable bodies:
-- jello
-- two dimensional, like a cloth
-- elastic rods
-- hair
-- food
+The mathematical framework allows us to treat these diverse materials uniformly by considering them as continuous mass distributions rather than discrete particles.
 
 # Definition (Shear)
-**Shear** is a type of deformation that occurs when a force is applied parallel to the surface of a material. The material deforms by sliding layers of the material past each other.
+**Shear** is a mode of deformation where parallel layers of a material slide past one another. It typically occurs when a force is applied parallel to the surface of a material.
 
 # Definition (Fluid)
-A **fluid** is a substance that can deform. The potential energy of a fluid is independent of the [[#Definition (Shear)|shearing]] mode of the deformation and is only a function of how the volume is changed. There is no restoration force for volume-preserving deformations (such as shearing). 
+A **fluid** is a substance that deforms continuously under any applied shear stress. In terms of energy:
+- The potential energy of a fluid is independent of the [[#Definition (Shear)|shearing]] mode of deformation.
+- It is primarily a function of volume changes (compression/expansion).
+- There is no restorative force for volume-preserving (isochoric) deformations.
 
-Air and water are two examples of fluids. They are both deformable, but they have different properties.
+# Definition (Elastic Bodies)
+An **elastic body** returns to its original shape after being deformed. Its potential energy depends on the deformation relative to a reference state, and it exerts a restorative force to minimize this energy.
+- **Example:** A rubber band or a piece of cloth.
+- **Elastoplasticity:** The study of materials that exhibit elastic behavior until a certain threshold (yield strength), after which they undergo permanent **plastic deformation**.
 
-## Definition (Elastic Bodies)
-An **elastic body** is a type of deformable body that can return to its original shape after being deformed. The potential energy of an elastic body depends on the deformation, and there is a restoration force that tries to return the body to its original shape.
+# Viscoelastic Materials
+These materials exhibit both viscous (fluid-like) and elastic (solid-like) properties. Their internal forces depend on both the current deformation and the **rate** of deformation.
+- **Example:** Slime or Oobleck (a non-Newtonian fluid).
 
-For example, 
-- rubber band
-- a piece of cloth
-- bread; if we squish it, it will return to its original shape after we release it. However, if we squish it too much, it will not return to its original shape and will be permanently deformed.
+# Ferrofluids
+**Ferrofluids** are liquids containing nanoscale magnetic particles. They become strongly magnetized in the presence of an external magnetic field, allowing their shape and flow to be controlled magnetically.
 
-There is a notion of "elastoplasticity", which is the study of materials that can undergo both elastic and plastic deformation. Plastic deformation is a type of deformation that is permanent and does not return to the original shape after the force is removed.
-
-## Definition (Viscoelastic Materials)
-These are materials where the potential energy is a function of deformation and the rate of change of deformation. They have both elastic and viscous properties.
-
-For example,
-- slime
-- [Oobleck](https://en.wikipedia.org/wiki/Non-Newtonian_fluid#Oobleck)
-
-These are also known as non-Newtonian fluids.
-
-## Definition (Ferrofluids)
-**Ferrofluids** are fluids that become magnetized in the presence of a magnetic field. They are made of tiny magnetic particles suspended in a carrier fluid. When a magnetic field is applied, the particles align with the field, causing the fluid to become magnetized. 
-
-## Definition (Plasma / Magnetohydrodynamics)
-These fluids are made of electrically conducting material. They are affected by magnetic fields and can conduct electricity. Examples include:
-- plasma, which is a state of matter where the gas is ionized and can conduct electricity
-- liquid metals, which are metals that are in a liquid state at room temperature, such as mercury and gallium
-- solar wind, which is a stream of charged particles emitted by the sun
+# Plasma / Magnetohydrodynamics
+These are electrically conducting fluids (e.g., ionized gases or liquid metals like mercury). Their behavior is governed by **Magnetohydrodynamics (MHD)**, which couples fluid dynamics with electromagnetic field equations.
 
 --- 
-The idea is that they are all deformable bodies, and we can use the same mathematical framework to describe their behavior. The differences between them come from the specific properties of the materials, such as their elasticity, viscosity, and conductivity.
+While these materials have vastly different physical properties, they can all be described using a shared mathematical framework of deformable bodies. The differences emerge from specific constitutive laws (e.g., elasticity, viscosity, conductivity).
 
 # Postulate 1 
-We assume that the setup is that we have a 
-- [[Manifold]] $M$, or the **material space** (also known as the Lagrangian coordinate)
-- $W$, or the **world space** (also known as the Eulerian coordinate)
-- the state of the deformable body described by a map $\phi : M \to W$
+We model a deformable body using two spaces and a mapping between them:
+- [[Manifold]] $M$: The **material space** (or Lagrangian coordinates), representing the "index set" of all material particles. $M$ is time-independent.
+- World space $W$: The **spatial space** (or Eulerian coordinates) where the particles reside.
+- Flow map $\phi : M \times \mathbb{R} \to W$: Describes the state of the body at time $t$ via $\phi(X, t) = x$.
 
-The visualization is that we have some space $M$ (the index set of all the molecules) mapped by $\phi$ to how the molecules are placed in the space we view $W$. 
-> Visualizing $W$ is done by visualizing in $\R^{3}$ and telling yourself it's $W$.
+The visualization is that we have some space $M$ (the reference configuration) mapped by $\phi$ to how the particles are placed in the world space $W \cong \mathbb{R}^3$.
 
 ```tikz
 \usepackage{amsmath}
@@ -129,53 +114,49 @@ The visualization is that we have some space $M$ (the index set of all the molec
 \end{document}
 ```
 
-We kind of have this in rigid bodies; the index set to be the body coordinate, and $\phi$ maps via rotation and translation. Importantly, $M$ is independent of time, since the set of molecules does not change. 
+Importantly, $M$ is independent of time, as the set of material points does not change. 
+
+> [!idea] Intuition
+> We want to observe a flowing material (like water in a river) like the following.
+> 1. Lagrangian View ($M$): You are in a boat without an anchor, floating aloing the current. You track the exact same surrounding water particles for the entire journey. 
+> 2. Eulerian View ($W$): You are standing on a bridge, staring down at one fixed location in the water. You can watch different water particles flow through in our fixed POV.
 
 > [!faq] What is a Postulate?
-> A postulate is a statement that is assumed to be true without proof. It is kind of like an axiom but for physicists. 
+> A postulate is a statement assumed to be true without proof, serving as a foundational axiom for a physical theory. 
 
 # Postulate 2
-The *first* part of this postulate is that $M$ is equipped with a time-independent mass measure 
-$$
-\rho_M := 
-\underbrace{
-  q_M (t)
-}_{\substack{q_M : M \to \R \\ \text{mass density}}}
-\cdot 
-\underbrace{
-  dV(t)
-}_{\substack{\text{volume} \\ \text{element}}}
-$$
-Both could be dependent on time, since these measurements are done relative to the world space $W$. 
+This postulate defines the measure-theoretic and geometric structure of the spaces:
 
-If $\Omega \subset M$, then we can measure the volume of $\Omega$ by integrating the volume element over $\Omega$:
-$$
-\text{Volume}(\phi_M(\Omega)) := \int_{\Omega} dV
-$$
-representing the volume of $\Omega$ occupied in the world space. Similarly, since we can determine some total mass of $\Omega$, we can have some mass that changes over time. 
-$$
-\text{Mass}(\Omega) := \int_{\Omega} \rho_M = \int_{\Omega} q_M dV
-$$
-The *second* part of this postulate equips $W$ with a time-independent inner-product structure denoted by $\flat_{W}$ or $\langle \cdot, \cdot \rangle_{W}$. 
+1. **Mass Measure:** $M$ is equipped with a time-independent mass measure $\rho_M$:
+  $$
+  \rho_M = q_M(X) \, dV_M(X)
+  $$
+  where $q_M$ is the material **mass density** and $dV_M$ is the **volume element**. Note that while $\rho_M$ is fixed for a piece of material, its representation in world space (density and volume) changes as it deforms.
+  
+  For any subset $\Omega \subset M$, we can measure its volume as 
+  $$
+  \text{Volume}(\phi_M(\Omega)) := \int_{\Omega} dV
+  $$
+  Likewise, its mass is invariant (under the flow map):
+  $$
+  \text{Mass}(\Omega) = \int_{\Omega} \rho_M = \int_{\Omega} q_M \, dV_M
+  $$
+2.  **World Metric:** $W$ is equipped with a time-independent inner product $\langle \cdot, \cdot \rangle_W$ (denoted $\flat_W$ in some contexts). This allows us to measure lengths and velocities in the world space.
 
 > [!idea] 
-> A good definition is that axiomatically, $\rho_M$ is given and is always time independent. We can define mass density as $q(t) = \rho_M / dV(t)$, which is time dependent.
->
-> We do not give $M$ a [[Metric Space#Definition (Metric)|metric]], but only some mass measure. Most of the time, $W = \R^{3}$ in literature. 
+> Axiomatically, $\rho_M$ is given and time-independent. We can define the spatial mass density $q_w(x, t)$ such that mass is conserved. We do not typically give $M$ a [[Metric Space#Definition (Metric)|metric]], as its intrinsic geometry is secondary to its mass distribution.
 
 ---
 With these two postulates, we can define things using objects introduced here. For example...
 
 # Definition (Flow Velocity)
-Write 
+
+The **flow velocity** $\dot{\phi}$ is the time derivative of the flow map:
 $$
-\frac{d}{dt} \phi(t) = \dot{\phi}
+\dot{\phi}(t) = \frac{\partial}{\partial t} \phi(t)
 $$
-as the **flow velocity** of the deformation. The *type* of $\dot{\phi}$ is 
-$$
-\dot{\phi} : M \to TW
-$$
-or the [[Dual Space#Definition (Tangent Bundle)|tangent bundle]]. Indeed, $\dot{\phi}(p) \in T_{\phi(p)}W$. 
+The *type* of $\dot{\phi}$ is $\dot{\phi} : M \to TW$, where $TW$ is the [[Dual Space#Definition (Tangent Bundle)|tangent bundle]] of $W$. Indeed, $\dot{\phi}(p) \in T_{\phi(p)}W$. 
+
 ```tikz
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -255,7 +236,7 @@ or the [[Dual Space#Definition (Tangent Bundle)|tangent bundle]]. Indeed, $\dot{
 ```
 
 # Definition (Velocity Field)
-So we feed some point $p \in M$ into $\phi(t)$, and we get $\phi_{(t)}(p) \in W$. We can also feed other $q \in M$ and get velocity vectors at different points in $W$. This gives us a velocity field in $W$ denoted by $\vec{u} \in \Gamma(TW)$ where $\dot{\phi}(t) = \vec{u}(t) \circ \phi(t)$. Note that $\vec{u}$ is only defined only on the image of $\phi$.
+If we feed a point $p \in M$ into $\phi(t)$, we get its position $\phi_{(t)}(p) \in W$. By tracking all points $q \in M$, we capture velocity vectors at different locations in $W$. This defines a velocity field in $W$, denoted by $\vec{u} \in \Gamma(TW)$ where $\dot{\phi}(t) = \vec{u}(t) \circ \phi(t)$. Note that $\vec{u}$ is only defined only on the image of $\phi$.
 
 $\vec{u}$ is called the **velocity field** in the Eulerian coordinate.
 
@@ -267,14 +248,15 @@ K(\phi, \dot{\phi}) := \frac{1}{2} \int_{M}
 = 
 \frac{1}{2} \int_{M} \| \dot{\phi}\|_{W}^{2} \rho_M
 $$
-In theory, we cannot define anything else other than kinetic energy (but this is good enough). We can also rewrite the second expression as
+In theory, we cannot define anything else other than kinetic energy (but this is good enough). We can also rewrite the second expression in Eulerian space as
 $$
 K(\phi, \dot{\phi}) = \frac{1}{2} \int_{\phi(M) \subset W} \| \vec{u} \|^{2} q_W \, dV_W
 $$
 
-Suppose we have a function $f_M(t) : M \to \R$, a scalar field defined on $M$ (like temperature). Let $f_W(t) : W \to \R$ be defined such that $f_M = f_W \circ \phi$. 
+# Definition (Material Derivative)
+Suppose we had a scalar field $f_M(t) : M \to \R$ defined on the material space $M$ (like temperature attached to specific particles). Let $f_W(t) : W \to \R$ be the corresponding spatial field such that $f_M = f_W \circ \phi$. 
 
-So what is $\frac{\del}{\del t}f_M$? This means that we are "fixing the spatial degrees of freedom" in $M$ and asking the rate of change of $f_M$ at that point. Because $\phi$ is moving, this corresponds to some moving particle in $W$. So,
+If we fix the spatial degrees of freedom in $M$ and calculate the rate of change of $f_M$ (the time derivative), we are effectively tracking how the property changes for a moving particle in $W$. By applying the chain rule,
 $$
 \begin{aligned}
 \frac{\del}{\del t}f_M 
@@ -286,93 +268,208 @@ $$
 \end{aligned}
 $$
 
-Where 
+Where the spatial differential $df_W$ applied to the velocity field is the familiar directional derivative:
 $$
-(df_W)u = \sum_i u^{i} \frac{\del f_W}{\del x^{i}}
+(df_W)\vec{u} = \sum_i \vec{u}^{i} \frac{\del f_W}{\del x^{i}}
 $$
-the partial derivative with respect to the Eulerian coordinates. This is also called the **material derivative** of $f_W$.
-
-# Definition (Material Derivative)
-The **material derivative** of a scalar field is defined as
+The entire operator applied to $f_W$ is called the **material derivative**, formally defined as 
 $$
 \frac{D}{Dt} := \frac{\del}{\del t} + u \cdot \nabla
 $$
-To say the material derivative of $f$ is to multiply $f$ by the operator $\frac{D}{Dt}$. 
-
-So, 
+Applying the material derivative to $f_W$ means passing it rhough this operator. Thus, we can compactly write 
 $$
 \frac{\del}{\del t} (f \circ \phi) = \left( \frac{D}{Dt} f \right) \circ \phi
 $$
+> [!idea] Intuition
+> Suppose we wanted to measure the temperature of the river. 
+> - Floating in the boat (Lagrangian $M$), $\frac{D}{Dt}$ tells us how the temperature of the water surroding the boat is changing as we drift downstream. 
+> - Standing on the bridge (Eulerian $W$), $\frac{\del}{\del t}$ tells us how the temperature is changing right at that specific spot under the bridge.
+> 
+> We have two terms because the temperature can change for two different reasons.
+> - The $\vec{u} \cdot \nabla$ is the temperature gradient, and so if we moved into a "shaded part" of the river, our temperature would change. 
+> - The $\frac{\del}{\del t}$ term affects the entire river. For example, if the sun moved behind clouds at some time $t$, the entire river would have a lower temperature (it is independent of particle choice).
+> 
+> The material derivative combines both.
+# Lemma (Conservation of Material Properties)
+If $\frac{Df}{Dt} = 0$, then $\frac{\del}{\del t} (f \circ \phi) = 0$ for scalar function $f$. In other words, if the material derivative of $f$ is zero, then its [[Dual Space#Definition (Pullback Operator for Functions)|pullback]] by the flow map is constant over time. 
 
-# Lemma
-If $\frac{Df}{Dt} = 0$, then $\frac{\del}{\del t} (f \circ \phi) = 0$ for scalar function $f$. In other words, if the material derivative of $f$ is zero, then the [[Dual Space#Definition (Pullback Operator for Functions)|pullback]] by the flow map is constant over time. 
+**Proof Intuition** (Method of Characteristics):
 
-Proof: TODO
+To solve the transport equation[^1]:
 
-solve 
+[^1]: A transport equation is an equation that describes the transport of some quantity. 
 $$
-\frac{\del}{\del t} f + u \cdot \nabla f = 0
+\frac{\del}{\del t} f + \vec{u} \cdot \nabla f = 0
 $$
-we build $\phi$ so that dotphi = u \circ \phi, and we get
+We construct the flow map $\phi$ such that $\dot{\phi} = u \circ \phi$. By tracking a particle back along the trajectory of this flow map, the function evaluates to:
 $$
 f(t, x) = f(0, \phi^{-1}_{t}(x))
 $$
-we follow the trajectory of the flow map back to the original point and evaluate it. This is also called the method of characteristic. it is called this because on the space and time diagram $x$ is x-axis, and $t$ is y-axis, (space is 1D to make it easier to draw), then the material derivative is represnted by some particle on a world line, where the time derivative points vertical, and the second term points horizontally, so together we get a directional derivative, or the corresponding speed of the world line of the particle.
+This is the **method of characteristics**. In a simple space-time (1D space on the $x-$axis, time on the $y-$axis), the material derivative corresponds to a directional derivative along a particle's "world line". Setting it to $0$ simply means the value of $f$ is constant along these characteristic lines; the function's [[Level Set|level sets]] align perfectly with the particle trajectories. If we can integrate along these lines, we can find exact solutions to the transport equation.
 
-this being 0 is saying we have level sets along these lines. by doing this we, are constructing phi in such a way that the material space is exactly time equal to 0?. 
-
-these lines are called characteristic lines. if we can integrate this dotphi, we have exact solutions.
+> [!idea] Intution
+> If $\frac{Df}{Dt} = 0$, then $f$ is constant means that the material derivative of a property never changes. In our previous example, if we were sitting on the boat, our measurement of the water never changes. Even if the temperature is constantly fluctuating, the specific "patch of water" our boat is riding in maintains the exact same temperature. 
+> 
+> We are riding a "characteristic line", and this property is perfectly conserved for each specific particle as it travels through space and time. 
 
 # Continuity Equations
-What if $f$ was a vector field? Then we can no longer use the material derivative. This is the same as mass conservation. 
+What if $f$ is not a simple scalar field, but a measure representing density? This leads us to the principle of mass conservation.
 
-Let $q_W(t) : W \to \R$ be the mass density on $W$ where 
+Let $q_W(t) : W \to \R$ be the spatial mass density on $W$, meaning
 $$
 q_M(t) = q_W(t) \circ \phi(t)
 $$
-So, $q_M$ is not conserved over time as a scalar fnction. if the volume is changing, the density is chaning. but we say that $\rho_M$ is conserved, 
+The material desnity $q_M$ is **not** conserved over time as a simple scalar function. If the material's volume changes, its density must change to compensate. Instead, it is the total mass measure $\rho_M$ that is conserved. We can express this conservation as:
 $$
 \rho_M = q_M(t) dV(t) = q_M(t) \det(d\phi) dX^1 dX^2 dX^3
 $$ 
-
+Taking the time derivative of the conserved measure:
 $$
 \begin{aligned}
-D &= \frac{\del}{\del t} \rho_M  \\
+0 &= \frac{\del}{\del t} \rho_M  \\
 &= \left( \frac{\del}{\del t} q_M \right) dV + q_M \frac{\del}{\del t} dV \\
 &= \left( \frac{\del}{\del t} + \vec{u} \cdot \nabla \right) q_W \circ \phi dV 
   + q_M \frac{\del}{\del t} \left( \det(d\phi) \right) dV \\
 \end{aligned}
 $$
-
-## Lemma
-$$
-\dot{\left[ \det(A) \right]} = \det(A) \text{tr}(A^{-1} \dot{A}) 
-$$
-
-So, 
+Using [[Jacobi's Formula]], we can compute the time derivative of the determinant of the Jacobian:
 $$
 \begin{aligned}
-\text{So} \qquad \frac{\partial}{\partial t}(\det(d\phi)) &= \det(d\phi) \operatorname{tr}(d\phi^{-1} \dot{d\phi}) \\
+\frac{\partial}{\partial t}(\det(d\phi)) &= \det(d\phi) \operatorname{tr}(d\phi^{-1} \dot{d\phi}) \\
 &= \det(d\phi) \operatorname{tr}(d\phi^{-1} (\nabla \vec{u}) \cdot d\phi) \\
 &= \det(d\phi) \operatorname{tr}(\nabla \mathbf{u}) \\
 &= \det(d\phi) \underbrace{\operatorname{div} \vec{u}}_{\nabla \cdot \vec{u}} \\
 \end{aligned}
 $$
-implies that
+Substituting this back into our mass conservation equation, the $dV$ terms drop out, leaving us with 
 $$
 \left( \frac{\partial}{\partial t} + \vec{u} \cdot \nabla \right) q_w + (\nabla \cdot \vec{u}) q_w = 0
 $$
 and equivalently 
 $$
-\underbrace{\frac{\partial}{\partial t} q_w}_{\text{mass density}} + \underbrace{\nabla \cdot \left( q_w \vec{u} \right)}_{\text{mass flux}} = 0
+\underbrace{\frac{\partial}{\partial t} q_w}_{\text{mass density}} + \nabla \cdot \underbrace{\left( q_w \vec{u} \right)}_{\text{mass flux}} = 0
 $$
 
 Observe that 
-- if $f_M$ is a conserved scalar function, we write
+- if $f_M$ is a conserved scalar function (like temperature), we write
   $$
   \left( \frac{\partial}{\partial t} + \vec{u} \cdot \nabla \right) f_W = 0
   $$
-- if $f_M$ is a conserved measure, we write
+- if $f_M$ is a conserved measure (like mass), we write
   $$
   \left( \frac{\partial}{\partial t} + \vec{u} \cdot \nabla + (\nabla \cdot \vec{u}) \right)q_W = 0
   $$
+  This is the principle of **Mass Conservation**.
+> [!idea] Intuition
+> We cannot just say $\frac{D}{Dt}(q_{W})= 0$ for mass. This is because as the patch of water around our boat enters a narrow, fast-moving stream, our water could stretch out. The volume changes, so the spatial mass density *must* change, even though no mass was destroyed.
+> 
+> Instead, we return to the bridge (Eulerian View $W$) and draw an imaginary fixed box in the water. 
+> - $\frac{\del q_{W}}{\del t}$ representes the rate at which mass is accumulating or depleting inside our fixed box. 
+> - $\nabla \cdot (q_{W} \vec{u})$ is the "divergence of the mass flux". It measures the net difference between the mass flowing into the box and the mass flowing out. 
+>   
+>   The change in the amount of mass inside the box plus the net amount of mass that flowed out must equal exactly zero. Mass cannot be spawned from nothing, or deleted into nothing. 
+
+# Definition (Lie Material Derivative)
+We can generalize the [[#Definition (Material Derivative)|Material Derivative]] from scalar fields to more complex geometric objects like vectors, differential forms, or tensors. We particularly want this to measure more interesting fluids like [[#Viscoelastic Materials]], [[#Ferrofluids]], or [[#Plasma / Magnetohydrodynamics]]. Think magnetic fields or alignment of fibers in a piece of stretching cloth.
+
+Suppose $\alpha_{M}$ is some field[^2] of type `[TYPE]`. Let $\phi^{*}_{\texttt{[TYPE]}}$ denote the [[Dual Space#Definition (Pullback Operator for Functions)|pullback operator]] for `[TYPE]`. Let $\alpha_{W}$ be the corresponding field on $W$ such that 
+
+[^2]: This is not a field in the sense of an algrebraic field, but rather a "field" in the physics sense, meaning a function that assigns a value to every point in space. A scalar field is a $0-$tensor field (assigns a scalar to each point), a vector field is a $1-$tensor field (assigns a vector to each point), and so on.
+$$
+\alpha_{M} = \phi^{*}_{\texttt{[TYPE]}} \alpha_{W}
+$$
+Then 
+$$
+\begin{aligned}
+\frac{\del}{\del t} \alpha_{M} 
+&= \phi^{*}_{\texttt{[TYPE]}} \left( \frac{\del}{\del t} + \mathcal{L}_{\vec{u}} \right) \alpha_{W} \\
+&= \phi^{*}_{\texttt{[TYPE]}} \left(
+  {\frac{\del}{\del t} \alpha_{W} + {(\mathcal{L}_{\vec{u}})}_{\texttt{[TYPE]}} \alpha_{W}}
+\right)
+\end{aligned}
+$$
+where $(\mathcal{L}_{\vec{u}})_{\texttt{[TYPE]}}$ is a spatial derivative called the **Lie derivative** for `[TYPE]`.
+
+Some explanation of the notation is helpful.
+- $\alpha_{M}$: The property tracked on the fixed, undeformed material.
+- $\frac{\partial}{\partial t} \alpha_{M}$: The true, intrinsic rate of change of this property for a specific particle over time.
+- $\alpha_{W}$: The property as it appears floating in the deformed world space.
+- $\frac{\partial}{\partial t} \alpha_{W}$: The local, fixed-point rate of change in world space (standing on the bridge).
+- $\mathcal{L}_{\mathbf{u}} \alpha_{W}$: The convective rate of change that explicitly calculates how the flow $\mathbf{u}$ is dragging, rotating, and stretching $\alpha_{W}$.
+- $\phi^{*}_{\texttt{[TYPE]}}$: The pullback. Because the term in the parentheses exists in the deformed world space $W$, we cannot directly equate it to something in the material space $M$. The pullback acts as a translator, mapping the spatial rates of change backward along the flow map to compare them correctly in the undeformed reference space.
+
+
+Additionally, when we say `[TYPE]`, we mean 
+- Scalar ($0-$tensor): The Lie derivative becomes the standard directional derivative $\mathcal{L}_{\vec{u}} f = \vec{u} \cdot \nabla f$.
+- Vector ($1-$tensor): The Lie derivative accounts for the translation of the vector minus the distortion caused by the velocity field's gradients.
+- Density/Measure: The Lie derivative accounts for translation plus the divergence of the flow.
+
+## Examples 
+Author note, to make my life slightly easier, $\bu$ is the exact same as $\vec{u}$, just different notation for the velocity field.
+
+### 1. Functions (Scalar Fields)
+
+This is the simplest case, where the field attached to the material is just a scalar value (like temperature or concentration).
+
+**The Pullback:**
+
+$$\phi^*_{\text{fcn}} f = f \circ \phi$$
+
+Because a scalar is just a single number at a point, pulling it back from world space to material space requires no geometric transformation. You simply evaluate the world function $f$ at the current spatial position of the particle, $\phi(X, t)$. It is basic function composition.
+
+**The Lie Derivative:**
+
+$$\mathcal{L}_{\mathbf{u}, \text{fcn}} f = \mathbf{u} \cdot \nabla f$$
+
+For a scalar function, the Lie derivative simplifies entirely to the standard directional derivative along the velocity field. It captures how the scalar field changes purely due to translation (advection) through space.
+
+### 2. Measures (Mass Densities / Volumes)
+This case describes tracking a physical quantity that depends on the local volume, such as a mass measure $\rho = q \, dV$.
+
+**The Pullback:**
+
+$$\phi^*_{\text{measure}} \rho = \phi^*_{\text{measure}} (q \, dV) = (q \circ \phi) \det(d\phi) \, dV_M$$
+
+When pulling a measure back to the reference configuration, you cannot just compose the density function ($q \circ \phi$). You must also account for how the volume element stretches or compresses during the deformation. This scaling factor is precisely handled by the Jacobian determinant of the flow map, $\det(d\phi)$.
+
+**The Lie Derivative:**
+
+$$\mathcal{L}_{\mathbf{u}, \text{measure}} \rho = (\mathbf{u} \cdot \nabla + \nabla \cdot \mathbf{u}) q \, dV$$
+
+When you take the Lie derivative of a measure, it acts via the product rule on both the density $q$ and the volume element $dV$.
+
+* The first term, $\mathbf{u} \cdot \nabla q$, tracks the translation of the density.
+* The second term, $(\nabla \cdot \mathbf{u}) q$, tracks how the changing volume of the fluid concentrates or dilutes that density via the velocity field's divergence.
+
+Notice that this is exactly the spatial portion of the continuity equation we derived earlier.
+
+### 3. Vector Fields
+This case describes tracking a directional arrow embedded in the material (such as a magnetic field vector or a structural fiber direction).
+
+**The Pullback:**
+
+$$\phi^*_{\text{vec}} \mathbf{v} = d\phi^{-1}(\mathbf{v}) \circ \phi$$
+
+Vectors live in the tangent space. If a vector $\mathbf{v}$ is floating in the deformed world space, pulling it back to the material reference space requires "un-deforming" it. We pass the spatial vector through the inverse differential of the flow map, $d\phi^{-1}$, to see what its original length and direction were before the material was stretched.
+
+**The Lie Derivative:**
+
+$$\mathcal{L}_{\mathbf{u}} \mathbf{v} = \mathbf{u} \cdot \nabla \mathbf{v} - \mathbf{v} \cdot \nabla \mathbf{u}$$
+
+This is famously known as the **Lie Bracket** or commutator, often written as $[\mathbf{u}, \mathbf{v}]$. It reveals the dual nature of how a vector changes in a flow:
+
+* **Translation ($\mathbf{u} \cdot \nabla \mathbf{v}$):** How the vector changes as it is carried downstream to a new position.
+* **Deformation ($-\mathbf{v} \cdot \nabla \mathbf{u}$):** How the vector is physically stretched and rotated by the local spatial gradients of the velocity field. If the fluid particles ahead of the vector are moving faster than the particles behind it, the vector gets stretched out along that gradient.
+
+---
+
+### Connecting to the Lie Material Derivative
+
+If you substitute these specific Lie derivatives back into our main formula:
+
+$$\frac{\partial}{\partial t} \alpha_{M} = \phi^* \left( \frac{\partial}{\partial t} \alpha_{W} + \mathcal{L}_{\mathbf{u}} \alpha_{W} \right)$$
+
+We find that:
+* For a **Function**, it produces the standard material derivative: $\frac{\partial T}{\partial t} + \mathbf{u} \cdot \nabla T = 0$.
+* For a **Measure**, it produces the mass continuity equation: $\frac{\partial q}{\partial t} + \nabla \cdot (q \mathbf{u}) = 0$.
+* For a **Vector**, it produces the transport equations for embedded vector quantities (like the induction equation in magnetohydrodynamics).
