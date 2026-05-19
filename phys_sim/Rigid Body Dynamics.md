@@ -1,6 +1,9 @@
 ---
 tags:
   - CSE_291G
+aliases:
+  - rigid body
+  - rigid bodies
 ---
 # Recap: Lagrangian Mechanics
 Rigid body dynamics is an application of [[Lagrangian Mechanics]] to systems with specific geometric constraints.
