@@ -131,7 +131,9 @@ This postulate defines the measure-theoretic and geometric structure of the spac
   $$
   \rho_M = q_M(X) \, dV_M(X)
   $$
-  where $q_M$ is the material **mass density** and $dV_M$ is the **volume element**. Note that while $\rho_M$ is fixed for a piece of material, its representation in world space (density and volume) changes as it deforms.
+  where $q_M$ is the **material mass density**[^1] and $dV_M$ is the **volume element**. Note that while $\rho_M$ is fixed for a piece of material, its representation in world space (density and volume) changes as it deforms.
+  
+  [^1]: Material mass density refers to the intrinsic allocation of mass to the material points. It is invariant to deformations and time.  
   
   For any subset $\Omega \subset M$, we can measure its volume as 
   $$
@@ -295,9 +297,9 @@ If $\frac{Df}{Dt} = 0$, then $\frac{\del}{\del t} (f \circ \phi) = 0$ for scalar
 
 **Proof Intuition** (Method of Characteristics):
 
-To solve the transport equation[^1]:
+To solve the transport equation[^2]:
 
-[^1]: A transport equation is an equation that describes the transport of some quantity. 
+[^2]: A transport equation is an equation that describes the transport of some quantity. 
 $$
 \frac{\del}{\del t} f + \vec{u} \cdot \nabla f = 0
 $$
@@ -315,11 +317,13 @@ This is the **method of characteristics**. In a simple space-time (1D space on t
 # Continuity Equations
 What if $f$ is not a simple scalar field, but a measure representing density? This leads us to the principle of mass conservation.
 
-Let $q_W(t) : W \to \R$ be the spatial mass density on $W$, meaning
+Let $q_W(t) : W \to \R$ be the **spatial mass density**[^3] on $W$, meaning
+
+[^3]: The spatial mass density lives in $W$. It is a dynamic, changing field[^4]. If a region of fluid expands (like air expanding to fill a vacuum), the same amount of mass occupies a larger spatial volume, so $q_{W}$ drops. If the fluid compresses, $q_{W}$ spikes.
 $$
 q_M(t) = q_W(t) \circ \phi(t)
 $$
-The material desnity $q_M$ is **not** conserved over time as a simple scalar function. If the material's volume changes, its density must change to compensate. Instead, it is the total mass measure $\rho_M$ that is conserved. We can express this conservation as:
+The material desnity $q_M$ is **not** conserved over time as a simple scalar function. If the material's volume changes, its density must change to compensate. Instead, it is the total mass measure $\rho_M$ that is conserved. We can express the conversion as:
 $$
 \rho_M = q_M(t) dV(t) = q_M(t) \det(d\phi) dX^1 dX^2 dX^3
 $$ 
@@ -372,9 +376,9 @@ Observe that
 # Definition (Lie Material Derivative)
 We can generalize the [[#Definition (Material Derivative)|Material Derivative]] from scalar fields to more complex geometric objects like vectors, differential forms, or tensors. We particularly want this to measure more interesting fluids like [[#Viscoelastic Materials]], [[#Ferrofluids]], or [[#Plasma / Magnetohydrodynamics]]. Think magnetic fields or alignment of fibers in a piece of stretching cloth.
 
-Suppose $\alpha_{M}$ is some field[^2] of type `[TYPE]`. Let $\phi^{*}_{\texttt{[TYPE]}}$ denote the [[Dual Space#Definition (Pullback Operator for Functions)|pullback operator]] for `[TYPE]`. Let $\alpha_{W}$ be the corresponding field on $W$ such that 
+Suppose $\alpha_{M}$ is some field[^4] of type `[TYPE]`. Let $\phi^{*}_{\texttt{[TYPE]}}$ denote the [[Dual Space#Definition (Pullback Operator for Functions)|pullback operator]] for `[TYPE]`. Let $\alpha_{W}$ be the corresponding field on $W$ such that 
 
-[^2]: This is not a field in the sense of an algrebraic field, but rather a "field" in the physics sense, meaning a function that assigns a value to every point in space. A scalar field is a $0-$tensor field (assigns a scalar to each point), a vector field is a $1-$tensor field (assigns a vector to each point), and so on.
+[^4]: This is not a field in the sense of an algrebraic field, but rather a "field" in the physics sense, meaning a function that assigns a value to every point in space. A scalar field is a $0-$tensor field (assigns a scalar to each point), a vector field is a $1-$tensor field (assigns a vector to each point), and so on.
 $$
 \alpha_{M} = \phi^{*}_{\texttt{[TYPE]}} \alpha_{W}
 $$
