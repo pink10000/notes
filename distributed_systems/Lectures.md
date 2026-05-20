@@ -55,9 +55,11 @@ Rust tutorial.
 - [[Group Communication]]
 
 # Lecture 12 (5/12)
+- [[Consensus]]
 - [[Paxos Algorithm]]
 
 # Lecture 13 (5/14)
+- [[Consensus]]
 - [[Paxos Algorithm]]
 
 ---

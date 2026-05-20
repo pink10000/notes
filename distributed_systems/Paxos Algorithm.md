@@ -14,8 +14,11 @@ The goal is to ensure that some proposed value is *eventually* chosen and, if a 
 
 The above three roles are performed by the following three classes of processes/agents: ^9a3922
 - **Proposers**: they propose values
+	- Nodes that advocate for client values by proposing them to the system.
 - **Acceptors**: they accept values 
-- **Learners**: they learn the chosen value
+	-  The core consensus engine. They receive, vote on, and store proposals to form [[Quorum|quorums]].
+	- They do not know what (or when) a system has decided on something. Otherwise, they are next the kind of agent.
+- **Learners**: Nodes that discover which value was ultimately chosen by the `acceptors`.
 
 All agents can send messages to one another via messages. We assume these messages are asynchronous in which  ^1e859d
 - Agents operate at arbitrary speed. 
@@ -79,7 +82,7 @@ Instead of learning of future proposals, the `proposer` will extract a promise t
 We get the following algorithm.
 1. A `proposer` chooses proposal $(n, -)$ and sends a request to each member of some set of `acceptors`, asking it to respond with the following. This request is the **prepare** request with number $n$. Denote $\texttt{prepare}(n)$. ^7cd75f
 	1. A promise to never accept a proposal $(<n, -)$, and 
-	2. The proposal with the highest number less than $n$ that it has accepted (if any). Denote the set of these reponses as $H_{<n}$. 
+	2. The proposal with the highest number less than $n$ that it has accepted (if any). Denote the set of these reponses as $H_{<n}$.  ^ed7f9a
 2. If the `proposer` receives the requested responses from a majority of the `acceptors`, then it can issue a proposal $(n, v)$ where $v = \max_{(-, v)}H_{<n}$, or any arbitrary value if $H_{<n} = \varnothing$. 
 
 A `proposer` issues a proposal by sending to some set of `acceptors` a request that its proposal $(n, v)$ be accepted. Let this be called an **accept** request and denote it as $\texttt{accept}(n, v)$.
@@ -194,3 +197,101 @@ Allowing gaps is a performance optimization. It allows the leader to continue pr
 The only time the system can move forward is if there is a leader. If there is no leader, the system cannot make progress and thus cannot become inconsistent. 
 
 **Error Case**: Suppose the set of servers can change. We need to determine what servers implement what instances of the consensus algorithm. We solve this by making the servers part of the state machine itself. 
+
+# HarpFS View Change via Paxos
+In [[HarpFS]], the view change algorithm is left ignored. It requires some consensus of nodes to determine who is the leader. Although the original paper never explicitly mentions how they do this (or if they ever implementation leader election at all), we can implement it ourselves here. 
+
+Each node must have some permanent storage where they persistent some data for Paxos.
+- $n_{a}$: the highest proposal number this node has ever accepted.
+- $v_{a}$: the value associated with the highest proposal number this node has accepted (initially $\varnothing$).
+	- This is the proposal $(n_{a}, v_{a})$.
+- $n_{\max}$: The highest proposal number this node has ever *seen* in a prepare request.
+	- It is natural to say $n_{\max} \geq n_{a}$.
+- $n_{\text{mine}}$: The highest proposal number this node has ever *issued* as a `proposer`.
+
+We will also store some information relevant to HarpFS.
+- $\texttt{VID\_max}$: The highest "view ID" this node has ever heard of.
+- $\texttt{Views}$ array: An array indexed by View ID containing the set of member nodes in that view.
+	- Doing this removes the need for the `learner`. 
+	- The goal is to have this array grow monotonically, where each element is filled one by one with the members of that view. 
+	- In any practical implementation, we need to perform garbage collection on this.
+	- If a node crashes and comes back, then it will store know the highest view its ever seen.
+- $\texttt{done}$: A Boolean indicating whether the node believes Paxos has decided on the current view (i.e., whether the `learner` role has finished).
+	- If it is true, then we come to consensus and need to perform duties.
+	- If it is false, it is not in a quorum (and does not imply there is not a quorum happening in the system). This node should then try to force a view change. 
+
+## View Change
+### Initialization
+When a node decides to start a view change (e.g., because the primary is dead or it just joined), it must initialize a new instance of Paxos to become a proposer.
+- Set $n_a = 0$, $n_{\text{mine}} = 0$, $n_{\max} = 0$.
+	- We have not accepted any proposals yet.
+	- We have not proposed anything yet.
+	- We have seen no proposals yet.
+- Set $v_{a} = \varnothing$ or $\bot$. 
+	- We have not accepted and values. 
+- The node decides it wants to lead Paxos and amasses a team.
+
+### Phase 1: Prepare
+The node acts as a `proposer` to prepare a proposal[^1]. In Harp, this means some node decided it wants to be the primary. It must choose a proposal number that is strictly greater than any it has seen or issued before.
+- The `proposer` chooses $n = \max(n_{\text{mine}}, n_{\max}) + 1$.
+- It updates $n_{\text{mine}} \leftarrow n$.
+- It assumes the view is not chosen yet, so it sets $\texttt{done} \leftarrow \text{false}$.
+- It broadcasts a $\texttt{prepare}(n, \texttt{VID\_{max}} + 1)$ message to a quorum of nodes (e.g., the members of the last known view).
+	- We sent the max plus 1 to check if a view change has already happened. If it has happened, we can quit Paxos (because it is expensive) and they just need to be caught up. A leader has already been chosen. 
+	- The $n$ ensures if anotheer node is running Paxos, we can compete with them (and so only one can win).
+
+[^1]: Otherwise, no node is a `proposer` and the system does not move.
+
+When an `acceptor` receives a $\texttt{prepare}(n, \texttt{VID})$ message, it performs the following checks:
+1. **View ID Check**: If $\texttt{VID} \le \texttt{VID\_max}$, the `acceptor` short-circuits Paxos entirely. It replies with an $\texttt{oldView}(\texttt{VID}, \texttt{Views}[\texttt{VID}])$ message. This informs the `proposer` that the view has already been decided and Paxos is unnecessary. Otherwise, we begin Paxos.
+2. **Fresh Proposal Check**: If $n > n_{\max}$, this is the highest proposal the `acceptor` has seen. 
+   - It updates $n_{\max} \leftarrow n$.
+   - It sets $\texttt{done} \leftarrow \text{false}$ (pausing its normal operations to participate in the view change).
+   - It replies with $\texttt{prepare\_response}(n, n_a, v_a)$, indicating it joins the proposer's team and informs the proposer of the highest value it has already accepted (if any).
+3. **Obsolete Proposal**: If $n \le n_{\max}$, the acceptor ignores the proposal or replies with a negative acknowledgment ($\texttt{reject}$/`NACK`). This serves as a performance optimization to let the proposer know it is behind.
+
+As pseudocode,
+```rust
+// self := acceptor node
+if let recv_prepare(n, VID) = self.recv():
+	if VID <= self.VID_max:
+		return oldView(VID, self.Views[VID])
+	else if n > n_max:
+		self.n_max = n
+		self.done = False
+		return prepare_response(n, n_a, v_a)
+	else
+		return reject()
+```
+
+This like the first round of [[Two Phase Commit|2PC]].
+### Handling Prepare Responses
+The `proposer` collects responses from the `acceptors`. (Recall from [[#^ed7f9a|this]]).
+- **Receives $\texttt{oldView}(\texttt{VID})$**: The proposer learns that the view was already decided. It updates its history. If it is not part of this view, it must start a new view change for $\texttt{VID}$.
+- **Receives $\texttt{reject}$/$\texttt{NACK}$**: This indicates a race condition where another proposer has a higher proposal number. 
+	- To avoid increasing entropy and thrashing, the proposer "folds" and delays for some time to allow the other leader to finish. 
+	- If the other leader fails to drive consensus to completion, the proposer will retry with a higher proposal number.
+- **Receives $\texttt{prepare\_response}$ from a majority**: The proposer successfully completes Phase 1 and can proceed to Phase 2 (Accept) using the highest $v_a$ it received, or its own proposed view if all $v_a = \varnothing$. (Note: The lecture ends before detailing Phase 2 for view change, but it follows standard Paxos).
+
+In pseudocode, 
+```rust
+// self := leader node, the proposer that triggered a view change
+if let recv_oldView(VID, vs) = self.recv():
+	self.Views = vs
+	self.VID_max = VID
+	// from a harp perspective, we need to do a view change
+	self.new_change()
+	
+	// this instance of Paxos failed, start a NEW
+	self.restart_paxos() 
+	
+else if recv_reject() = self.recv():
+	// since we only want leader, if this node is "losing"
+	// then it should immediately give up
+	delay(?)
+	// eventually we will receive a response from a "winner"
+	// i.e. a new leader was chosen and join them 
+	// we do the SAME paxos
+	self.restart_paxos()
+
+```
