@@ -3,207 +3,276 @@ tags:
   - CSE_223B
 ---
 # Group Communication
-TODO
+This note summarizes group communication protocols, focusing on the design, trade-offs, and mechanics of the ISIS Group Communication System developed at Cornell University in the 1980s.
 
+# Introduction & Motivation: The ISIS System
+The ISIS Group Communication System provides reliable, ordered message delivery services for distributed applications. Historically, ISIS has been used in critical, real-world systems such as NASDAQ and the Boeing 777 software control system.
 
-# ISIS 
-- ISIS is a group communication system developed at Cornell University in the 1980s. It provides a reliable and ordered message delivery service for distributed applications.
-- ran on nasdaq, boeing 777 software control system
-- wanted to build replicated state machine, neededed single total ordering on all events and build RSM that did not diverge
-- found out it is really expensive and not does not scale well
-- only small parts need to be replicated state machines
-- most of the system can get by by with weaker semantics
-- RSM needs a total order, a distributed systems gold standard of strict consistency
-- we need weaker semantics to get more performance. why and how?
-  - need less serialization of information 
-  - not scalabale
-  - everything is limited by the speed of light 
-- strong semantics are to prevent diverging state machines 
-  - a node might have an event that needs to be ordered, so everyone needs to know about it and decide on it 
-- relaxed ordering semantics = no need to wait to hear back from everybody, (speed of light bounds speed of communication)
-- want relaxed consistency
-- what could we do to solve this?
+## The Replicated State Machine (RSM) Dilemma
+To build a [[Replication|Replicated State Machine (RSM)]] that does not diverge, a system needs a single total ordering on all events (the gold standard of [[Memory Coherence#Definition (Strict Consistency Model)|strict consistency]]). However, enforcing a total order is:
+- **Expensive & Poorly Scalable**: Ordering everything requires coordination across all nodes.
+- **Speed-of-Light Bound**: The latency of coordination is ultimately limited by the physical speed of light over distances.
 
-idea of isis:
-- very complicated
-- let us put semantics in the network/messaging layer, so that we can guarantee that when we send/recv a msg, we can guaratee certain properties about the message delivery
-- lets us reason more simply in the application layer.
-- can think of a semantics graph.
-- y-axis: ordering, x-axis: reliability
-  - UDP at the bottom left ("it might go through, best effort delivery, no ordering guarantees at all, unreliable")
-  - TCP at the top right (reliable, ordered delivery)
-    - strict FIFO ordering, sequential consistency
-    - not totally reliable (some stuff may not get there), but the frames that do get there are in order.
-    - if the sender and receiver do not fail, eventually there will be a FIFO ordering of everything that is set
-    - if the sender OR the receiver fails, the sender can only know that the message was received ONLY IF it receives an ACK from the receiver. but the receiver cannot know that the sender received the ACK, otherwise we'd need to ACK the ACK, and so on. so we can only guarantee that the message was sent, but not that it was received. 
-    - TCP is kind of in the middle of the graph, because it is not 100% reliable, but it is ordered.
-- we can never guarantee that something gets there (cannot guarantee perfect reliability)
-- however, from 2phase commit, we can guarantee "atomicity" 
-  - atomic is to the right of reliable on the x-axis
-- when a system is atomic, every alive node can agree if something happened or not, even if some nodes fail.
-  - dead men tell no tales; if a node is dead, it cannot tell us anything about what happened, so we can only rely on the alive nodes to tell us what happened.
-- we want "broadcast protocols", i.e. we send a message to the group, so that some subset of the group receives the message
-- atomicity is expensive, but is very useful for RSM
-- other orderings:
-  - total wall clock ordering: all messages are ordered by their wall clock time sending time 
-  - sequential consistency: all messages are ordered in the same order at all nodes, but the order is not necessarily the same as the wall clock time ordering. it is a "total order", but a type of total order
-  - causal total ordering: respects "happens before" relation; like vector timestamp ordering. we do not need to care about messages that are unrelated to each other, so we do not need some kind of total ordering that forces us to order all messages, even if they are unrelated. we only need to order messages that are related to each other.
-    - could be related is defined as could be causally related, i.e. if there is a path of messages that could have caused one message to be sent,
-  - total order: everybody sends messages in the same order. 
-    - ABCAST: atomic broadcast, a protocol that guarantees atomicity and total ordering.
-  - causal ordering: for any particular user/node, the messages that they send are ordered in the same order that were sent. everything is coherent. all the messages that the node sees, then they are in the causal ordering for it.
-    - CBCAST: causal broadcast, a protocol that guarantees causal ordering.
-    - we can get casual total ordering by using CBCAST and ABCAST together. we can use CBCAST to get causal ordering, and then use ABCAST to get total ordering on top of that.
+## The Solution: Relaxed Consistency
+Instead of forcing every part of a distributed system to be a strict RSM:
+1. Identify the small subsets of the system that absolutely require strict RSM semantics.
+2. Allow the rest of the system to operate under weaker/relaxed ordering semantics to maximize performance by reducing coordination and message serialization.
 
+# The Communication & Semantics Spectrum
+Group communication protocols trade off ordering guarantees against reliability and performance costs.
 
-- In terms of reliability, ISIS focused on atomicity, which is the strongest form of reliability. 
-- it is overkill for almost all applications
-- both abcast and cbcast are extremely expensive, and do not scale well.
+```tikz
+\begin{document}
+\begin{tikzpicture}[>=stealth, scale=1.4]
+% Axis line drawing
+\draw[->, thick] (0,0) -- (6.5,0);
+\draw[->, thick] (0,0) -- (0,6.5);
 
+% Axis labels inside the chart
+\node[above left] at (6.5, 0.15) {\small \underline{Reliability (Atomicity)}};
+\node[below right] at (0.15, 6.3) {\small \underline{Ordering Guarantees}};
 
-how to build these protocols?
+% X-axis Ticks
+\draw (1, 0.1) -- (1, -0.1) node[below=4pt] {\small Best Effort};
+\draw (3.5, 0.1) -- (3.5, -0.1) node[below=4pt] {\small Reliable Channel};
+\draw (5.5, 0.1) -- (5.5, -0.1) node[below=4pt] {\small Atomic / Agreement};
 
-CBCAST
+% Y-axis Ticks
+\draw (0.1, 1) -- (-0.1, 1) node[left=5pt] {\small None};
+\draw (0.1, 2) -- (-0.1, 2) node[left=5pt] {\small FIFO};
+\draw (0.1, 3) -- (-0.1, 3) node[left=5pt] {\small Causal};
+\draw (0.1, 4) -- (-0.1, 4) node[left=5pt] {\small Causal Total};
+\draw (0.1, 5) -- (-0.1, 5) node[left=5pt] {\small Total Order};
+\draw (0.1, 6) -- (-0.1, 6) node[left=5pt] {\small Total Wall Clock};
 
-- messages that come from a particular node should be delivered in the order of that node sent.
-- we need to create a "buffer" of messages we are going to send to the system. 
-  - FIFO buffer, everytime we want to send a message, we drop at the end of the queue
-```
---+--+--+--+--+--+--+--+
-  |  |  |  |  |A3|A2|A1|
---+--+--+--+--+--+--+--+
-```
-- this is if node A wanted to send message A3, A2, A1. 
-- everytime we want to talk to a node
-  - start tcp conn
-  - send entire queue or start from the beginning until it stop listening (recv dies or refuses)
-  - if the tcp conn dies, we restart from the beginning. 
-- trivially meets first rule of casual consistency:
-  - any messages received the from the node (the sender!) will be received in the order that the we sent them.
-- now we need the meet the second
-  - any messages that we send after the receipt of a received message, should be delivered after that message
-  - any time we receive a message from anybody else, we must put it in the queue.
-```
---+--+--+--+--+--+--+--+
-  |  |B1|A4|C1|A3|A2|A1|
---+--+--+--+--+--+--+--+
-```
-- now this stores every message we have also ever heard. 
-- so as other nodes talk to us, they start sending their queue of messages from the beginning. 
-- we drop them at the back of the queue. if we have already heard or recived that message, we remove them because we've already seen them before. 
-- how do we summarize all the messages we've recived up to some point in the queue? 
-  - a vector timestamp. we can label the end of the queue with a vector timestamp that simply descirbes the highest number message of that queue. 
-- so if C starts talking to us, then it is very easy to see if it is a new message or not (check the vts!)
-- this ensures that if C sends us 7, we check the vector timestamp for what number it is. if we contain 7, then we have it. if the vts is > 7, then we have already seen it.
-- what if the vts is lower? how much lower? the vts number must be 6 or higher. if they send 7, then they must have sent 6 already.
-- we will then update our vts (we get messages from casual order).
-- suppose B sends us (A) messages. suppose we receive messages from D, but we've never talked to D before.
-  - what if we heard D5 from B? is this possible? for B to have D5, they must have had D1-4, so they must have talked to D from vts 1.
-  - but what if B actually got D5 it from F? so how did F get D5? at some point someone must have talked to D, and we start from D1. 
-- obviusly not a total ordering, does it violate causal ordering?
-  - does it violate the order D sent the messages? no, someone must have heard D1-4. 
-  - could i have already received a message from somebody from D before someone sent their message? no, because when they heard their message frm D, they would have dropped it. and when they talk to us, they would have already sent D1-4 already!
-- this gives us a casual order, and an atomic ordering *eventaully*. 
-  - why eventually?
-  - because we talked to someone who talked to someone ...
-  - and we will get all the messages
-  - of course, more messages will be generated, but for any subset of messages, they will eventually be casually ordered
-- if one messages makes it out of a node before it dies, then 
-  - that receiver dies
-  - that message is sent before it dies
-  - by inudction, we will make it to some last node. and so it will have talked to everyone and be received
-- every message either dies with a subset with a nodes that all dead, or escapes this subset and gets delivered. thus it is fully atomic.
+% Draw nodes (transparent background to allow text to adapt to light/dark themes natively)
+\node[draw, rectangle, rounded corners, inner sep=4pt] (udp) at (1, 1) {\small\textbf{UDP}};
+\node[draw, rectangle, rounded corners, inner sep=4pt] (tcp) at (3.5, 2) {\small\textbf{TCP}};
+\node[draw, rectangle, rounded corners, inner sep=4pt] (cbcast) at (5, 3) {\small\textbf{CBCAST}};
+\node[draw, rectangle, rounded corners, inner sep=4pt] (abcast) at (5.5, 5) {\small\textbf{ABCAST}};
 
-to ensure a message reaches everyone, it needs to remember who it has not reached. the node will go to each "remaining destination", `REM_DST`
-- eventually the messages in the beginning of the queue will have an empty `REM_DST` set
-- ensures performance
-- this is a global lower bound 
-- hard because there are some nodes that are way behind and are dead... (technical, and hard, but can ignore for now)
-- expensive and inefficient
-- garbage collection makes it easier (see above). do not send msgs to nodes in the middle of it
-- now when we get E1 for the first time, the node that sent by E1 will say "nodes B L Q T already got this message, so no need to send it there)
-- kind of like treadmarks
-  - the diffs are a form of causality. LRC is a form of causality.
-  - we enforce this with lock acquisition, because we get all the updates of the people who previously had/acquired this lock
-  - not a total order
+% Projection lines
+\draw[dashed, gray!60] (udp) -- (1, 0);
+\draw[dashed, gray!60] (udp) -- (0, 1);
 
-ABCAST
-- want: atomic, for everybody who gets it they should see it in the same total order but it doesnt have to be causal, because it is a total ordering, we should talk to every node.
-- since everybody has the same total ordering, if we both send a message now and we find there is a disagreement, we have a problem. 
-- when we want to send a message, we cannot consider it sent until the protocol (all the nodes) has commited. we also cannot renege on messages. 
-- therefore we cannot do anything with our message until the message comes back (otherwise we cannot guarantee that other nodes received our message)
-  - it can be kind of weird because the client that initiated this message would not see it is done until the total ordering is satisfied.
-- just in like CBCAST, every node has a queue.
-- whenever we want to send a message, we drop it in our queue.
-- unlike CBCAST, we cannot carry on. that message has not been processed by everyone yet. 
-  - this message has a flag that says "has this message been decided by the other nodes?", called `deliverable?`
-```
---+--+--+--+--+--+--+--+
-  |  |  |  |  |  |A2|A1|
---+--+--+--+--+--+--+--+
-```
-- if we cannot process it, then the queue is clogged. we cannot use the fact that A2 is processed until A1 is processed (total ordering!)
-- there are multiple nodes in the system.
-- we want to try and get the `deliverable` flag to be set to true so we can continue in the system. so for A, its job is to send this message. the nodes will put (push) this A into their queue. suppose we has this setup:
-```
-  "end" of queue
-     v
-A:    b(2a) a(1a)|
-B:    a(2b) b(1b)| <- front of queue
-C:    b(2c) a(1c)|
-```
-- we need `ack`s from everyone. they are going to send an `ack` where their thing showed up in their queue. in particualr, A and B ask:
-"based on the messages currently clogging up your specific queue, what place in line should my message take?"
+\draw[dashed, gray!60] (tcp) -- (3.5, 0);
+\draw[dashed, gray!60] (tcp) -- (0, 2);
 
-- for A, it will receive these two messages from B,C
-  - C: `ack`, a is first
-  - B: `ack`, a is second
-- for B:
-  - A: `ack`, b is second
-  - C: `ack`, b is first
-- for C: no `ack`s
+\draw[dashed, gray!60] (cbcast) -- (5, 0);
+\draw[dashed, gray!60] (cbcast) -- (0, 3);
 
-- this message has showed up in everybody's queue. a safe place where it has showed up is "the highest"
-- it is always safe to take a message and move it back because eveyone's queue is at least clogged up on the first message.
-- when we get all the acks, we take the maximum number. 
+\draw[dashed, gray!60] (abcast) -- (5.5, 0);
+\draw[dashed, gray!60] (abcast) -- (0, 5);
+\end{tikzpicture}
+\end{document}
 ```
-A: max(1, 2, 1) = 2
-B: max(2, 1, 2) = 2
-```
-- A has decided that A's msg needs to be in 2B since B's msg is the max. it will move it behind B in its queue.
-- the highest number wins. in our case, since 2A < 2B, we sort `a` to be in front of `b` in all the queues. we can then consume `a`.
-- after we move, this is what our queue looks like:
-```
-A:   a(2b) b(2a)|  <- from B, we got 2, so move back,    a is now deliverable
-B:   a(2b) b(1b)|  <- from A, we got 2, no change,       a is now deliverable
-C:   b(2c) a(2b)|  <- form A, we got 2, needs to update, a is now deliverable
-```
-- A adds deliverable to `a(2b)` but cannot be delivered because it is not at the front of the queue
-- B changes `a(2b)` delierverable because they agree on the position
 
-- the senders are not the first to know this, but actually C is
-  - this is because A,B did not know that B has lost the race. the fronts are also not deliverable.
-  - only C can consume msg `a`.
+- [[computer_security/lectures/Lecture 13 - Network Security I|UDP]]: Best effort, unreliable transport.
+- [[computer_security/lectures/Lecture 13 - Network Security I#TCP|TCP]]: Guarantees FIFO delivery per channel. Cannot guarantee 100% reliability if endpoints fail (due to the impossibility of acknowledging ACKs infinitely).
+- **CBCAST**: *Relaxed* causal ordering where messages respect the happens-before relationship, allowing high concurrency.
+- **ABCAST**: *Strict* total ordering where every node delivers messages in the exact same order, which can clog queues during coordination.
 
-- let C consume `a`. now we need to decide on the status of the next front
-```
-A:   a(2b) b(2a)|
-B:   a(2b) b(1b)|
-C:         b(2c)|
-```
-- in the fullness of time, i.e. we will being processing b in the future at node B. it will consider the acks, where A provides 2a, and C provides 2c. 
-- since 2c > 2a, node B will send b(2c) to everybody, and reorder its queue.
-```
-A:   a(2b) b(2a)|
-B:   b(2c) a(2b)| <- reoreder queue, b is now deliverable
-C:         b(2c)|
-```
-then A will receive it and reoreder its queue
-```
-A:   b(2c) a(2b)| <- reoreder queue, b is now deliverable
-B:   b(2c) a(2b)| 
-C:         b(2c)|
-```
-now, since a is deliverable, both nodes A,B will consume `a` and then all three will consume `b`.
+# Types of Ordering Semantics
+- **Total Wall Clock Ordering**: All messages are ordered strictly by the physical time they were sent. (Extremely difficult to achieve precisely in distributed systems due to clock drift).
+- **[[Memory Coherence#Definition (Sequential Consistency)|Sequential Consistency]] (Total Order)**: All nodes deliver all messages in the *same* sequence, but this sequence does not necessarily correspond to physical wall-clock time.
+- **Causal Ordering**: Respects the "happens-before" ($\to$) relationship. If message $m_1$ causally influenced[^1] the sending of $m_2$, then $m_1$ must be delivered before $m_2$ at all destinations. Unrelated (concurrent) messages do not have a defined order, which allows for parallel processing.
+  
+  [^1]: Message $m_1$ causally influences $m_2$ if the sender of $m_2$ had already sent or received $m_1$ (directly or transitively) before generating $m_2$ (i.e., $m_1 \to m_2$ via Lamport's happens-before relation).
+- **Causal Total Ordering**: Combines both causal and total ordering guarantees. This can be achieved by layering ABCAST on top of CBCAST. Uses [[Vector Timestamps]] to track causality.
 
-- we ensure total ordering by sending to all nodes and ensuring that all nodes have the same order of messages in their queue.
+# CBCAST (Causal Broadcast)
+CBCAST guarantees that messages are delivered respecting causal relationships. 
+
+## Mechanics & Rules
+Every node maintains a local message buffer (FIFO queue). To satisfy causal consistency:
+
+1. **FIFO Sender Order**: Messages sent by a specific node must be delivered in the order they were sent.
+   - *Implementation*: A node maintains a FIFO queue of outgoing messages. When connecting to another node via TCP, it sends the entire queue from the beginning. If the connection drops, it restarts transmission from the beginning of the queue, discarding duplicates at the receiver (idempotency).
+1. **Transitive Causality**: If a node receives a message $m$ and subsequently sends message $m'$, then any node receiving $m'$ must deliver $m$ before $m'$.
+   - *Implementation*: When a node receives a message, it appends it to its local queue. Thus, when it talks to another node, it transmits not only its own messages but all messages it has "heard" so far. The "so far" is explicitly the "happens-before" relation. 
+
+```
+Example Buffer Queue containing locally generated and transitively heard messages:
++----+----+----+----+----+----+----+
+| B1 | A4 | C1 | A3 | A2 | A1 | ...| <-- Front of Queue (sent first)
++----+----+----+----+----+----+----+
+```
+
+## Optimization via [[Vector Timestamps|Vector Timestamps (VTS)]]
+To avoid sending the entire history and to detect duplicate messages:
+- Each queue state/message is labeled with a Vector Timestamp (VTS) summarizing the highest sequence number seen from each node.
+- If node $C$ sends a message with VTS entry $C: 7$, the receiver checks its own VTS. If the receiver's VTS for $C \ge 7$, it discards the message as a duplicate (because it only updates its own VTS if it had seen the $C:7$ before). If it is exactly $6$, it accepts it. If it is $< 6$, it buffers the message and waits for the missing causal history to arrive.
+
+## Trace Example 1
+Suppose we have three nodes $A$, $B$, and $C$, all starting with VTS initialized to `[0, 0, 0]`.
+
+### Initial VTS State
+```
+A: [0, 0, 0]
+B: [0, 0, 0]
+C: [0, 0, 0]
+```
+
+### Event 1: Transmission
+Node $A$ broadcasts message $a_1$, incrementing its own index in its VTS. The message is sent with metadata $V(a_1) = \texttt{[1, 0, 0]}$.
+```
+A: [1, 0, 0]
+B: [0, 0, 0]
+C: [0, 0, 0]
+```
+
+### Event 2: Causal Dependency
+Node $B$ receives and delivers $a_1$ (updating its VTS to `[1, 0, 0]`), and subsequently broadcasts message $b_1$, incrementing its VTS. The message is sent with metadata $V(b_1) = \texttt{[1, 1, 0]}$.
+Because $B$ delivered $a_1$ before sending $b_1$, a causal dependency is established: $a_1 \to b_1$.
+```
+A: [1, 0, 0]
+B: [1, 1, 0]
+C: [0, 0, 0]
+```
+
+### Event 3: Out-of-Order Arrival & Buffering
+Due to network latency, Node $C$ receives $b_1$ (with VTS `[1, 1, 0]`) first, before $a_1$ has arrived.
+Node $C$ checks the causal delivery rules:
+- $V(b_1)[B] = 1 \le V_C[B] + 1$ (expected next message from $B$, holds).
+- $V(b_1)[A] = 1 \le V_C[A]$ (failed: $1 > 0$, since $C$ has not yet delivered $a_1$).
+Since the causal constraint is not satisfied, Node $C$ buffers $b_1$.
+```
+A: [1, 0, 0]
+B: [1, 1, 0]
+C: [0, 0, 0]  |  Buffered: [b_1 (VTS: [1, 1, 0])]
+```
+
+### Event 4: Delivery and Resolution
+Node $C$ finally receives $a_1$ (with VTS `[1, 0, 0]`).
+1. Node $C$ delivers $a_1$ immediately, since its causal dependency is met: $V(a_1)[A] = 1 \le V_C[A] + 1$ and $V(a_1)[B] = 0 \le V_C[B] = 0$. Node $C$'s VTS updates to `[1, 0, 0]`.
+```
+C: [1, 0, 0]  |  Buffered: [b_1 (VTS: [1, 1, 0])]
+```
+2. Node $C$ checks its buffered messages. Since $V_C$ is now `[1, 0, 0]`, the causal constraint for $b_1$ is satisfied ($V(b_1)[A] = 1 \le V_C[A] = 1$). $C$ delivers $b_1$, and updates its VTS.
+```
+A: [1, 0, 0]
+B: [1, 1, 0]
+C: [1, 1, 0]  |  Buffered: []
+```
+
+## Trace Example 2: Concurrent Messages
+When messages are concurrent ($a_1 \parallel b_1$), CBCAST does not enforce any ordering between them, allowing different nodes to deliver them in different orders without blocking.
+
+Suppose we have three nodes $A$, $B$, and $C$, all starting with VTS `[0, 0, 0]`.
+```
+A: [0, 0, 0]
+B: [0, 0, 0]
+C: [0, 0, 0]
+```
+
+### Event 1: Concurrent Transmission
+Node $A$ and Node $B$ broadcast messages $a_1$ and $b_1$ at the same time.
+- $a_1$ is sent with $V(a_1) = \texttt{[1, 0, 0]}$.
+- $b_1$ is sent with $V(b_1) = \texttt{[0, 1, 0]}$.
+```
+A: [1, 0, 0]
+B: [0, 1, 0]
+C: [0, 0, 0]
+```
+
+### Event 2: Deliveries at Node C
+Node $C$ receives $a_1$ first, then $b_1$.
+1. Node $C$ receives and delivers $a_1$ immediately (VTS becomes `[1, 0, 0]`).
+2. Node $C$ receives and delivers $b_1$ immediately, since 
+   $$
+   V(b_1)[A] = 0 \le V_C[A] = 1
+   $$
+   is satisfied (VTS of $C$ becomes `[1, 1, 0]`).
+*Delivery Order at C*: $a_1 \to b_1$.
+```
+C: [1, 1, 0]
+```
+
+### Event 3: Delivery at Node B
+Node $B$ (having delivered its own message $b_1$ locally) receives $a_1$. Since 
+$$
+V(a_1)[A] = 1 \le V_B[A] + 1 
+\quad\text{and}\quad
+V(a_1)[B] = 0 \le V_B[B] = 1
+$$
+Node $B$ delivers $a_1$ immediately (VTS becomes `[1, 1, 0]`).
+*Delivery Order at B*: $b_1 \to a_1$.
+```
+B: [1, 1, 0]
+```
+
+### Event 4: Delivery at Node A
+Node $A$ (having delivered its own message $a_1$ locally) receives $b_1$. Since 
+$$
+V(b_1)[B] = 1 \le V_A[B] + 1
+\quad\text{and}\quad
+V(b_1)[A] = 0 \le V_A[A] = 1
+$$
+Node $A$ delivers $b_1$ immediately (VTS becomes `[1, 1, 0]`).
+*Delivery Order at A*: $a_1 \to b_1$.
+```
+A: [1, 1, 0]
+```
+
+*Summary*: Because $a_1$ and $b_1$ are causally independent, CBCAST delivers them without any coordination, resulting in Node $B$ delivering $b_1 \to a_1$ while Nodes $A$ and $C$ deliver $a_1 \to b_1$.
+
+## Atomicity & Garbage Collection
+- **Atomic Propagation**: If a message reaches at least one alive node before the sender dies, it will eventually propagate to all other alive nodes through transitive gossip, ensuring atomicity.
+- **Garbage Collection (`REM_DST`)**: To prevent the queue from growing indefinitely, each message tracks a remaining destination set (`REM_DST`). 
+  - As nodes acknowledge receipt, they are removed from `REM_DST`.
+  - Once `REM_DST` is empty, the message is garbage collected from the queue.
+  - **Optimization**: Senders can include metadata indicating which nodes have already received the message to prevent redundant transmissions (similar to [[TreadMarks#Lazy Release Consistency (LRC)|Lazy Release Consistency]] / [[TreadMarks|TreadMarks]] diff propagation using lock acquisition).
+
+# ABCAST (Atomic Broadcast)
+ABCAST guarantees total ordering of messages across all group members. Unlike CBCAST, nodes cannot immediately process messages; they must wait for the group to agree on a final sequence number.
+
+## The Challenge: Queue Clogging
+Every node maintains a local queue. Since messages must be delivered in the exact same total order, if the message at the front of the queue is waiting for order agreement (i.e., is not yet marked `deliverable`), the entire queue is clogged. No messages behind it can be delivered to the application, even if their ordering is already decided.
+
+## Protocol Steps
+1. **Initiation**: The sender broadcasts a message to all nodes.
+2. **Temporary Sequence**: Each node places the message in its local queue, marks it as undeliverable (temporary), and assigns it a temporary sequence number (usually the local counter). It sends this number as an `ACK` proposal back to the sender.
+3. **Agreement**: The sender collects all proposals, selects the maximum sequence number, and broadcasts this final sequence number.
+4. **Commit & Sort**: Each node updates the message's sequence number to the final maximum, marks it as deliverable, and re-sorts its queue based on the final sequence numbers (breaking ties using node IDs).
+5. **Delivery**: A message is delivered to the application only when it is at the front of the queue and marked deliverable.
+
+## Trace Example 3
+Suppose node $A$ sends message $a$ and node $B$ sends message $b$ *concurrently*. Node $C$ is a receiver.
+
+### Initial Queue State (Proposed Sequences)
+Messages are placed in the queues with temporary proposed sequences. Sequence number tuples are in the format `seq.node_id` (e.g., `2a` represents sequence number 2 proposed by node A).
+
+```
+[Queue End]                                          [Queue Front]
+    v                                                      v
+A:  b(2a) [Undeliverable]    |   a(1a) [Undeliverable]
+B:  a(2b) [Undeliverable]    |   b(1b) [Undeliverable]
+C:  b(2c) [Undeliverable]    |   a(1c) [Undeliverable]
+```
+
+### Step 1: Proposal Collection
+- **For message $a$**: Proposals collected by $A$ are `1.A` (from $A$), `2.B` (from $B$), and `1.C` (from $C$). Max sequence = `2.B`.
+- **For message $b$**: Proposals collected by $B$ are `2.A` (from $A$), `1.B` (from $B$), and `2.C` (from $C$). Max sequence = `2.C`.
+
+### Step 2: Final Sequence Broadcast & Re-sorting
+The senders broadcast the chosen final sequence numbers (`2.B` for message $a$, `2.C` for message $b$). Nodes update the sequence numbers, mark them as deliverable, and re-sort their queues. Since `2.B` < `2.C` (by alphabetical tie-breaker), $a$ sorts before $b$.
+
+```
+[Queue End]                                    [Queue Front]
+    v                                                v
+A:  a(2b) [Deliverable]     |   b(2a) [Undeliverable]  <-- a is Clogged by b
+B:  a(2b) [Deliverable]     |   b(1b) [Undeliverable]  <-- a is Clogged by b
+C:  b(2c) [Undeliverable]   |   a(2b) [Deliverable]    <-- a is deliverable
+```
+
+### Step 3: Delivery and Resolution
+- **Node C**: Message $a$ (final sequence `2.B`) is at the front of the queue and marked deliverable. Node $C$ delivers $a$ immediately.
+- **Nodes A and B**: Message $a$ is deliverable but is blocked because the messages at the front of their queues (`b(2a)` and `b(1b)`) are still undeliverable. The queues are clogged.
+- **Resolution**: In the fullness of time, node $B$ decides the final sequence number for $b$ (`2.C`) and broadcasts it. Nodes A and B update $b$ to `2.C` (deliverable) and re-sort their queues:
+
+```
+A:  b(2c) [Deliverable]  |  a(2b) [Deliverable]    <-- a can be delivered
+B:  b(2c) [Deliverable]  |  a(2b) [Deliverable]    <-- a can be delivered
+C:                       |  b(2c) [Undeliverable]  <-- waiting for b's decision
+```
+*(Once $b$ is updated to `2.C` on all nodes, both $a$ and $b$ are delivered sequentially across all nodes).*
