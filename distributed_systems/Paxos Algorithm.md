@@ -1,0 +1,196 @@
+---
+tags:
+  - CSE_223B
+---
+Largely ripped from [paper](https://cseweb.ucsd.edu/classes/sp11/cse223b/papers/paxos-simple.pdf).
+
+# The Consensus Algorithm
+Assume a collection of processes that can propose values. A **consensus algorithm** ensures that a single proposed value is chosen. If no value is proposed, then no value should be chosen. The safety requirements for consensus are:
+1. Only a value that has been proposed may be chosen.
+2. Only a single value is chosen. ^6bf8d1
+3. A process never learns that a value has been chosen unless it actually has been.
+
+The goal is to ensure that some proposed value is *eventually* chosen and, if a value has been chosen, then a process can eventually learn the value. 
+
+The above three roles are performed by the following three classes of processes/agents: ^9a3922
+- **Proposers**: they propose values
+- **Acceptors**: they accept values 
+- **Learners**: they learn the chosen value
+
+All agents can send messages to one another via messages. We assume these messages are asynchronous in which  ^1e859d
+- Agents operate at arbitrary speed. 
+- Agents may fail by: stopping, restart
+- Since all agents can fail after a value is chosen and then restart, a solution is impossible unless some information can be remembered by an agent that has failed and restarted.
+- Messages can take arbitrarily long to be delivered. ^6a9267
+- Messages can be duplicated.
+- Messages can be lost. ^199cfe
+- Messages *cannot* be corrupted.
+
+## Choosing a Value
+In the most simplest case, to choose a value we must have a single `acceptor` agent. A `proposer` sends a proposal to acceptor, who chooses the first proposed value it receives.
+
+If the `acceptor` dies, the whole system stops. We must have multiple `acceptors`. A `proposer` will send a message to a set of `acceptors`. A majority of `acceptors` agreeing on a value is sufficient to establish a [[Quorum]]. 
+
+Assuming no failure or message loss, a value *must* be accepted even if only one value was proposed. Therefore
+> [!idea] Proposition 1
+> An acceptor must accept the first proposal that it receives.
+
+What happens when several values are proposed by different `proposers` at the same time, such that no value has a majority accept?
+
+We must change `Prop 1`. Suppose each proposal now has a natural number. So a proposal is $(n, v)$ of proposal number $n$ and value $v$. Different proposals must have different numbers (implementation dependent). 
+
+A proposal is **chosen** (and thus its value) when a single proposal with that value has been accepted by a majority of `acceptors`. All chosen proposals must have the same value. By induction on the proposal number $n$, it suffices to guarantee
+>[!idea] Proposition 2
+>If a proposal with value $v$ is chosen, then every higher-numbered proposal that is chosen has value $v$.
+
+Since numbers are totally [[[Order|ordered]], `Prop 2` guarantees the [[#^6bf8d1|Property 2]]. To be chosen, a proposal must be accepted by at least one acceeptor. We can satisfy `Prop 2` by 
+>[!idea] Proposition 2a
+>If a proposal with value $v$ is chosen, then every higher-numbered proposal accepted by **any** `acceptor` has value $v$. 
+
+Here, `Prop 1` must still hold. 
+
+**Error Case**: Because of message property [[#^1e859d|x]] and [[#^6a9267|y]], a particular `acceptor` $c$ may never receive any proposals. Suppose a new `proposer` wakes up and issues proposal $(n', v')$ where $n' > n$ and $v' \neq v$. By `Prop 1`, $c$ must accept, violating `Prop 2a`. 
+
+Therefore we must make `Prop 2a` stronger. Consider
+>[!idea] Proposition 2b
+>If a proposal with value $v$ is chosen, then every higher-numbered proposal issued by **any** `proposer` has value $v$. 
+
+which supercedes `Prop 2a`. Since a proposal must be isued by a `proposer` before it can be accepted by an `acceptor`, `Prop 2b` $\implies$ `Prop 2a` $\implies$ `Prop 2`. Now we need to satisfy `Prop 2b`. 
+
+Assume proposal $(m, v)$ is chosen. WTS that any proposal with number $n > m$ also has value $v$. We do this by inducting on $n$, and that every proposal with number $i \in [m, n-1]$ must also have the same value, i.e. $(i, v)$. 
+
+If proposal $(m, v)$ was chosen, there must be some set $C$ containing a majority of `acceptors` such that every `acceptor` in $C$ accepted $(m, v)$. By induction, 
+- *every* `acceptor` in $C$ has accepted a proposal $(i, v)$ with $i \in [m, n-1]$, and 
+- *every* proposal with number $i \in [m, n-1]$ was accepted by *any* `acceptor` has value $v$.
+
+Suppose we have another set $S$ of another majority of `acceptors`. Since $S \cap C \neq \varnothing$, a proposal numbered $n$ has value $v$ by ensuring the following invariant:
+>[!idea] Proposition 2c
+>For any $v,n$, if a proposal with $(n, v)$ is issued, there $\exists S$ consisting of a majority of `acceptors` such that either
+>
+>1. no `acceptor` in $S$ has accepted any proposal numbered less than $n$
+>2. $v$ is the value of the highest-numbered proposal among all proposals numbered less than $n$ accepted by the `acceptors` in $S$.
+
+^370cc8
+
+The above is an example of Atomicity. By maintaining `Prop 2c`, we imply `Prop 2b`. To maintain `Prop 2c`, a `proposer` who wishes to issue a proposal $(n, -)$ must learn of the highest-numbered proposal with number $< n$, if any, that has been accepted by each `acceptor` in some majority of `acceptors`. 
+
+Instead of learning of future proposals, the `proposer` will extract a promise that the `acceptors` do not accept any more proposals $(<n, -)$. 
+
+We get the following algorithm.
+1. A `proposer` chooses proposal $(n, -)$ and sends a request to each member of some set of `acceptors`, asking it to respond with the following. This request is the **prepare** request with number $n$. Denote $\texttt{prepare}(n)$. ^7cd75f
+	1. A promise to never accept a proposal $(<n, -)$, and 
+	2. The proposal with the highest number less than $n$ that it has accepted (if any). Denote the set of these reponses as $H_{<n}$. 
+2. If the `proposer` receives the requested responses from a majority of the `acceptors`, then it can issue a proposal $(n, v)$ where $v = \max_{(-, v)}H_{<n}$, or any arbitrary value if $H_{<n} = \varnothing$. 
+
+A `proposer` issues a proposal by sending to some set of `acceptors` a request that its proposal $(n, v)$ be accepted. Let this be called an **accept** request and denote it as $\texttt{accept}(n, v)$.
+
+`Proposers` receive two kinds of requests from `proposers`. 
+1. $\texttt{prepare}(n)$ request 
+2. $\texttt{accept}$ request
+
+Since proposers can ignore any request, we must determine when it should respond to a request. It can always respond to a $\texttt{prepare}(-)$ request. But,
+>[!idea] Proposition 1a
+>An `acceptor` can accept a proposal $(n, -)$ $\iff$ it has not responded to a $\texttt{prepare}(a)$ where $a > n$. 
+>
+
+`Prop 1a` is stronger than `Prop 1`. 
+
+### Optimization 
+Suppose an `acceptor` receives a $\texttt{prepare}(n)$ request, but it has already responded to a $\texttt{prepare}(a)$ request where $a > n$. There is no reason for the `acceptor` to respond to the $\texttt{prepare}(n)$ request, since the `acceptor` will never accept that proposal anyway. Therefore, an `acceptor` can ignore a $\texttt{prepare}(n)$ request if it has already responded to a $\texttt{prepare}(a)$ request where $a > n$.
+
+Thus, the `acceptor` only needs to store the highest proposal $(a, -)$ it has ever accepted and the highest $\texttt{prepare}(b)$ request it has ever responded to. To ensure `Prop 2c`, $a,b$ must be stored, even during failure and restart.
+
+### In Total
+**Phase 1**: 
+1. A `proposer` selects proposal $(n, -)$ and sends $\texttt{prepare}(n)$ to a majority of `acceptors`.
+2. If an `acceptor` receives $\texttt{prepare}(n)$ and $n > a$ where $a$ is the highest $\texttt{prepare}$ it has already responded so far, it responds with [[#^7cd75f|a promise to never accept any more proposals]] $(n', -)$ where $n' < n$ AND [[#^370cc8|with]] $a$ (if it exists). 
+
+**Phase 2**: 
+1. If the `proposer` receives a reponse to its $\texttt{prepare}(n)$ request from a majority of `acceptors`, then it sends $\texttt{accept}(n, v)$ where $v = \max_{(-,v)}H_{>n}$, the highest-numbered proposal among all the responses (or any value if $H_{>0} = \varnothing$). 
+2. If an `acceptor` receives $\texttt{accept}(n, v)$, it accepts the proposal $(n, v)$ unless it has already responded to a $\texttt{prepare}(b)$ request where $b > n$.
+
+For implementation, if an `acceptor` decides to ignore a request, it should tell the sender that it is ignoring the request, so that the sender can retry with a higher proposal number. This is a performance optimization and does not affect correctness.
+
+## Learning a Chosen Value
+To learn that a value $v$ has been chosen, a `learner` must find out a proposal $(n, v)$ has been accepted by a majority of `acceptors`. An obvious algorithm is to have each `acceptor` respond to all `learners` whenever it accepts a proposal, sending them the proposal. However, this is inefficient. Each `acceptor` must respond to each `learner`, with $l$ `learners` and $a$ `acceptors`, this results in $O(al)$ messages.
+
+We can have the `acceptors` respond with their acceptances to a **distinguished learner**, (denote this as `^learner`)  which in turn informs the other `learners` when a value is chosen; this results in $O(a + l)$ messages. However, this creates a single point of failure. If the distinguished `learner` fails, no `learner` can learn the chosen value.
+
+Instead, the `acceptors` can respond to some set of `^learners`each of which can inform the other `learners` when a value is chosen. This results in $O(a + k + l)$ messages where $k$ is the number of `^learners`. More `^learners` $\implies$ more reliability, but more messages. 
+
+Because of [[#^199cfe|message loss]], a value could be chosen with no `learner` ever finding out. In this case, `learners` will only know what value is chosen only when a new proposal is chosen. Thus, we can repeat the [[#In Total|algorithm]]. 
+
+## Progress
+The above algorithm is not guaranteed to make progress. Two `proposers` can keep issuing proposals with higher and higher numbers, none of which are ever chosen. 
+
+**Error Case**: `Proposer` $p$ can complete Phase 1 for proposal $(n_1, -)$. Another `proposer` $q$ then completes Phase 1 for proposal $(n_2, -)$ where $n_2 > n_1$. $p$'s $\texttt{accept}(n_1, -)$ will be ignored because the `acceptors` have already promised $q$ to ignore any proposal with number less than $n_2$. Thus, $p$ must begin issuing proposals $(n_3, -)$ where $n_3 > n_2$, causing $q$ to have its $\texttt{accept}(n_2, -)$ ignored, and so on.
+
+To ensure progress, we need a **distinguished proposer** (denoted as `^proposer`) that is the only one allowed to issue proposals. If the `^proposer` can communicate successfully with a majority of `acceptors`, then it can ensure that some proposal is eventually chosen.
+
+If enough of the system (`proposer`, `acceptors`, communication network) is working properly, liveness can therefore be achieved by electing a single `^proposer`. Thus we need an eelction.
+
+## Implementation
+All processes will play the above three roles. 
+- The algorithm needs to choose a leader such that it is the `^proposer` and the `^learner`. 
+- We need stable, persistent storage to store the highest proposal number an `acceptor` has accepted and the highest `prepare` request it has responded to, so that this information is not lost during failure and restart.
+- An `acceptor` must store its data before responding to a `proposer`'s request.
+- Now, we need to ensure that no two proposals are ever issued with the same proposal number. We can do this by having each `proposer` select proposal numbers from a disjoint set of natural numbers. 
+
+# Implementing a State Machine
+A simple way to implement a distributed system is as a collection of clients that issue commands to a central server. The server can be described as a **deterministic state machine** that takes a command as input and produces an output and a new state. 
+
+> [!faq] Example
+> The clients of a distributed banking system might be the tellers, and the state-machine state might consist of all the account balances of all users. A $\texttt{withdrawal}$ would be performed by executing a state machine command that decreases the account's balance iff the balance is greater than the withdrawal amount. The output is the new balance.
+
+A single server is a single point of failure. We must use a collection of servers, each independently executing the same state machine. Because the state machine is deterministic, if all servers execute the same sequence of commands, they will all be in the same state and produce the same output. A client can then use any server to execute a command and get the output.
+
+- We split up the Paxos algorithm into a sequence of separate instances. The value chosen in the $i^{th}$ instance is the $i^{th}$ state machine command in a sequence. 
+- Each server plays all [[#^9a3922|three roles]] in each instance of the algorithm. 
+- Assume the set of servers is fixed. 
+
+In normal operation, a single server is elected to be the leader and acts as `^proposer` in all instances. 
+- Given a client command $c$, the leader executes the Paxos algorithm to try and choose value $c$ in this instance. 
+- Usually succeeds. 
+- Failure can happen from a server failure.
+- Failure can happen from another false leader.
+- Failure can happen from a network partition.
+
+Suppose the leader fails. The new leader, which is also the `^learner`, should know "most" (if not all) of the commands that have already been chosen. Suppose it knows ^1e38f0
+$$
+1, 2, 3, \ldots, 133, 134, \quad 138, 139
+$$
+That is, it knows what values were chosen in those instances and is missing the values chosen in instances $135, 136, 137$ and instances greater than $139$ (if any). 
+
+Upon becoming the new leader, it must determine that the values it proposes does not violate `Prop 2b`. It will do this by executing **Phase 1** of the Paxos algorithm for instances $135, 136, 137$ and instances greater than $139$ (if any).
+
+Suppose that instances $135, 140$ had already been chosen and the rest (i.e. $136, 137, 138, 139$) had not (unconstrained). The values chosen in instances $135, 140$ CANNOT be changed. Since the new leader is free to propose any value in instances $136, 137$, in **Phase 2**, it will run $\texttt{accept}(136, \varnothing)$ and $\texttt{accept}(137, \varnothing)$ to indicate a special `no-op` command. 
+
+Once these `no-op` commands are chosen, the new leader can execute commands $138, 139, 140$. At this point, commands $1-140$ have been chosen. It is now free to propose any value in **Phase 2** for all instances greater than $140$.
+
+**Error Case**: The leader can propose command $142$ before it learns its proposed command $141$ has been chosen. It's possible all messages it sent in proposing $141$ were lost and $142$ is chosen before any server has learned about $141$. When the leader fails to receive a response, it will retransmit $141$. 
+
+Suppose the leader could not get responses back for $141$, but is able to learn that proposals after $142$ are chosen. This creates a gap. In general, suppose we have $i$ chosen proposals, and the leader is allowed to be up to $\alpha$ commands ahead. I.e.
+$$
+\underbrace{
+  1, 2, 3, \ldots, i-1, i
+}_{i \text{ chosen instances}}
+,
+\underbrace{
+  \underbrace{
+    i+1, i+2, \ldots, i+j-1, i+j
+  }_{j \text{ lost instances}}
+  ,
+  \underbrace{
+    i+j+1, \ldots, i+\alpha
+  }_{\text{chosen instances}}
+}_{\alpha \text{ instances}}
+$$
+So, $j \leq \alpha - 1$, where $j$ is the gap of commands that are known to be not chosen. If the leader is alive, it will retransmit until it learns that $i+j+1$ is chosen.
+
+Suppose this leader fails before it learns that $i+j+1$ is chosen. The new leader will be elected and will a very similar gap of commands as in [[#^1e38f0|this example]], and execute **Phase 1** for the empty slot (and then later **Phase 2**). 
+
+Allowing gaps is a performance optimization. It allows the leader to continue proposing commands without waiting for the previous command to be chosen, which can be slow. 
+
+The only time the system can move forward is if there is a leader. If there is no leader, the system cannot make progress and thus cannot become inconsistent. 
+
+**Error Case**: Suppose the set of servers can change. We need to determine what servers implement what instances of the consensus algorithm. We solve this by making the servers part of the state machine itself. 

@@ -52,7 +52,13 @@ Rust tutorial.
 - [[Two Phase Commit]]
 
 # Lecture 11 (5/7)
-- Group Communication 
+- [[Group Communication]]
+
+# Lecture 12 (5/12)
+- [[Paxos Algorithm]]
+
+# Lecture 13 (5/14)
+- [[Paxos Algorithm]]
 
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 
