@@ -8,7 +8,7 @@ tags:
 The wait-free property is not sufficient for coordination. It also guarantees [[Group Communication#Types of Ordering Semantics|FIFO client ordering]] of all operations and **linearizable writes** enables an efficient implementation of the service. 
 - FIFO order enables asynchronous submission of operations
 - Allows multiple outstanding operations $\to$ better performance 
-- **Linearizability** is the idea that ?
+- **Linearizability** is the idea that every operation appears to execute instantaneously and atomically at some point between its invocation and its response.
 
 ZooKeeper comprises of an ensemble of servers with [[Replication]] to achieve high availability and performance. To guarantee linearizability, they implement a leader-based atomic broadcast protocol called **Zab**. 
 - Read operations are highly common and so increasing the throughput is ideal.
@@ -96,7 +96,7 @@ All methods have a synchronous and asynchronous version. Each request needs the 
 The **version** number enables the implementation of conditional updates. Versions must match; otherwise throw error. If version is `-1`, it matches any version.
 
 # ZooKeeper Guarantees
-- **Linearizable Writes**: all requests that update the state of ZK are serializable (?) and respect precedence (?).
+- **Linearizable Writes**: all requests that update the state of ZK are serializable (meaning they appear to be executed one at a time in a single global order) and respect precedence (meaning if operation A completes before operation B begins, A will be ordered before B).
 	- In ZK, they allow multiple outstanding operations, calling it A-linearizability instead of linearizability (traditionally, only one operation can be outstanding at a time).
 	- All results that hold for linearizability also hold for A-linearizability.
 	- ZK processes read requests locally at each replica $\implies$ service can scale linearly wrt server addition.
@@ -107,7 +107,7 @@ Consider a system comprising of a number of processes that need to elect a leade
 - **R1**: The leader must have an exclusive lock to the configuration data.
 - **R2**: If the new leader dies before the configuration is fully updated, we do not want processes to use this partial configuration.
 
-Note that we do not care if the leader dies after configuration update and before notification because a new leader will be elected and update the configuration again. A distributed lock system like in [[?]] can be used to satisfy `R1`. However, it does not satisfy `R2`. 
+Note that we do not care if the leader dies after configuration update and before notification because a new leader will be elected and update the configuration again. A distributed lock system like in [[Frangipani]] can be used to satisfy `R1`. However, it does not satisfy `R2`. 
 
 The idea is to have some sort of "commit" operation that is atomic and have a znode that represents this commit. We can have a "ready" znode that is deleted when the leader is ready to write. In order,
 ```
@@ -119,9 +119,7 @@ Leader Operations:
 If a process sees the "ready" znode, it must also see the modified configuration state from the new leader. If the leader dies before creating the "ready" znode, the other processes know the configuration data has not been finalized.
 
 **Error Case**: What happens if a process sees the "ready" znode exists before the new leader starts to make a change and then begins reading the configuration state while the new leader is editing it?
-```
-ascii timeline of how this can happen
-```
+
 The problem is solved by the ordering guarantee for the notifications. 
 - if a client is [[#Watches|watching]] for a change, the client will see the notification event before it sees the new state of the system after the change. 
 - if the process that reads the "ready" znode requests to be notified, it will see a notification informing the client of the change before it can ready any of the new configuration. 
@@ -131,7 +129,7 @@ The problem is solved by the ordering guarantee for the notifications.
 2. $A$ sends a notification to $B$ by changing its znode
 3. $B$ receives the notification and expects to see the change when it re-reads the configuration.
 
-If $B$'s ZK replica is slightly behind $A$ (due to cache ?), it may not see the new configuration. By issuing a write (or more efficiently, a `sync`) to ZK, $B$ can ensure that it sees the new configuration. This is similar to `flush` in [[Group Communication#Introduction & Motivation The ISIS System|ISIS]]. 
+If $B$'s ZK replica is slightly behind $A$ (due to delayed replication), it may not see the new configuration. By issuing a write (or more efficiently, a `sync`) to ZK, $B$ can ensure that it sees the new configuration. This is similar to `flush` in [[Group Communication#Introduction & Motivation The ISIS System|ISIS]]. 
 
 Two liveness and durability guarantees:
 - if a majority of ZK servers are active and can communicate with each other, then the service is available
