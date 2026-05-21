@@ -40,7 +40,9 @@ Assuming no failure or message loss, a value *must* be accepted even if only one
 
 What happens when several values are proposed by different `proposers` at the same time, such that no value has a majority accept?
 
-We must change `Prop 1`. Suppose each proposal now has a natural number. So a proposal is $(n, v)$ of proposal number $n$ and value $v$. Different proposals must have different numbers (implementation dependent). 
+We must change `Prop 1`. Suppose each proposal now has a natural number. So a proposal is $(n, v)$ of proposal number $n$ and value $v$. Different proposals must have different numbers (implementation dependent)[^2]. 
+
+[^2]: We can use [[Group|Group Theory]] where nodes have a set of generating primes to ensure a collision never occurs. 
 
 A proposal is **chosen** (and thus its value) when a single proposal with that value has been accepted by a majority of `acceptors`. All chosen proposals must have the same value. By induction on the proposal number $n$, it suffices to guarantee
 >[!idea] Proposition 2
@@ -109,7 +111,14 @@ Thus, the `acceptor` only needs to store the highest proposal $(a, -)$ it has ev
 2. If an `acceptor` receives $\texttt{prepare}(n)$ and $n > a$ where $a$ is the highest $\texttt{prepare}$ it has already responded so far, it responds with [[#^7cd75f|a promise to never accept any more proposals]] $(n', -)$ where $n' < n$ AND [[#^370cc8|with]] $a$ (if it exists). 
 
 **Phase 2**: 
-1. If the `proposer` receives a reponse to its $\texttt{prepare}(n)$ request from a majority of `acceptors`, then it sends $\texttt{accept}(n, v)$ where $v = \max_{(-,v)}H_{>n}$, the highest-numbered proposal among all the responses (or any value if $H_{>0} = \varnothing$). 
+1. If the `proposer` receives a reponse to its $\texttt{prepare}(n)$ request from a majority of `acceptors`, then it sends $\texttt{accept}(n, v)$ where 
+   $$
+   \begin{aligned}
+   H &:=  \{(n_{i}, v_{i}) : \text{response to } \texttt{prepare}(n) \} \\
+   v &= \max_{v} \max_{(n_{i}, -)} H \\
+   \end{aligned}
+   $$
+   the highest-numbered proposal among all the responses (or any value if $H = \varnothing$). 
 2. If an `acceptor` receives $\texttt{accept}(n, v)$, it accepts the proposal $(n, v)$ unless it has already responded to a $\texttt{prepare}(b)$ request where $b > n$.
 
 For implementation, if an `acceptor` decides to ignore a request, it should tell the sender that it is ignoring the request, so that the sender can retry with a higher proposal number. This is a performance optimization and does not affect correctness.
@@ -211,7 +220,7 @@ Each node must have some permanent storage where they persistent some data for P
 
 We will also store some information relevant to HarpFS.
 - $\texttt{VID\_max}$: The highest "view ID" this node has ever heard of.
-- $\texttt{Views}$ array: An array indexed by View ID containing the set of member nodes in that view.
+- $\texttt{Views[]}$ array: An array indexed by View ID containing the set of member nodes in that view.
 	- Doing this removes the need for the `learner`. 
 	- The goal is to have this array grow monotonically, where each element is filled one by one with the members of that view. 
 	- In any practical implementation, we need to perform garbage collection on this.
@@ -233,10 +242,11 @@ When a node decides to start a view change (e.g., because the primary is dead or
 
 ### Phase 1: Prepare
 The node acts as a `proposer` to prepare a proposal[^1]. In Harp, this means some node decided it wants to be the primary. It must choose a proposal number that is strictly greater than any it has seen or issued before.
-- The `proposer` chooses $n = \max(n_{\text{mine}}, n_{\max}) + 1$.
+- The `proposer` chooses $n_{\text{mine}} \leftarrow \max(n_{\text{mine}}, n_{\max}) + 1$.
 - It updates $n_{\text{mine}} \leftarrow n$.
 - It assumes the view is not chosen yet, so it sets $\texttt{done} \leftarrow \text{false}$.
-- It broadcasts a $\texttt{prepare}(n, \texttt{VID\_{max}} + 1)$ message to a quorum of nodes (e.g., the members of the last known view).
+- It broadcasts a $\texttt{prepare}(n_\text{mine}, \texttt{VID\_{max}} + 1)$ message to a quorum of nodes (e.g., the members of the last known view).
+	- (Paxos number, reason to create new view)
 	- We sent the max plus 1 to check if a view change has already happened. If it has happened, we can quit Paxos (because it is expensive) and they just need to be caught up. A leader has already been chosen. 
 	- The $n$ ensures if anotheer node is running Paxos, we can compete with them (and so only one can win).
 
@@ -271,7 +281,18 @@ The `proposer` collects responses from the `acceptors`. (Recall from [[#^ed7f9a|
 - **Receives $\texttt{reject}$/$\texttt{NACK}$**: This indicates a race condition where another proposer has a higher proposal number. 
 	- To avoid increasing entropy and thrashing, the proposer "folds" and delays for some time to allow the other leader to finish. 
 	- If the other leader fails to drive consensus to completion, the proposer will retry with a higher proposal number.
-- **Receives $\texttt{prepare\_response}$ from a majority**: The proposer successfully completes Phase 1 and can proceed to Phase 2 (Accept) using the highest $v_a$ it received, or its own proposed view if all $v_a = \varnothing$. (Note: The lecture ends before detailing Phase 2 for view change, but it follows standard Paxos).
+- **Receives $\texttt{prepare\_response}(n, v)$ from a majority**: The proposer successfully completes Phase 1. It must now pick the value $V$ to propose in Phase 2.
+	- It is important we have a majority. Otherwise, another node who is preparing to be a leader may also think they will be a leader.
+		- This node votes for itself.
+	- It looks at all the returned $v_a$ values. 
+	- If **any** $v_a \neq \varnothing$, the proposer **must** find the highest $n_a$ among all responses and choose the corresponding $v_a$. It has no free choice and is fated to drive the previous consensus attempt to conclusion (even if that view is obsolete or does not include this proposer).
+		- This is just finding $\max_{v_{i}} \max_{(n_{i}, -)} H$ where $H$ is the set of proposals from the responders.
+		- Otherwise, if $H = \varnothing$, then we can respond with whatever (from Paxos).
+	- If **all** $v_a = \varnothing$, the `proposer` is the first to amass a quorum. It has free choice and can pick $V$ to be the new view (typically the majority of nodes that responded). 
+		- For Harp, we must let $v_{a} = V := \text{everybody we heard from}$. This is useful 
+		- Note: The `proposer` should delay slightly before choosing $V$ to ensure it doesn't leave out nodes whose responses arrive a fraction of a second later, which would immediately trigger another view change.
+	- We need to ensure the $n$ it receives is not an old $n$, Indeed, it could be from the second branch here. If it's anything less than $n$, ignore it.
+- We may not receive a majority of responses. We would just delay and restart Paxos.
 
 In pseudocode, 
 ```rust
@@ -282,7 +303,7 @@ if let recv_oldView(VID, vs) = self.recv():
 	// from a harp perspective, we need to do a view change
 	self.new_change()
 	
-	// this instance of Paxos failed, start a NEW
+	// this instance of Paxos failed, start a NEW paxos
 	self.restart_paxos() 
 	
 else if recv_reject() = self.recv():
@@ -294,4 +315,36 @@ else if recv_reject() = self.recv():
 	// we do the SAME paxos
 	self.restart_paxos()
 
+else if majority_prepare_responses():
+    let (max_na, chosen_va) = find_max_na(responses)
+    let V = if chosen_va != empty {
+        chosen_va
+    } else {
+        delay_slightly_for_more_responses()
+        form_view_from_responders()
+    }
+    broadcast(accept(self.VID_max + 1, n_mine, V))
 ```
+
+> Cursed syntax `:(`
+
+Importantly, at the end of this phase, only this node knows it is the leader. If it dies before sending `broadcast(accept())`, it's as if nothing has happened (since no evidence exists). At this point, another Paxos will start.
+
+### Phase 2: Accept
+The `proposer` (now leader) broadcasts an $\texttt{accept}(n, \texttt{VID}, V)$ message to everyone.
+
+When an `acceptor` receives an $\texttt{accept}(n, \texttt{VID}, V)$ message:
+1. **View ID Check**: If $\texttt{VID} < \texttt{VID\_max}$, the view has already been decided. The acceptor replies with an $\texttt{oldView}$.
+2. **Stale Proposal Check**: If $n < n_{\max}$, the proposer is stale (another leader with a higher proposal number has emerged). The acceptor replies with a $\texttt{reject}$/$\texttt{NACK}$.
+3. **Accept**: If $\texttt{VID} = \texttt{VID\_max}$ and $n \ge n_{\max}$, the acceptor officially accepts the value! It writes $n_a = n$ and $v_a = V$ to durable storage. It then replies to the proposer with an $\texttt{accept\_response}$.
+
+### Phase 3: Decide
+The `proposer` collects the $\texttt{accept\_response}$ messages.
+- If it receives $\texttt{oldView}$ or $\texttt{reject}$/$\texttt{NACK}$, it handles them similarly to Phase 1 (updates state and steps down).
+- If it receives $\texttt{accept\_response}$ from a **majority** of nodes: The value is officially chosen, because it has been written to durable storage on a quorum.
+- The proposer broadcasts a $\texttt{decide}(\texttt{VID}, V)$ message to everyone to inform them the view is finalized.
+
+When any node (acting as a `learner` for Harp) receives a $\texttt{decide}(\texttt{VID}, V)$ message:
+1. It knows the view is finalized and sets $\texttt{done} = \text{true}$.
+2. It updates its $\texttt{Views}$ array with the new view $V$ at index $\texttt{VID}$.
+3. It exits Paxos and returns to running Harp with the new view.
