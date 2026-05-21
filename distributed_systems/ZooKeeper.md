@@ -8,9 +8,9 @@ tags:
 The wait-free property is not sufficient for coordination. It also guarantees [[Group Communication#Types of Ordering Semantics|FIFO client ordering]] of all operations and **linearizable writes** enables an efficient implementation of the service. 
 - FIFO order enables asynchronous submission of operations
 - Allows multiple outstanding operations $\to$ better performance 
-- **Linearizablity** is the idea that ?
+- **Linearizability** is the idea that ?
 
-ZooKeeper comprises of an ensemble of servers with [[Replication]] to achieve high availability and performance. To guarantee linearizablity, they implement a leader-based atomic broadcast protocol called **Zab**. 
+ZooKeeper comprises of an ensemble of servers with [[Replication]] to achieve high availability and performance. To guarantee linearizability, they implement a leader-based atomic broadcast protocol called **Zab**. 
 - Read operations are highly common and so increasing the throughput is ideal.
 - Therefore Zab is not needed to totally order them.
 - Writes OTOH require ordering. 
@@ -29,14 +29,14 @@ ZK also contributes **coordination recipes**. We can use ZK to build higher leve
 Terminology:
 - **Client**: a user of the ZooKeeper service
 - **Server**: a process providing the ZooKeeper Service 
-- **Znode**: an in-memory data node in the ZooKeeper data, organized in a hierarchial namespace referred to as the **data tree**
+- **Znode**: an in-memory data node in the ZooKeeper data, organized in a hierarchical namespace referred to as the **data tree**
 - Update/write refer to any operation that modifies the state of the data tree. 
 - Clients establish a **session** when they connect to ZK and obtain a **session handle**[^1] through with they issue requests.
 
 [^1]: Very much like the `BinStorageClient` from Lab 2.
 
 ## Znodes 
-Znodes are an abstraction of a set of data nodes. They are hierarchial and follow the Unix notation for file system paths. 
+Znodes are an abstraction of a set of data nodes. They are hierarchical and follow the Unix notation for file system paths. 
 ```
 			[/app1/p_1] (X)
             /
@@ -64,7 +64,7 @@ Watches are *one-time triggers* associated with a session. They disappear when t
 
 For example, if a client issues `getData("/foo", true)`, the server will return the data associated with znode `/foo`. When (or if) there is a change, the client will receive exactly $1$ notification.
 
-It is essentially a file system with a simplified API and only full data reads and writes OR a key/value table with hierarchial keys. 
+It is essentially a file system with a simplified API and only full data reads and writes OR a key/value table with hierarchical keys. 
 
 > [!idea] Notifications
 > Watches are a one-time message that the data is stale.
@@ -127,7 +127,7 @@ The problem is solved by the ordering guarantee for the notifications.
 - if the process that reads the "ready" znode requests to be notified, it will see a notification informing the client of the change before it can ready any of the new configuration. 
 
 **Error Case**: What if two clients $A$ and $B$ have a separate znode they use to communicate with one another? Suppose 
-1. $A$ changes the shared coniguration
+1. $A$ changes the shared configuration
 2. $A$ sends a notification to $B$ by changing its znode
 3. $B$ receives the notification and expects to see the change when it re-reads the configuration.
 
@@ -149,7 +149,7 @@ Request	    |          TXN\_->[Replicated DB]----+-> Response
 ```
 Upon receiving a request, a server prepares it for execution (**request processor**). If a request requires coordination (like a write), then they use an agreement protocol (like an implementation of  [[Group Communication#ABCAST (Atomic Broadcast)|atomic broadcast]]), and finally servers commit changes to ZK DB fully replicated across the ensemble.
 
-A read is simple (see above). Each znode is in memory and by defualt maximally 1 MB.
+A read is simple (see above). Each znode is in memory and by default maximally 1 MB.
 
 Recoverability, is done by logging updates to disk, and forcing writes to be on disk before application to in-memory database (kind of like a write-ahead log). 
 
@@ -166,7 +166,7 @@ All requests that update ZK are forwarded to the leader. The leader executes the
 - Zab uses simple majority quorums to achieve consensus.
 - Minimum $2f + 1$ servers with $f$ tolerated failures.
 - Because state changes are dependent on the application of previous state changes, Zab provides *stronger* order guarantees than regular atomic broadcast.
-	- Zab guarantees that changes broadcast by a leader are delivered in the order they were sent and all changes from previous leaders are delivered to an established leader before it can broacast new changes.
+	- Zab guarantees that changes broadcast by a leader are delivered in the order they were sent and all changes from previous leaders are delivered to an established leader before it can broadcast new changes.
 - TCP is used. 
 - Log for proposals.
 - Write ahead log for in memory database and disk.
@@ -174,7 +174,7 @@ All requests that update ZK are forwarded to the leader. The leader executes the
 ## Replicated Database
 Each replica has a copy in memory of the ZK state. When it crashes, recovery is done by replaying periodic snapshots and only requires redelivery of messages since the start of the snapshot.
 
-It is a **fuzzy snapshot** because ZK does DFS of the znode tree reading each znode data and writin them to disk. Since the snapshot is not atomic, it may capture some updates and miss others during copy. Since state changes are idempotent, we can apply them twice as long as we apply them in the right order.
+It is a **fuzzy snapshot** because ZK does DFS of the znode tree reading each znode data and writing them to disk. Since the snapshot is not atomic, it may capture some updates and miss others during copy. Since state changes are idempotent, we can apply them twice as long as we apply them in the right order.
 
 ## Client-Server Interactions
 - When a server processes a write request, it sends and clears all notifications relative any watch that corresponds to that update.
