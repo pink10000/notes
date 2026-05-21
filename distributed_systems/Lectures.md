@@ -62,5 +62,8 @@ Rust tutorial.
 - [[Consensus]]
 - [[Paxos Algorithm]]
 
+# Lecture 14 (5/19)
+- [[ZooKeeper]]
+
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 
