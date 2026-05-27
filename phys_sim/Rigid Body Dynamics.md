@@ -443,6 +443,7 @@ Recall that the [[Lagrangian Mechanics#Definition (The Lagrangian)|Lagrangian]] 
 $$
 \int_{0}^{T} \frac{1}{2} \Omega(t)^\top \bI_{\text{body}} \Omega(t) \, dt
 $$
+See [[Euler Arnold Equations#Rigid Bodies]] for the full derivation with the Least Action Principle.
 
 ## Theorem (Angular Momentum is Conserved in World Coordinate)
 The conservation of angular momentum depends on which coordinate system we use. The **world coordinate angular momentum** is defined as 

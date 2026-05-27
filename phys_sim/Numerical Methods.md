@@ -4,7 +4,7 @@ tags:
 ---
 
 # Numerical Methods
-When analytical solutions are not possible, we can use numerical methods to approximate the solution of an ODE. This is common because the ODEs are derived from physical laws. Given any differential equation, for example,
+When analytical solutions are not possible, we can use numerical methods to approximate the solution of an [[Ordinary Differential Equation|ODE]]. This is common because the ODEs are derived from physical laws. Given any differential equation, for example,
 $$
 \dddot{x} + \ddot{x} \ddot{x} + \sin(\ddot{x}) = 1
 $$
@@ -16,7 +16,7 @@ $$
 \dot{a} = 1 - av - \sin(a)
 \end{cases}
 $$
-Let $y = [x, v, a]^{\top}$. The ODE becomes $\dot{y} = \mathbf{f}(y)$. 
+Let $y = [x, v, a]^{\top}$. The [[Ordinary Differential Equation|ODE]] becomes $\dot{y} = \mathbf{f}(y)$. 
 
 ## Forward Euler Method
 We can discretize time into time-frames. 
@@ -37,7 +37,7 @@ Advantages
 - There is an **explicit formula** formula for the next state.
 - Computationally fast and easy to implement.
 Limitations
-- Not very accurate, unless $\Delta t$ is tiny. The error is proportional to $\Delta t^2$ from the Taylor expansion of $y(t + \Delta t)$.
+- Not very accurate, unless $\Delta t$ is tiny. The error is proportional to $\Delta t^2$ from the [[Taylor's Theorem|Taylor expansion]] of $y(t + \Delta t)$.
 - Can be energy increasing (violates conservation of energy). 
 
 ## Backward Euler Method
@@ -66,7 +66,7 @@ y^{(n+1)} &= y^{(n)} + \frac{\Delta t}{6} (k_1 + 2k_2 + 2k_3 + k_4)
 \end{aligned}
 $$
 The idea is that we take a weighted average of the slopes at different points within the time step to get a better estimate of the next state. In most cases, the RK4 method works very well. There are other special algorithms (non-RK4) that are deigned to preserve energy or momentum.
-- Variational integrator
+- [[Variational Integrators|Variational integrator]]
 - Symplectic integrator
 - Lie group integrator
 
@@ -202,3 +202,4 @@ $$
 \frac{\theta_{i+1} - 2\theta_i + \theta_{i-1}}{\Delta t^2}
 = -\sin \theta_i 
 $$
+
