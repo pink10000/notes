@@ -10,6 +10,91 @@ $$
 \Gamma_{C_{t}} := \oint_{C_{t}} \bu_{t} \cdot d\ell = \oint_{C_{t}} \bu_{t}^{\flat}
 $$
 where $\flat$ is the [[Dual Space#Definition (Riemannian Manifold)|metric dual operator]] that creates the covector from the original vector field. 
+```tikz
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+% --- Color Theme (Tweak RGB values here) ---
+% Surface Gradient (Dark Slate)
+\definecolor{surfTop}{RGB}{70, 80, 95}
+\definecolor{surfMid}{RGB}{35, 45, 55}
+\definecolor{surfBot}{RGB}{15, 20, 30}
+
+% Vector Flow Lines (Neon Cyan)
+\definecolor{flowColor}{RGB}{0, 255, 255}
+
+% Foreground Loops (Vibrant Orange)
+\definecolor{loopFront}{RGB}{255, 140, 0}
+% Background Loops (Darker Orange for depth)
+\definecolor{loopBack}{RGB}{150, 70, 0}
+
+% Text Labels
+\definecolor{textColor}{RGB}{240, 240, 240}
+
+
+% --- Surface (Manifold) ---
+\draw[thick, draw=surfTop, top color=surfTop, bottom color=surfBot, middle color=surfMid]
+  plot [smooth cycle, tension=0.75] coordinates {
+    (-4.5, 0)
+    (-3.5, 2.5)
+    (0, 1.8)
+    (3.5, 2.5)
+    (4.5, 0)
+    (3.5, -2.5)
+    (0, -1.8)
+    (-3.5, -2.5)
+  };
+
+% --- Background Loops (Right Arcs) ---
+% Loop C (left)
+\begin{scope}[shift={(-2, 0.2)}, rotate=-10]
+    \draw[thick, loopBack] (0, -1.5) arc (-90:90:0.5 and 1.5);
+    \draw[thick, loopBack, ->] (0, -1.5) arc (-90:0:0.5 and 1.5); 
+\end{scope}
+
+% Loop Ct (right)
+\begin{scope}[shift={(2, -0.1)}, rotate=-10]
+    \draw[thick, loopBack] (0, -2) arc (-90:90:0.7 and 2);
+    \draw[thick, loopBack, ->] (0, -2) arc (-90:20:0.7 and 2); 
+\end{scope}
+
+% --- Vector Field Flow Lines ---
+% Line 1 (Top)
+\draw[thick, flowColor, ->] (-3.2, 1.2) to[out=-15, in=185] (-0.2, 0.9);
+\draw[thick, flowColor, ->] (-0.2, 0.9) to[out=5, in=195] (2.4, 1.3);
+
+% Line 2 (Mid-Top)
+\draw[thick, flowColor, ->] (-3.0, 0.5) to[out=-10, in=180] (-0.2, 0.3);
+\draw[thick, flowColor, ->] (-0.2, 0.3) to[out=0, in=190] (2.5, 0.5);
+
+% Line 3 (Mid-Bottom)
+\draw[thick, flowColor, ->] (-3.0, -0.2) to[out=-20, in=170] (-0.2, -0.5);
+\draw[thick, flowColor, ->] (-0.2, -0.5) to[out=-10, in=160] (2.6, -0.8);
+
+% Line 4 (Bottom)
+\draw[thick, flowColor, ->] (-3.2, -0.8) to[out=-10, in=175] (-0.2, -0.9);
+\draw[thick, flowColor, ->] (-0.2, -0.9) to[out=-5, in=155] (2.3, -1.5);
+
+% --- Foreground Loops (Left Arcs) ---
+% Loop C (left)
+\begin{scope}[shift={(-2, 0.2)}, rotate=-10]
+    \draw[thick, loopFront] (0, 1.5) arc (90:270:0.5 and 1.5);
+    \draw[thick, loopFront, ->] (0, 1.5) arc (90:160:0.5 and 1.5); 
+\end{scope}
+\node[font=\large, text=textColor] at (-2.3, -1.6) {$C$};
+
+% Loop Ct (right)
+\begin{scope}[shift={(2, -0.1)}, rotate=-10]
+    \draw[thick, loopFront] (0, 2) arc (90:270:0.7 and 2);
+    \draw[thick, loopFront, ->] (0, 2) arc (90:160:0.7 and 2); 
+\end{scope}
+\node[font=\large, text=textColor] at (2.7, -1.5) {$C_t$};
+
+\end{tikzpicture}
+\end{document}
+```
 
 # Theorem (Kelvin's Circulation Theorem)
 Suppose the [[Continuum Mechanics#Definition (Flow Velocity)|flow velocity]] $\bu_{t}$ satisfies the [[Euler Arnold Equations#Background|Euler equation]]:
