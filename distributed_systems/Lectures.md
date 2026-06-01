@@ -65,5 +65,9 @@ Rust tutorial.
 # Lecture 14 (5/19)
 - [[ZooKeeper]]
 
+# Lecture 15 (5/21)
+- [[CAP Theorem]]
+- [[Byzantine Fault Tolerance]]
+
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 
