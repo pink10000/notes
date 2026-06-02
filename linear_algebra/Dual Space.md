@@ -29,7 +29,9 @@ of a [[Vector Space|vector space]] $V$ is the vector space of all covectors on $
 $$
 \alpha(\vec{u}) = \langle \alpha | \vec{u} \rangle = \alpha \llbracket \vec{u} \rrbracket
 $$
-It is the act of "feeding" a vector $\vec{u}$ into a covector $\alpha$ to get a scalar value. Visually, evaluating the dual pairing means counting the number of times the vector's arrow pierces through the hyperplanes of the covector. If the arrow runs perfectly parallel to the covector's lines, it pierces $0$, and the pairing is $0$. If the arrow stretches across $3$ level-set lines, the pairing evaluates to $3$. 
+It is the act of "feeding" a vector $\vec{u}$ into a covector $\alpha$ to get a scalar value.
+
+Visually, evaluating the dual pairing means counting the number of times the vector's arrow pierces through the hyperplanes of the covector. If the arrow runs perfectly parallel to the covector's lines, it pierces $0$, and the pairing is $0$. If the arrow stretches across $3$ level-set lines, the pairing evaluates to $3$. 
 
 ## Theorem (Dimension of Dual Space)
 The dimension of the dual space $V^*$ is equal to the dimension of the original vector space $V$. That is,
@@ -38,6 +40,13 @@ $$
 $$
 If $V$ is a finite-dimensional vector space, then $\dim V^{**} = \dim V$. 
 
+### Corollary 
+In particular, since $\alpha(\vec{u})$ returns a scalar real, and that there is a natural isomorphism between vector space $V$ and its "double dual" $V$, then, just as $\alpha$ acts on $\vec{u}$ to produce a scalar, we can view $\vec{u}$ as an operator acting on $\alpha$:
+$$
+\vec{u}(\alpha) = \alpha(\vec{u})
+$$
+
+hence the dual pairing notation $\langle \alpha | \vec{u} \rangle$.
 # Theorem (Dual Basis)
 Let $\vec{e}_1, \vec{e}_2, \ldots, \vec{e}_n$ be a [[Vector Space#Theorem (Basis)|basis]] for a finite-dimensional vector space $V$. Then there is a unique **dual basis** $\beta^1, \beta^2, \ldots, \beta^n \in V^*$ so that 
 $$
