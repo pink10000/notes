@@ -53,7 +53,7 @@ where $v_1, \dots, v_k$ span the tangent elements of the partition at point $p$.
 > [!NOTE] Unpacking the Notation
 > - $T^*M$ is the [[Dual Space#Definition (Cotangent Bundle)|cotangent bundle]] (the collection of all covector spaces at every point on the [[Manifold]]).
 > - $\bigwedge^k T^*M$ is the bundle containing all possible $k$-forms at every point.
-> - $\Gamma(\dots)$ denotes the space of "sections" of a bundle. Taking a section means smoothly assigning one specific $k$-form to each point on the manifold.
+> - $\Gamma(\dots)$ denotes the space of "sections" of a bundle. Taking a section means smoothly (continuously) assigning one specific $k$-form to each point on the manifold.
 > - $\Omega^k(M)$ is simply the standard shorthand notation for this space of sections. Therefore, $\omega \in \Omega^k(M)$ is the rigorous way to state that $\omega$ is a continuous **$k$-form field**.
 
 > [!idea] Intuition
