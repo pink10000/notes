@@ -3,10 +3,14 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch: 
+    types: [deploy-notes]
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,11 +20,14 @@ jobs:
         with:
           repository: pink10000/quartz-site
           path: builder
+          fetch-depth: 1
 
       - name: Checkout Content (this repo)
         uses: actions/checkout@v4
         with:
+          repository: pink10000/notes
           path: builder/content
+          fetch-depth: 0    # full history
 
       - name: Setup Node
         uses: actions/setup-node@v4
