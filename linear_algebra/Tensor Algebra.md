@@ -7,7 +7,7 @@ tags:
 # Definition (Tensor Product Space)
 Given two [[Vector Space|vector spaces]] $U$ and $V$, we can construct a new vector space called their **tensor product space**, denoted $W = U \otimes V$.
 
-## Theorem (Dimension of Tensor Product Space)
+## Corollary (Dimension of Tensor Product Space)
 If $\{\vec{e}_1, \dots, \vec{e}_m\}$ is a basis for $U$ and $\{\vec{f}_1, \dots, \vec{f}_n\}$ is a basis for $V$, then $W = U \otimes V$ is defined as the span of the formal products:
 $$
 \vec{e}_i \otimes \vec{f}_j
@@ -44,7 +44,7 @@ $$
 $$
 where $U^*$ is the [[Dual Space|dual space]] of $U$.
 
-## Theorem (Tensors as Maps)
+## Lemma (Tensors as Maps)
 To understand how tensor products are equivalent to spaces of linear maps, consider the tensor product of two vector spaces $V \otimes W$. A single decomposable (or simple) tensor is written as $\vec{v} \otimes \vec{w}$, where $\vec{v} \in V$ and $\vec{w} \in W$.
 
 We can define how this tensor $\vec{v} \otimes \vec{w}$ acts as a linear function $T : V^{*} \to W$. When we feed a covector $\alpha \in V^{*}$ into this simple tensor, the operation is defined by evaluating the covector on the $V$ component:

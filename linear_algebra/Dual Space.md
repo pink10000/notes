@@ -10,7 +10,7 @@ A(\vec{u}_{1} + \vec{u}_{2}) = A(\vec{u}_{1}) + A(\vec{u}_{2})
 A(c\vec{u}) = c A(\vec{u})
 $$
 
-## Theorem (Set of Linear Maps is a Vector Space)
+## Lemma (Set of Linear Maps is a Vector Space)
 The set $\left(U \xrightarrow{\text{linear}} V\right)$ of all linear maps from $U$ to $V$ is a vector space.
 
 # Definition (Covector)
@@ -33,14 +33,14 @@ It is the act of "feeding" a vector $\vec{u}$ into a covector $\alpha$ to get a 
 
 Visually, evaluating the dual pairing means counting the number of times the vector's arrow pierces through the hyperplanes of the covector. If the arrow runs perfectly parallel to the covector's lines, it pierces $0$, and the pairing is $0$. If the arrow stretches across $3$ level-set lines, the pairing evaluates to $3$. 
 
-## Theorem (Dimension of Dual Space)
+## Corollary (Dimension of Dual Space)
 The dimension of the dual space $V^*$ is equal to the dimension of the original vector space $V$. That is,
 $$
 \dim V^* = \dim V
 $$
 If $V$ is a finite-dimensional vector space, then $\dim V^{**} = \dim V$. 
 
-### Corollary 
+### Corollary (Double Dual Evaluation)
 In particular, since $\alpha(\vec{u})$ returns a scalar real, and that there is a natural isomorphism between vector space $V$ and its "double dual" $V$, then, just as $\alpha$ acts on $\vec{u}$ to produce a scalar, we can view $\vec{u}$ as an operator acting on $\alpha$:
 $$
 \vec{u}(\alpha) = \alpha(\vec{u})
@@ -71,7 +71,7 @@ $$
 $$
 Likewise to the visualization of the dual pairing, given some basis vector $\vec{e}_{1}\in V$, the corresponding $\beta^{1}$ dual vector means that the pairing evaluates to $1$, or that it crosses the covector slab exactly once. 
 
-# Conventional Notation 
+# Remark (Conventional Notation)
 Vectors are conventionally columnar. Covectors are row vectors. The dual pairing is automatic
 $$
 \begin{bmatrix}
@@ -142,7 +142,7 @@ $$
 $$
 We also call a covector field a *1-form*, and denote $\Gamma(T^* M) = \Omega^1 (M)$. 
 
-# Types in Differential Calculus
+# Remark (Types in Differential Calculus)
 Let
 $$
 f \in \left(M \xrightarrow{\text{nonlinear}} \R \right)
@@ -201,7 +201,7 @@ $$
 \frac{d}{dt} x^i = - \sharp^{ij} \frac{\partial f}{\partial x^j}
 $$
 
-# Chain Rules
+# Remark (Chain Rules)
 The differential of a function $f: M \to \R$ at a point $p$ is a linear map $df|_p: T_pM \to \R$. This concept generalizes to a map between manifolds $\phi : M \to N$.
 
 ## Definition (Pushforward Operator)
@@ -234,7 +234,7 @@ $$
 $$
 The defining property is the dual pairing: $\langle \phi^* \beta | u \rangle = \langle \beta | \phi_* u \rangle$.
 
-# Backpropagation and Machine Learning
+# Remark (Backpropagation and Machine Learning)
 In machine learning, we often have a composition of maps (layers) $\phi_1, \phi_2, \ldots, \phi_k$ and a final scalar loss function $L: \R^n \to \R$.
 
 ### Forward Pass (Pushforward)
@@ -299,20 +299,20 @@ p_{t+1} = \exp_{p_t}(-\eta \text{grad}_{p_t} L)
 $$
 and so on. In practice, this notation is never used because we always assume the parameter manifold $M$ is a perfectly flat Euclidean space $\R^n$. It's geometry is trivial, so the "straightest possible path" is just a straight line.
 
-# Theorem (Derivative and Pullback Commute)
+# Lemma (Derivative and Pullback Commute)
 Let $\phi : M \to N$ be a map between manifolds, and let $f : N \to \R$ be a function on the target manifold. Then the following holds:
 $$
 \phi^*(df) = d(\phi^* f)
 $$
 
-# Theorem (Pushforward Distributes over Composition)
+# Lemma (Pushforward Distributes over Composition)
 Let $\phi : M \to N$ and $\psi : N \to P$ be maps between manifolds. Then the pushforward distributes over composition:
 $$
 (\phi_1 \circ \cdots \circ \phi_k)_* = (\phi_1)_* \cdots (\phi_k)_*
 $$
 This is the same as the chain rule for derivatives. 
 
-# Theorem (Pullback Distributes over Composition and Reverses Order)
+# Corollary (Pullback Distributes over Composition and Reverses Order)
 Let $\phi : M \to N$ and $\psi : N \to P$ be maps between manifolds. Then the pullback distributes over composition and reverses order:
 $$
 (\phi_1 \circ \cdots \circ \phi_k)^* = (\phi_k)^* \cdots (\phi_1)^*
