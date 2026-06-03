@@ -1,6 +1,6 @@
 ---
 tags:
-  - MATH_20D
+  - CSE_291G
 ---
 
 # Numerical Methods
