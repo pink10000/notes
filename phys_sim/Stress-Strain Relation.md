@@ -186,7 +186,7 @@ $$
 \right.
 $$
 
-# Postulate (Isotropic Material)
+# Postulate (General Isotropic Material)
 A material is called **isotropic** if 
 $$
 \Psi(\hat C) = \Psi(R^{-1} \hat C R)
@@ -323,3 +323,22 @@ Finally, transforming this into the Cauchy stress $\boldsymbol{\sigma}$ yields a
 $$
 \boldsymbol{\sigma} = \frac{1}{J} \bP \bF^\top = \frac{2 w' J^2}{J} \bI = p \bI
 $$
+
+## Example: Neo-Hookean Model
+We can have $w$ represent 
+$$
+w(I_{1}, I_2, I_3) = \frac{\mu}{2}(I_1 - 3 - \ln(I_3)) + \frac{\lambda}{2} \left(\sqrt{I_3} - 1 \right)^2
+$$
+or approximately
+$$
+U(\bC) = \left(
+  \frac{\lambda}{2} \operatorname{tr}(E)^2 + \mu \operatorname{tr}(E^2)
+\right) dV_M
+$$
+
+## Example: Degenerate
+Consider
+$$
+w(I_1, I_2, I_3) = \frac{\lambda}{2}\left( \sqrt{I_3} - 1 \right)^2
+$$
+then we get a [[Fluid Mechanics|fluid body]]!. If $\lambda, \mu \to \infty$ and if $w$ is nondegenerate, then we obtain a [[Rigid Body Dynamics|rigid body]]. If $w = w(I_{3})$, we obtain an [[Fluid Mechanics#Incompressible Fluids|incompressible fluid]]. 
