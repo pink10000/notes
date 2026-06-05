@@ -82,7 +82,7 @@ $$
 This precisely recovers the standard **matrix-vector multiplication** formula, where the $n \times n$ matrix $A^i_j$ multiplies the column vector $\vec{v}$ to produce a new column vector in $U$.
 
 # Theorem (Operations on Square Matrices)
-You can view [[Eigenvector|eigenvalues]], [[Trace|trace]], and the [[Determinant|determinant]]. 
+You can view [[Eigenvector|eigenvalues]], [[Trace|trace]], and the [[Determinant|determinant]]. For the derivative of the determinant, see [[Jacobi's Formula]]. Additionally, every square matrix is associated with its [[Adjugate Matrix]], which relates the matrix to its inverse and cofactor expansion.
 
 # Definition (Endomorphisms)
 [[Dual Space#Definition (Linear Map)|Linear Maps]] from $V$ to itself are called **endomorphisms**. 

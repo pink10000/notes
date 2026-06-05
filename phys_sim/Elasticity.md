@@ -17,7 +17,7 @@ tags:
    $$
    U_p: T_p^*M \odot T_p^*M \xrightarrow{\text{nonlinear}} \bigwedge^n T_p^*M
    $$
-   i.e. the potential is only a function of the induced metric encoding its notion of distances in the world. (**Frame-indifference**)
+   i.e. the potential is only a function of the induced metric encoding its notion of distances in the world. (**Frame-indifference**) ^241ca7
 
 # Terminology
 The **deformation gradient** is defined by the [[Dual Space#Definition (Pushforward Operator)|pushforward]] $F$:
@@ -168,14 +168,14 @@ Recall that $C$ is the current deformed lengths of the material vectors. The $\s
 We have some different ways to model [[Stress#Equation of Motion|strain]]:
 $$
 \begin{aligned}
-E_{\text{StV}} &= \frac{1}{2}(\hat{C} - \text{id}) && \text{St Venant Strain} \\
+E_{\text{StV}} &= \frac{1}{2}(\hat{C} - \text{id}) && \text{Green-St Venant Strain} \\
 E_{\text{Biot}} &= \sqrt{\hat{C}} - \text{id} \\
 E_{\text{Hencky}} &= \frac{1}{2} \log \hat{C} \\
 E_{\text{Almansi}} &= \frac{1}{2}(\text{id} - \hat{C}^{-1})
 \end{aligned}
 $$
 
-Write $U(C) = \Phi(E) \rho_M$, where we separate the energy density into a function of the strain and the mass density. $\Phi(E)$ represents the *energy per unit mass*, or the specific internal energy.
+Write $U(C) = \Psi(E) \rho_M$, where we separate the energy density into a function of the strain and the mass density. $\Psi(E)$ represents the *energy per unit mass*, or the [[Stress-Strain Relation#Postulate (Existence of Rest Metric)|specific internal energy]].
 
 ## St Venant-Kirchhoff Model
 See [here](https://cseweb.ucsd.edu/~alchern/teaching/cse291_sp26/9-1Elasiticity.pdf) for derivation of the StVK model.
