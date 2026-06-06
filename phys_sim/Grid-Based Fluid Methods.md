@@ -548,7 +548,7 @@ The CFL condition is a strict speed limit: **the fluid cannot travel more than o
 ## Semi-Lagrangian Scheme
 Consider again the advection equation $\dot u + au' = 0$. Sometimes we want a larger time step. We can do this by tracing the flow backwards in time.
 $$
-u_i^{n+1} = u(x_i - a \Delta t)
+u_i^{n+1} = u^{n}(x_i - a \Delta t)
 $$
 How it works:
 1. Stand at the current grid cell center $x_i$.
@@ -603,7 +603,7 @@ $$
 The tradeoff is that we remove numerical dissipation (blurring) but we get some numerical dispersion (spatial oscillation). We can detect and cutoff overshoots using a **limiter**. 
 
 > [!idea] Limiter
-> If the value of the field after BFECC is lying outside some convex hull of the neighborhood values of stable semi-Lagrangian, blend with or use the stbale semi-Lagrangian result. 
+> If the value of the field after BFECC is lying outside some convex hull of the neighborhood values of stable semi-Lagrangian, blend with or use the stable semi-Lagrangian result. 
 
 ```tikz
 \usepackage{tikz}
