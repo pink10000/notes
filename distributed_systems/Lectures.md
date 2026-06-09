@@ -69,5 +69,12 @@ Rust tutorial.
 - [[CAP Theorem]]
 - [[Byzantine Fault Tolerance]]
 
+# Lecture 16 (5/26)
+- [[CodaFS]]
+
+# Lecture 17 (5/28)
+- [[Bayou]]
+
+
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 

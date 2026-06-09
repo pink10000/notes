@@ -4,6 +4,7 @@ tags:
 aliases:
   - replicates
   - replicate
+  - replicated
 ---
 # Definition (Replication)
 **Replication** is the process of creating and maintaining multiple copies of data or services across different nodes in a distributed system. The main goal of replication is to improve [[Networked File Systems#Definition (High Availability)high availability]], fault tolerance, and performance by allowing multiple nodes to serve requests for the same data or service.

@@ -30,3 +30,9 @@ BASE represents an optimistic approach. It relaxes the strict consistency of ACI
 - **E**ventually Consistent: The system will eventually become consistent once it stops receiving input. Given enough time, all nodes will receive the latest updates. (Systems often use structures like [[CRDT]]s or [[Vector Timestamps]] to resolve conflicts).
 
 **Use Cases:** Social media feeds, analytics, content delivery networks, or situations where it's acceptable if users see slightly stale data as long as the system remains fast and responsive.
+
+# Definition (Weak Consistency)
+Weak consistency is a consistency model where the system does not guarantee that subsequent reads will return the most updated value after a write operation. Various conditions need to be met before the updated value is guaranteed to be returned.
+- If no new updates are made to the object, the system will not guarantee when the replica will be consistent.
+- **Eventual Consistency** (used in [[#BASE]]) is a specific form of weak consistency where it guarantees that, if no new updates are made to the object, eventually all accesses will return the last updated value.
+- The period between the update and the moment when it is guaranteed that any observer will always see the updated value is known as the *inconsistency window*.
