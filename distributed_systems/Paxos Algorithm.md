@@ -1,6 +1,8 @@
 ---
 tags:
   - CSE_223B
+aliases:
+  - Paxos
 ---
 Largely ripped from [paper](https://cseweb.ucsd.edu/classes/sp11/cse223b/papers/paxos-simple.pdf).
 

@@ -107,7 +107,7 @@ The following is the disk layout of Frangipani.
 - The current scheme limits Frangipani to slightly less than $2^{24}$ ($16$ million) "large files" where a "large file" is any file bigger than $64$ KB. 
 
 # Logging and Recovery
-Frangipani uses "[[HarpFS#Write Ahead Log|write-ahead]] redo" logging of metadata to simplify failure recovery and improve performance. Each Frangipani file server has its own private log which gets updated when it needs to update the metadata. They are bounded by $128$ KB, stored in a circular buffer (ring buffer) in which the next $25\%$ are reclaimed when it's full. If a server crashes, another server eventually detects the failure and runs **recovery** on that server's log. Failure is detected by either a client of the failed server or when the lock service asks the failed server to return a lock it is holding and receives no reply. 
+Frangipani uses "[[HarpFS#Performance and The Write-Ahead Log|write-ahead]] redo" logging of metadata to simplify failure recovery and improve performance. Each Frangipani file server has its own private log which gets updated when it needs to update the metadata. They are bounded by $128$ KB, stored in a circular buffer (ring buffer) in which the next $25\%$ are reclaimed when it's full. If a server crashes, another server eventually detects the failure and runs **recovery** on that server's log. Failure is detected by either a client of the failed server or when the lock service asks the failed server to return a lock it is holding and receives no reply. 
 
 The recovery demon (daemon)[^2] then gets control of the log and processes it. 
 - The failed server can be restarted as long as the underlying Petal volumes remain available. 

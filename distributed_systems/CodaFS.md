@@ -69,7 +69,11 @@ CodaFS chose optimistic replica control because: ^0d7f29
 - It provides a uniform model of the system from the user's perspective.
 
 ## Whole-File Caching
-A cache miss can only occur on an `open`, never on a `read`, `write`, `seek`, or `close`. This substantially simplifies the implementation of disconnected operation. 
+A cache miss can only occur on an `open`, never on a `read`, `write`, `seek`, or `close`. This substantially simplifies the implementation of disconnected operation. On `write`, the clients gets a **LSID** (local store ID). It is 
+```
+<name of server that accepted write, lamport clock at that server>
+```
+It is the preferential server the client wants to connect to. Each server has a Coda version vector, which is the most recent LSID it has received from each other server to learn about writes from other servers.
 
 ## Avoidance of System-Wide Rapid Change
 They rejected strategies that require election or [[Consensus|agreement]] by large numbers of nodes.
@@ -122,12 +126,14 @@ Venus operates in three states:
 - Reintegration
 
 ```mermaid
-graph TD;
+graph LR;
 	h[[Hoarding]] --Disconnection--> e[[Emulation]]
 	e --Physical Reconnection--> r[[Reintegration]]
 	r --Logical Reconnection--> h
 ```
 Venus is normally in the hoarding state, relying on [[#Replication Hierarchy|replication]] but always on alert for possible disconnection. Upon reconnection, it reintegrates, updating the AVSG, then reverts to hoarding when done. 
+
+A client can connect to any server, but it needs to be at least one.
 
 ## Hoarding
 The key responsibility of Venus is to hoard useful data in anticipation of disconnection. It also needs to manage its cache to balance the needs of connected and disconnected operations. Many factors complicate implementation:
@@ -137,7 +143,7 @@ The key responsibility of Venus is to hoard useful data in anticipation of disco
 - Activity at other clients must be accounted for
 - Cache space is finite, so it may have to sacrifice less critical objects
 
-A per-workstation **hoard database (HDB)** is used to identify files of interest. A **hoard profile** is used to determine which files are stored. **Hoard priority** is used to determine the priority of certain objects. All ancestors of an object will also be cached (like a directory).
+A per-workstation **hoard database (HDB)** is used to identify files of interest. A **hoard profile** is used to determine which files are stored. **Hoard priority** is used to determine the priority of certain objects. All ancestors of an object will also be cached (like a directory). 
 
 We say a cache is in **equilibrium** when the user can expect their cache to be available, and no uncached object has a higher priority than a cached object (may be disturbed as a result of normal activity). Venus periodically restores equilibrium via an operation known as **hoard walking**. 
 - Portable machines mean the user is better at augmenting cache management for disconnected operation.
@@ -155,7 +161,9 @@ We say a cache is in **equilibrium** when the user can expect their cache to be 
 	- Directories are not purged, but *marked suspicious*. 
 
 ## Emulation
-This occurs on disconnect. Venus performs many actions normally handled by servers. It generates temporary **file identifiers (fids)** for new objects, pending assignment of permanent fids on reintegration. Cache management is done with the same priority algorithm during [[#Hoarding]]. Cache entries of deleted objects are freed immediately, but modified objects get infinite priority to ensure deletion does not happen.  ^b0fc4c
+This occurs on disconnect. Venus performs many actions normally handled by servers. It generates temporary **file identifiers (fids)**[^1] for new objects, pending assignment of permanent fids on reintegration. Cache management is done with the same priority algorithm during [[#Hoarding]]. Cache entries of deleted objects are freed immediately, but modified objects get infinite priority to ensure deletion does not happen.  ^b0fc4c
+
+[^1]: It is `<name of the server, lamport clock at server>`.
 
 Venus keeps a **replay log** to replay update activity on reintegration. During a `write` and `close`, since Venus uses [[#Whole-File Caching]], it installs a completely new copy of a file, storing a single `store` record in the log. Venus discards previous `store` records when a new one is appended because all previous versions of a file are superfluous (they are overwritten). It merely points to the copy in the cache. 
 

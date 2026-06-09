@@ -75,6 +75,9 @@ Rust tutorial.
 # Lecture 17 (5/28)
 - [[Bayou]]
 
+# Lecture 18 (6/2)
+- [[Google Spanner]]
+
 
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 

@@ -149,7 +149,7 @@ Upon receiving a request, a server prepares it for execution (**request processo
 
 A read is simple (see above). Each znode is in memory and by default maximally 1 MB.
 
-Recoverability, is done by logging updates to disk, and forcing writes to be on disk before application to in-memory database (kind of like a write-ahead log). 
+Recoverability, is done by logging updates to disk, and forcing writes to be on disk before application to in-memory database (kind of like a [[HarpFS#Performance and The Write-Ahead Log|write-ahead log]]). 
 
 As part of the **agreement protocol**, write requests are forwarded to sen single server, called the **leader**. The rest of the ZK servers are called **followers**. 
 

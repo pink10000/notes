@@ -43,7 +43,7 @@ But the witness only keeps the log, even if promoted.
 - An independent apply process writes the committed operations to the disk in the background.
 # External Consistency for Reads
 - Non-modification operations, such as file reads, are processed entirely at the primary to improve response times.
-- To prevent external consistency violations during a network partition, Harp utilizes loosely synchronized clocks.
+- To prevent [[Networked File Systems#Definition (External Consistency)|external consistency]] violations during a network partition, Harp utilizes loosely synchronized clocks.
 - Backups send a promised time to the primary, calculated as the backup's current clock time plus a small delay.
 - This promised time represents a guarantee from the backup not to start a new view until that specific time has elapsed.
 - The primary can safely process reads without contacting the backup as long as its current time is less than the promised time[^1].
