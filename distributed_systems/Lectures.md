@@ -78,6 +78,9 @@ Rust tutorial.
 # Lecture 18 (6/2)
 - [[Google Spanner]]
 
+# Lecture 19 (6/4)
+- [[Bitcoin]]
+
 
 ---
 Thanks to Samvrit for lending me his notes for the first few lectures. 
