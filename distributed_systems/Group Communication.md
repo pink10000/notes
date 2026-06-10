@@ -5,6 +5,7 @@ tags:
 # Group Communication
 This note summarizes group communication protocols, focusing on the design, trade-offs, and mechanics of the ISIS Group Communication System developed at Cornell University in the 1980s.
 
+Largely ripped from [paper](https://dl.acm.org/doi/pdf/10.1145/7351.7478). ^ee2684
 # Introduction & Motivation: The ISIS System
 The ISIS Group Communication System provides reliable, ordered message delivery services for distributed applications. Historically, ISIS has been used in critical, real-world systems such as NASDAQ and the Boeing 777 software control system.
 
@@ -73,8 +74,10 @@ Group communication protocols trade off ordering guarantees against reliability 
 - **ABCAST**: *Strict* total ordering where every node delivers messages in the exact same order, which can clog queues during coordination.
 
 # Types of Ordering Semantics
-- **Total Wall Clock Ordering**: All messages are ordered strictly by the physical time they were sent. (Extremely difficult to achieve precisely in distributed systems due to clock drift).
+- **Total Wall Clock Ordering**: All messages are ordered strictly by the physical time they were sent. (Extremely difficult to achieve precisely in distributed systems due to clock drift; see [[Google Spanner#TrueTime]]).
 - **[[Memory Coherence#Definition (Sequential Consistency)|Sequential Consistency]] (Total Order)**: All nodes deliver all messages in the *same* sequence, but this sequence does not necessarily correspond to physical wall-clock time.
+	- It is important to note that total ordering does not care *what* the order is, only that the order is mutually consistent across all nodes. 
+	- Doing this inherently requires synchronization with a leader, enforcing a performance penalty and limits concurrency.
 - **Causal Ordering**: Respects the "happens-before" ($\to$) relationship. If message $m_1$ causally influenced[^1] the sending of $m_2$, then $m_1$ must be delivered before $m_2$ at all destinations. Unrelated (concurrent) messages do not have a defined order, which allows for parallel processing.
   
   [^1]: Message $m_1$ causally influences $m_2$ if the sender of $m_2$ had already sent or received $m_1$ (directly or transitively) before generating $m_2$ (i.e., $m_1 \to m_2$ via Lamport's happens-before relation).
@@ -88,14 +91,15 @@ Every node maintains a local message buffer (FIFO queue). To satisfy causal cons
 
 1. **FIFO Sender Order**: Messages sent by a specific node must be delivered in the order they were sent.
    - *Implementation*: A node maintains a FIFO queue of outgoing messages. When connecting to another node via TCP, it sends the entire queue from the beginning. If the connection drops, it restarts transmission from the beginning of the queue, discarding duplicates at the receiver (idempotency).
-1. **Transitive Causality**: If a node receives a message $m$ and subsequently sends message $m'$, then any node receiving $m'$ must deliver $m$ before $m'$.
-   - *Implementation*: When a node receives a message, it appends it to its local queue. Thus, when it talks to another node, it transmits not only its own messages but all messages it has "heard" so far. The "so far" is explicitly the "happens-before" relation. 
+2. **Transitive Causality**: If a node receives a message $m$ and subsequently sends message $m'$, then any node receiving $m'$ must deliver $m$ before $m'$.
+   - *Implementation*: When a node receives a message, it appends it to its local queue. Thus, when it talks to another node, it transmits not only its own messages but all messages it has "heard" so far. The "so far" is explicitly the "happens-before" relation, giving us the causal ordering.
 
 ```
-Example Buffer Queue containing locally generated and transitively heard messages:
-+----+----+----+----+----+----+----+
-| B1 | A4 | C1 | A3 | A2 | A1 | ...| <-- Front of Queue (sent first)
-+----+----+----+----+----+----+----+
+Example Buffer Queue 
+containing locally generated and transitively heard messages:
+ --+----+----+----+----+----+----+----+
+   | B1 | A4 | C1 | A3 | A2 | A1 | ...| <-- Front of Queue (sent first)
+ --+----+----+----+----+----+----+----+
 ```
 
 ## Optimization via [[Vector Timestamps|Vector Timestamps (VTS)]]
@@ -240,7 +244,7 @@ Every node maintains a local queue. Since messages must be delivered in the exac
 Suppose node $A$ sends message $a$ and node $B$ sends message $b$ *concurrently*. Node $C$ is a receiver.
 
 ### Initial Queue State (Proposed Sequences)
-Messages are placed in the queues with temporary proposed sequences. Sequence number tuples are in the format `seq.node_id` (e.g., `2a` represents sequence number 2 proposed by node A).
+Messages are placed in the queues with temporary proposed sequences. Sequence number tuples are in the format `<seq,node_id>` (e.g., `2a` represents sequence number 2 proposed by node A).
 
 ```
 [Queue End]                                          [Queue Front]
@@ -249,6 +253,7 @@ A:  b(2a) [Undeliverable]    |   a(1a) [Undeliverable]
 B:  a(2b) [Undeliverable]    |   b(1b) [Undeliverable]
 C:  b(2c) [Undeliverable]    |   a(1c) [Undeliverable]
 ```
+This is the state of the queues after $A,B,C$ have received the messages. Note that in $B$, it received message $a$ after $b$ (because it sent out $b$, so we can very quickly add it to its queue).
 
 ### Step 1: Proposal Collection
 - **For message $a$**: Proposals collected by $A$ are `1.A` (from $A$), `2.B` (from $B$), and `1.C` (from $C$). Max sequence = `2.B`.
@@ -276,3 +281,89 @@ B:  b(2c) [Deliverable]  |  a(2b) [Deliverable]    <-- a can be delivered
 C:                       |  b(2c) [Undeliverable]  <-- waiting for b's decision
 ```
 *(Once $b$ is updated to `2.C` on all nodes, both $a$ and $b$ are delivered sequentially across all nodes).*
+
+## Trace Example 4
+What happens if during [[#Step 2 Final Sequence Broadcast & Re-sorting]], $A$ is unable to broadcast its final order? I.e. it crashed or network partition before sending. 
+
+Sometime immediately after sending the messages, this is the queue state.
+```
+[Queue End]                                    [Queue Front]
+    v                                                v
+A:  DEAD!                   |   DEAD!
+B:  a(2b) [Undeliverable]   |   b(1b) [Undeliverable]
+C:  b(2c) [Undeliverable]   |   a(1c) [Undeliverable]
+```
+
+Nodes $B$ and $C$ detect that Node $A$ has failed.
+- This can be done via heartbeats.
+- $B$ and $C$ can interrogate other participants about the status of the message. A participant being interrogated responds with `no msg received` or `<seq,node_id>` of the sender. The new coordinator collects responses. 
+- The [[#^ee2684|paper]] doesn't explain who gets picked as the new cooridnator, but you can imagine the next node (like in [[Chord]]) or the node with the lowest ID is the new coordinator. For our purposes, we can assume $B$ is the leader.
+- What about concurrent takeovers? If both $B,C$ interrogate the network, both will collect `1c` and `2b`. The maximum is `2b`, and will broadcast `2b`. In particular, it is **idempotent**, such that the same operation can be applied multiples without changing the result. 
+
+At this point, $B$ "owns" message $a$ and we proceed with the above example normally. 
+
+What if $B$ was the one that failed? Same thing, except $C$ won't need to reoreder anything.
+
+# GBCAST (Group Broadcast)
+Processes frequently need to monitor one another to react to failures, recoveries, or dynamic changes in group membership (like a new node joining). If every node independently updated its local view of the group membership whenever it noticed a failure, massive inconsistencies would arise. A system might try to route a request to a node that half the network thinks is dead, or two nodes might both think they are the designated "coordinator".
+
+GBCAST solves this by ensuring that changes to the group's global properties are treated as atomic broadcast events. Every alive member maintains a local, identical copy of the process group view, updating it in perfect synchronization relative to other events. 
+
+GBCAST is much like [[#ABCAST (Atomic Broadcast)|ABCAST]], in the sense that the value/messages are just the group metadata. However, it is different where:
+- GBCAST messages live in the same ABCAST queue. When normal ABCAST messages reach the front and are deliverable, they will be immediately delivered. When GBCAST reaches the front, delivery complete stops, freezing the queue.
+- All GBCAST messages at this point are tagged as `undeliverable`. The protocol waits until the GBCAST message is the head of ALL ABCAST queues across the system. 
+- All [[#CBCAST (Causal Broadcast)|CBCAST]] messages arrive concurrently and unpredictable, so we cannot easily freeze them. We establish a FIFO wait queue for the CBCAST messages. The node initating the GBCAST asks all group members for a list of the CBCAST message IDs they have already placed on their local delivery queues (not the wait queue), merging the lists for a system-wide "before list". 
+- If a trapped message is on the before list (or causally precedes one on the list), it is released from the wait queue to the delivery queue. 
+- The GBCAST message is then officially `delivered`, shifting the system to the new group state. 
+- The wait queue are extended to the delivery queue, GBCAST is removed, and standard delivery assumes
+
+This for standard and **failure** GBCAST. When a node randomly dies, it is a **failure GBCAST** message. Before standard ordering, the system must search for and schedule the transmission of any buffered messages sent by the failed process. Once all pending messages from the failed process are `deliverable`, does the protocol proceed. Think of this like a "forced flush".
+
+## Trace Example: Failure GBCAST for Process F
+Setup: Nodes $A$, $B$, $C$, and $F$ are in Process Group $G$. Node $F$ experiences a halting failure.
+Node $A$ detects the failure via the monitoring mechanism and initiates the protocol.
+
+### Initial State (Pre-GBCAST)
+Before crashing, Node $F$ sent two messages that are still propagating through the network:
+- ABCAST message `f1`
+- CBCAST message `f2`
+
+Node $B$ holds a copy of `f2` in its buffer en route to its destination. Node $C$ holds `f1` in its ABCAST priority queue, currently tagged `[Undeliverable]`.
+
+### Phase 1: The Pre-Emptive Failure Flush
+- **Step 1.1**: Node $A$ acquires a read-lock on its site view and sends a preliminary alert to $B$ and $C$: "Starting failure GBCAST for $F$."
+- **Step 1.2**: Node $B$ searches its internal buffers, finds `f2` (sent by $F$), and immediately schedules it for transmission to its remaining destinations. Node $B$ pauses until `f2`'s status turns to 'sent'.
+- **Step 1.3**: Node $C$ pauses and waits until the pending ABCAST `f1` becomes `[Deliverable]` (e.g., another node takes over the ABCAST protocol for `f1` and finalizes its sequence).
+- **Step 1.4**: Once `f1` is deliverable and `f2` is sent, $B$ and $C$ send an acknowledgment back to $A$.
+
+The network is drained of $F$'s remaining messages.
+
+### Phase 2: The ABCAST Queue Freeze
+- **Step 2.1**: Node $A$ distributes the formal GBCAST("$F$ has failed") message to $B$ and $C$.
+- **Step 2.2**: Nodes $B$ and $C$ place the GBCAST in their ABCAST queues, tag it `[Undeliverable]`, assign a proposed priority, and send the priority back to $A$.
+- **Step 2.3**: Node $A$ calculates the maximum priority and broadcasts the final sequence. Nodes $B$ and $C$ update the priority and re-sort their queues.
+  - Unlike a standard ABCAST, the GBCAST is NOT marked deliverable yet.
+
+**Queue State at Node $C$**
+```text
+[Queue End]                                                       [Queue Front]
+    v                                                                   v
+X(3c) [Undeliverable]  |  GBCAST(2a) [Undeliverable]  |  f1(1c) [Deliverable]
+```
+
+- **Step 2.4**: Node $C$ delivers `f1`. The GBCAST now reaches the head of the queue. Delivery on this ABCAST queue is SUSPENDED. Message `X` is blocked from delivery.
+
+### Phase 3: CBCAST Wait Queue & Before List
+- **Step 3.1**: Node $A$ contacts $B$ and $C$ to resolve asynchronous CBCAST boundaries.
+- **Step 3.2**: Nodes $B$ and $C$ establish a temporary FIFO "Wait Queue". Any incoming CBCASTs (like `f2` finally arriving at $C$) are placed here instead of the standard delivery queue.
+- **Step 3.3**: Nodes $B$ and $C$ send their `IDlist` (a list of all CBCAST IDs they have already placed on their delivery queues) to Node $A$.
+- **Step 3.4**: Node $A$ merges all received `IDlists` into a definitive "Before List" and broadcasts it back to $B$ and $C$.
+
+### Phase 4: Resolution & Resumption
+- **Step 4.1**: Nodes $B$ and $C$ examine the messages trapped in their Wait Queues.
+  - If a message is explicitly on the "Before List" (or precedes one on the list), it is flagged.
+  - Because this is a failure GBCAST for $F$, any message originally sent by $F$ (like `f2`) found in the Wait Queue is forcefully added to the "Before List".
+- **Step 4.2**: Flagged CBCASTs (including `f2`) are transferred from the Wait Queue to the standard Delivery Queue and processed.
+- **Step 4.3**: The GBCAST("$F$ has failed") is officially delivered to the application. The Process Group View is updated. $F$ is formally removed.
+- **Step 4.4**: The GBCAST is removed from the head of the ABCAST queues.
+  *Result*: The queues unfreeze. Normal delivery resumes (`X` can now become deliverable and process). Node $F$ is never heard from again.
