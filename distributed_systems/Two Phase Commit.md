@@ -27,7 +27,7 @@ To decide on transaction states and enforce total ordering, the system requires 
 ## Example 2: The Banking System and The Halfway State
 Suppose we have two banks, Bank A and Bank B, coordinated by Coordinator C. A client requests to transfer $5 from Bank A to Bank B. 
 
-If C simply orders A to withdraw $5 and orders B to deposit $5, network failures create inconsistent states:
+If C simply orders A to withdraw \$5 and orders B to deposit \$5, network failures create inconsistent states:
 * **Money in Limbo:** C tells A to withdraw, A does it, but C crashes before telling B to deposit. 
 * **Printed Money:** C tells B to deposit, B does it, but A crashes before withdrawing.
 
