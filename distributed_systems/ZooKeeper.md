@@ -38,7 +38,7 @@ Terminology:
 ## Znodes 
 Znodes are an abstraction of a set of data nodes. They are hierarchical and follow the Unix notation for file system paths. 
 ```
-			[/app1/p_1] (X)
+             [/app1/p_1] (X)
             /
 	 {/app1}--[/app1/p_2] (Y)
 	/       \
@@ -138,10 +138,10 @@ Two liveness and durability guarantees:
 # ZooKeeper Implementation
 ZK provides high availability by replicating the data on each server that composes the [[#ZooKeeper Service|service]]. Servers may fail by crashing and faulty servers may later recover. At a high level,
 ```
-	        |                                    |
+            |                                    |
 Write    ---+--> [Request Processor]          TXN|
-Request	    |          TXN\_->[Replicated DB]----+-> Response
-			|						^		     |				
+Request     |          TXN\_->[Replicated DB]----+-> Response
+            |                       ^            |				
 ------------------------------------+------------+
                               Read Request
 ```
@@ -159,15 +159,25 @@ The messaging layer is atomic, so local replicas never diverge. Some servers may
 - When the leader receives a write request, it calculates the future state of the system when the write is applied and transforms it into a transaction that captures the new state. 
 - We need to calculate the future state because of potential outstanding transactions.
 
-## Atomic Broadcast
-All requests that update ZK are forwarded to the leader. The leader executes the request and broadcasts the change to the ZK state via Zab, an atomic broadcast protocol.
-- Zab uses simple majority quorums to achieve consensus.
+## ZooKeeper Atomic Broadcast (Zab)
+This is the most important part of ZooKeeper.
+
+All requests that update ZK are forwarded to the leader. The leader executes the request and broadcasts the change to the ZK state via Zab, an atomic broadcast protocol. This is how it determines the future state of the system, and broadcasts the proposal. 
+- Zab uses simple majority [[Quorum|quorums]] to achieve [[Consensus|consensus]].
 - Minimum $2f + 1$ servers with $f$ tolerated failures.
+- Transactions proposed by Zab are idempotent. Because Zab does not persistently record the ID of every message delivered, it might redeliver messages during crash recovery. The multiple delivery is **safe** because repeated applications of the same transaction results in the same final state (provided the messages are in order).
 - Because state changes are dependent on the application of previous state changes, Zab provides *stronger* order guarantees than regular atomic broadcast.
 	- Zab guarantees that changes broadcast by a leader are delivered in the order they were sent and all changes from previous leaders are delivered to an established leader before it can broadcast new changes.
-- TCP is used. 
 - Log for proposals.
 - Write ahead log for in memory database and disk.
+
+Zab has some ordering guarantees, more than regular atomic broadcast. 
+- Zab ensures that any changes broadcast by a leader are delivered strictly in the order they were originally sent. 
+	- Zab needs this because state chanes can depend on the application of previous state changes. 
+	- TCP is used to maintain the message ordering.
+- When a new leader takes over, Zab guarantees that all committed changes from previous leaders are delivered to the new leader before it is permitted to broadcast its own new changes. 
+	- ZK leader = Zab leader
+	- 
 
 ## Replicated Database
 Each replica has a copy in memory of the ZK state. When it crashes, recovery is done by replaying periodic snapshots and only requires redelivery of messages since the start of the snapshot.
@@ -180,6 +190,8 @@ It is a **fuzzy snapshot** because ZK does DFS of the znode tree reading each zn
 	- Ensures strict succession of notifications 
 - Notifications are handled locally. 
 - Read requests are handled locally. Each read request is processed and tagged with a `zxid` that corresponds to the last transaction seen by the server. It defines the partial order of the read requests wrt the write requests.
+	- The point of `zxid` is to prevent stale reads when a client leaves to connect to a new ZK server. 
+	- This does not solve the problem, only shows that it is detected. 
 - Reads can return stale values, but this allows for more performance.
 	- Can be fixed with `sync` + `read`. 
 - To detect client session failures, it sends a heartbeat message if it has been idle for $s/3$ ms and switch if it has not received a response for $2s/3$ ms, where $s$ is the session timeout in milliseconds.

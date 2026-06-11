@@ -50,7 +50,7 @@ A proposal is **chosen** (and thus its value) when a single proposal with that v
 >[!idea] Proposition 2
 >If a proposal with value $v$ is chosen, then every higher-numbered proposal that is chosen has value $v$.
 
-Since numbers are totally [[[Order|ordered]], `Prop 2` guarantees the [[#^6bf8d1|Property 2]]. To be chosen, a proposal must be accepted by at least one acceeptor. We can satisfy `Prop 2` by 
+Since numbers are totally ordered, `Prop 2` guarantees the [[#^6bf8d1|Property 2]]. To be chosen, a proposal must be accepted by at least one `acceptor`. We can satisfy `Prop 2` by 
 >[!idea] Proposition 2a
 >If a proposal with value $v$ is chosen, then every higher-numbered proposal accepted by **any** `acceptor` has value $v$. 
 
@@ -66,11 +66,11 @@ which supercedes `Prop 2a`. Since a proposal must be isued by a `proposer` befor
 
 Assume proposal $(m, v)$ is chosen. WTS that any proposal with number $n > m$ also has value $v$. We do this by inducting on $n$, and that every proposal with number $i \in [m, n-1]$ must also have the same value, i.e. $(i, v)$. 
 
-If proposal $(m, v)$ was chosen, there must be some set $C$ containing a majority of `acceptors` such that every `acceptor` in $C$ accepted $(m, v)$. By induction, 
+If proposal $(m, v)$ was chosen, there must be some set $C$ containing a **majority** of `acceptors` such that every `acceptor` in $C$ accepted $(m, v)$. By induction, 
 - *every* `acceptor` in $C$ has accepted a proposal $(i, v)$ with $i \in [m, n-1]$, and 
 - *every* proposal with number $i \in [m, n-1]$ was accepted by *any* `acceptor` has value $v$.
 
-Suppose we have another set $S$ of another majority of `acceptors`. Since $S \cap C \neq \varnothing$, a proposal numbered $n$ has value $v$ by ensuring the following invariant:
+Suppose we have another set $S$ of "another majority" of `acceptors`. Since $S \cap C \neq \varnothing$, a proposal numbered $n$ has value $v$ by ensuring the following invariant:
 >[!idea] Proposition 2c
 >For any $v,n$, if a proposal with $(n, v)$ is issued, there $\exists S$ consisting of a majority of `acceptors` such that either
 >
@@ -79,7 +79,7 @@ Suppose we have another set $S$ of another majority of `acceptors`. Since $S \ca
 
 ^370cc8
 
-The above is an example of Atomicity. By maintaining `Prop 2c`, we imply `Prop 2b`. To maintain `Prop 2c`, a `proposer` who wishes to issue a proposal $(n, -)$ must learn of the highest-numbered proposal with number $< n$, if any, that has been accepted by each `acceptor` in some majority of `acceptors`. 
+The above is an example of [[CAP Theorem#ACID|atomicity]]. By maintaining `Prop 2c`, we imply `Prop 2b`. To maintain `Prop 2c`, a `proposer` who wishes to issue a proposal $(n, -)$ must learn of the highest-numbered proposal with number $< n$, if any, that has been accepted by each `acceptor` in some majority of `acceptors`. 
 
 Instead of learning of future proposals, the `proposer` will extract a promise that the `acceptors` do not accept any more proposals $(<n, -)$. 
 
@@ -91,11 +91,11 @@ We get the following algorithm.
 
 A `proposer` issues a proposal by sending to some set of `acceptors` a request that its proposal $(n, v)$ be accepted. Let this be called an **accept** request and denote it as $\texttt{accept}(n, v)$.
 
-`Proposers` receive two kinds of requests from `proposers`. 
+`Acceptors` receive two kinds of requests from `proposers`. 
 1. $\texttt{prepare}(n)$ request 
 2. $\texttt{accept}$ request
 
-Since proposers can ignore any request, we must determine when it should respond to a request. It can always respond to a $\texttt{prepare}(-)$ request. But,
+Since `acceptors` can ignore any request, we must determine when it should respond to a request. It can always respond to a $\texttt{prepare}(-)$ request. But,
 >[!idea] Proposition 1a
 >An `acceptor` can accept a proposal $(n, -)$ $\iff$ it has not responded to a $\texttt{prepare}(a)$ where $a > n$. 
 >
@@ -141,7 +141,7 @@ The above algorithm is not guaranteed to make progress. Two `proposers` can keep
 
 To ensure progress, we need a **distinguished proposer** (denoted as `^proposer`) that is the only one allowed to issue proposals. If the `^proposer` can communicate successfully with a majority of `acceptors`, then it can ensure that some proposal is eventually chosen.
 
-If enough of the system (`proposer`, `acceptors`, communication network) is working properly, liveness can therefore be achieved by electing a single `^proposer`. Thus we need an eelction.
+If enough of the system (`proposer`, `acceptors`, communication network) is working properly, liveness can therefore be achieved by electing a single `^proposer`. Now, we need an election to determine the `^proposer`.
 
 ## Implementation
 All processes will play the above three roles. 
@@ -175,7 +175,7 @@ $$
 $$
 That is, it knows what values were chosen in those instances and is missing the values chosen in instances $135, 136, 137$ and instances greater than $139$ (if any). 
 
-Upon becoming the new leader, it must determine that the values it proposes does not violate `Prop 2b`. It will do this by executing **Phase 1** of the Paxos algorithm for instances $135, 136, 137$ and instances greater than $139$ (if any).
+Upon becoming the new leader, it must determine that the values it proposes does not violate `Prop 2b`. It will do this by executing **Phase 1** of the Paxos algorithm for instances $135, 136, 137$ and instances greater than $139$ (if any). The purpose of this is to check if the previous leader already accepted these values for these slots before it crashed.
 
 Suppose that instances $135, 140$ had already been chosen and the rest (i.e. $136, 137, 138, 139$) had not (unconstrained). The values chosen in instances $135, 140$ CANNOT be changed. Since the new leader is free to propose any value in instances $136, 137$, in **Phase 2**, it will run $\texttt{accept}(136, \varnothing)$ and $\texttt{accept}(137, \varnothing)$ to indicate a special `no-op` command. 
 
@@ -350,3 +350,6 @@ When any node (acting as a `learner` for Harp) receives a $\texttt{decide}(\text
 1. It knows the view is finalized and sets $\texttt{done} = \text{true}$.
 2. It updates its $\texttt{Views}$ array with the new view $V$ at index $\texttt{VID}$.
 3. It exits Paxos and returns to running Harp with the new view.
+
+## Generalizing to Other Systems
+The idea is that whenever we have some system that uses a primary, or some coordinator, we want to store the epoch/age/era/"what node is alive, and when" in a Paxos value. Then, we'll need to store the history to ensure that **really old** proposers/nodes/participants who think the leader is someone else can be corrected. 
